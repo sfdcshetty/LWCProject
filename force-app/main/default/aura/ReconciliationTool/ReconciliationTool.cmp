@@ -1,0 +1,354 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" 
+                controller="ReconciliationToolController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    <aura:attribute name="transactionFiltersOpen" type="boolean" default="false"/>
+    <aura:attribute name="paymentFiltersOpen" type="boolean" default="false"/>
+    <aura:attribute name="paymentSelectionOpen" type="boolean" default="false"/>
+    
+    <aura:attribute name="Reconciliation" type="Integer" default="0"/>
+    
+    <aura:attribute name="totalTransCount" type="Integer" default="0"/>
+    <aura:attribute name="totalTransAmount" type="Decimal" default="0"/>
+    <aura:attribute name="totalPaymentAmount" type="Integer" default="0"/>
+    <aura:attribute name="selectedPaymentAmount" type="Integer" default="0"/>
+    
+    <!-- TRANSACTION OPTIONS AND VALUES -->
+    <aura:attribute name="transVendorValue" type="string" />
+    <aura:attribute name="transProductValue" type="Id" />
+    <aura:attribute name="billingStartValue" type="Date" />
+    <aura:attribute name="billingEndValue" type="Date" />
+    <aura:attribute name="transTypeOptions" type="List" />
+    <aura:attribute name="transTypeSelectedValues" type="List" />
+    <aura:attribute name="transStatusOptions" type="List" />
+    <aura:attribute name="transStatusSelectedValues" type="List" default="Unreconciled" />
+    <aura:attribute name="transEntityOptions" type="List" />
+    <aura:attribute name="transEntityValue" type="string" />
+    <aura:attribute name="transWEGIdValue" type="string" />
+    <aura:attribute name="transAccountNoValue" type="string" />
+    <aura:attribute name="transPayeeValue" type="Id" />
+    <aura:attribute name="transBillingGroupOptions" type="List" />
+    <aura:attribute name="transBillingGroupValue" type="string" />
+    <aura:attribute name="transInvoiceValue" type="Id" />
+    <aura:attribute name="transInvoiceDefaultValue" type="Id" />
+    
+    <!-- PAYMENT OPTIONS AND VALUES -->
+    <aura:attribute name="payStatusOptions" type="List" />
+    <aura:attribute name="payCategoryValue" type="string" />
+    <aura:attribute name="payStatusSelectedValues" type="List" default="Unreconciled" />
+    
+    <!-- RECORDS AND COLUMNS -->
+    <aura:attribute name="transactionRecords" type="Object"/>
+    <aura:attribute name="transactionColumns" type="List"/>
+    <aura:attribute name="paymentRecords" type="Object"/>
+    <aura:attribute name="paymentColumns" type="List"/>
+    <aura:attribute name="paymentSelectedRows" type="List" />
+    
+    <!-- FILTER FIELDS AND IDS -->
+    <aura:attribute name="filterFields" type="List" />
+    <aura:attribute name="paymentId" type="String" default="" />
+    <aura:attribute name="reportID" type="String" default="" />
+    
+    <lightning:card title="Reconciliation Tool">
+        <lightning:button label="Generate Reconcilied GL report" onclick="{!c.gotoReport}" class="floatRight" />
+        <p class="slds-text-align_center">
+            Reconciliation Total:
+            <ui:outputCurrency value="{!(v.totalTransAmount - v.selectedPaymentAmount)}"/>
+        </p>
+        
+        <div style="float:clear;">&nbsp;</div>
+        
+        <aura:if isTrue="{!v.Spinner}">
+            <lightning:spinner alternativeText="Loading" size="medium" variant="brand"/>
+        </aura:if>
+        
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem class="slds-border--bottom" size="12">
+                <lightning:layout>
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <table>
+                            <tr>
+                                <td>
+                                    Total Transaction Count:
+                                    <ui:outputNumber value="{!v.totalTransCount}"/>
+                                </td>
+                                <td>
+                                    Total Transaction Amount:
+                                    <ui:outputCurrency value="{!v.totalTransAmount}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </lightning:layoutItem>
+                
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <table>
+                            <tr>
+                                <td>
+                                    <!--Total Payment Amount:
+                                    <ui:outputCurrency value="{!v.totalPaymentAmount}"/>-->
+                                </td>
+                                <td>
+                                    Selected Payment Amount:
+                                    <ui:outputCurrency value="{!v.selectedPaymentAmount}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </lightning:layoutItem>
+                </lightning:layout>                    
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-border--bottom" size="12">
+                <lightning:layout>
+                    <lightning:layoutItem padding="around-small" size="7">
+                        <div class="slds-form slds-form_compound">
+                            <fieldset class="slds-form-element">
+                                <div class="slds-form-element__group">
+                                    <div class="slds-form-element__row">
+                                        <div class="slds-form-element slds-size_1-of-2">
+                                            <lightning:button label="Transaction Filters" 
+                                                              iconName="utility:filterList"
+                                                              onclick="{!c.showTransactionFilter}"
+                                                              iconPosition="left" />
+                                        </div>
+                                        <div class="slds-form-element slds-size_1-of-2">
+                                            <lightning:button label="Set Current Transactions to Collected" 
+                                                              onclick="{!c.paymentSelectionSubmit}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <aura:if isTrue="{!v.transactionFiltersOpen}">
+                            <lightning:recordEditForm aura:id="transRecordViewForm" 
+                                                      objectApiName="WEG_Transaction__c"
+                                                      onsubmit="{!c.transactionFilterSubmit}">
+                                <div class="slds-form slds-form_compound">
+                                    <fieldset class="slds-form-element">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:inputField fieldName="Vendor__c" value="{!v.transVendorValue}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:inputField fieldName="Product__c" aura:id="Id_TransProduct" value="{!v.transProductValue}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                               <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:inputField fieldName="Billing_Start__c" value="{!v.billingStartValue}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:inputField fieldName="Billing_End__c" value="{!v.billingEndValue}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <!--<lightning:inputField fieldName="Transaction_Type__c" value = "{!v.transTypeValue}" />-->
+                                                    <c:MultiSelect name="transactionType"
+                                                                   aura:id="Id_TransactionType"
+                                                                   label="Type"
+                                                                   placeholder="--None--"
+                                                                   options="{!v.transTypeOptions}"
+                                                                   selectedItems="{!v.transTypeSelectedValues}"
+                                                                   multiSelectChangedEvent="{!c.handleTransTypeSelection}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <!--<lightning:checkboxGroup name="Checkbox Group"
+                                                                             aura:id="Id_Status"
+                                                                             label="Status"
+                                                                             options="{!v.transStatusOptions}"
+                                                                             value="{!v.transStatusValue}" />-->
+                                                    <c:MultiSelect name="transactionStatus"
+                                                                   aura:id="Id_Status"
+                                                                   label="Status"
+                                                                   placeholder="--None--"
+                                                                   options="{!v.transStatusOptions}"
+                                                                   selectedItems="{!v.transStatusSelectedValues}"
+                                                                   multiSelectChangedEvent="{!c.handleTransStatusSelection}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:combobox aura:id="Id_BusinessEntity"
+                                                                        label="Business Entity"
+                                                                        options="{!v.transEntityOptions }"
+                                                                        placeholder="--None--"
+                                                                        value = "{!v.transEntityValue}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:input aura:id="Id_WEGID" label="WEG ID" value="{!v.transWEGIdValue}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:input aura:id="Id_AccountNo" label="Account No" value="{!v.transAccountNoValue}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:inputField fieldName="PayeeCode__c" aura:id="Id_TransPayee" value="{!v.transPayeeValue}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:combobox aura:id="Id_BillingGroup"
+                                                                        label="Billing Group"
+                                                                        options="{!v.transBillingGroupOptions }"
+                                                                        placeholder="--None--"
+                                                                        value = "{!v.transBillingGroupValue}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:inputField fieldName="Invoice__c" aura:id="Id_TransInvoice" value="{!v.transInvoiceValue}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-1 slds-align--absolute-center">
+                                            		<lightning:button variant="neutral" type="submit" name="Apply" label="Apply" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </lightning:recordEditForm>
+                        </aura:if>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="5">
+                        <div class="slds-form slds-form_compound">
+                            <fieldset class="slds-form-element">
+                                <div class="slds-form-element__group">
+                                    <div class="slds-form-element__row">
+                                        <div class="slds-form-element slds-size_1-of-2">
+                                            <lightning:button label="Payment Filters" 
+                                                              iconName="utility:filterList"
+                                                              onclick="{! c.showPaymentFilter }"
+                                                              iconPosition="left" />
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <aura:if isTrue="{!v.paymentFiltersOpen}">
+                            <lightning:recordEditForm aura:id="paymentRecordViewForm" 
+                                                      objectApiName="WEG_Payment__c"
+                                                      onsubmit="{!c.paymentFilterSubmit}">
+                                <div class="slds-form slds-form_compound">
+                                    <fieldset class="slds-form-element">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <lightning:inputField fieldName="WEG_Category__c" value="{!v.payCategoryValue}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                    <!--<lightning:checkboxGroup name="Checkbox Group"
+                                                                             aura:id="Id_PaymentStatus"
+                                                                             label="Status"
+                                                                             options="{!v.payStatusOptions }"
+                                                                             value="{!v.payStatusValue }" />-->
+                                                    <c:MultiSelect name="payStatus"
+                                                                   aura:id="Id_PaymentStatus"
+                                                                   label="Status"
+                                                                   placeholder="--None--"
+                                                                   options="{!v.payStatusOptions}"
+                                                                   selectedItems="{!v.payStatusSelectedValues}"
+                                                                   multiSelectChangedEvent="{!c.handlePayStatusSelection}" />
+                                                </div>
+                                                <div class="slds-form-element slds-size_1-of-2">
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-form-element slds-size_1-of-1 slds-align--absolute-center">
+                                                    <lightning:button variant="neutral" type="submit" name="Apply" label="Apply" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                               
+                            </lightning:recordEditForm>
+                            
+                        </aura:if>
+                    </lightning:layoutItem>
+                    
+                </lightning:layout>                    
+            </lightning:layoutItem>
+            <lightning:layoutItem class="slds-border--bottom" size="12">
+                <lightning:layout>
+                    <lightning:layoutItem padding="around-small" size="7">
+                        <lightning:card title="Transactions (*up to 200)">
+                            <div class="slds-scrollable" style="height: 350px;">
+                                <lightning:datatable keyField="Id"
+                                                     class="datatable"
+                                                     data="{!v.transactionRecords}"
+                                                     columns="{!v.transactionColumns}"
+                                                     hideCheckboxColumn="true"
+                                                     resizeColumnDisabled="false"/>
+                            </div>
+                        </lightning:card>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="5">
+                        <lightning:card title="Payments">
+                            <ui:scrollerWrapper class="scrollerSize">
+                                <lightning:datatable keyField="Id"
+                                                     data="{!v.paymentRecords}"
+                                                     columns="{!v.paymentColumns }"
+                                                     aura:id="Id_PaymentTable"
+                                                     resizeColumnDisabled="false"
+                                                     selectedRows="{!v.paymentSelectedRows}"
+                                                     onrowselection="{!c.handlePaymentRowSelection}"
+                                                     hideCheckboxColumn="false"/>
+                            </ui:scrollerWrapper>
+                        </lightning:card>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+    
+    <aura:if isTrue="{!v.paymentSelectionOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" 
+                 aria-modal="true" aria-describedby="modal-content-id-1" 
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"  
+                                          iconName="utility:close" variant="bare" 
+                                          size="large"
+                                          onclick="{!c.closePayment}" alternativeText="Close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Select Payment
+                    </h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:recordEditForm aura:id="recordSelectionForm" 
+                                              objectApiName="WEG_Transaction__c"
+                                              onsubmit="{!c.paymentSelectionSubmit}">
+                        <div class="slds-form slds-form_compound">
+                            <fieldset class="slds-form-element">
+                                <div class="slds-form-element__group">
+                                    <div class="slds-form-element__row">
+                                        <div class="slds-form-element slds-size_1-of-1">
+                                            <lightning:inputField fieldName="WEG_Payment__c"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element__row">
+                                        <div class="slds-form-element slds-size_1-of-1 slds-align--absolute-center">
+                                            <lightning:button variant="brand" type="submit" name="Update Status" label="Update Status" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                       
+                    </lightning:recordEditForm>
+                </div>
+                
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+</aura:component>

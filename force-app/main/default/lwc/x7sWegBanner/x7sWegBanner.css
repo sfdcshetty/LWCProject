@@ -1,0 +1,27 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+/* .banner {
+  position: absolute;
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
+  top: 125px;
+  bottom: 0;
+  max-width: 1800px;
+} */
+
+.banner {
+  position: absolute;
+  left: 0;
+    right: 0;
+    top: 125px;
+    bottom: 0;
+    /* max-width: 100%; */
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}

@@ -1,0 +1,325 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <div if:true={allowComponentToRender} role="main">
+        <template if:true={currentUserRecord}>
+            <div if:true={displayProgressSection} role="navigation" aria-label={progressHeadingText}>
+                <c-x7s-onboarding-progress  progress-message={progressMessageText}
+                                            progress-heading={progressHeadingText}
+                                            show-step1={showStep1}
+                                            show-step2={showStep2}
+                                            show-step3={showStep3}
+                                            show-step4={showStep4}
+                                            show-step5={showStep5}
+                                            show-step6={showStep6}
+                                            show-step7={showStep7}
+                                            show-step8={showStep8}
+                                            step1-label={step1Label}
+                                            step2-label={step2Label}
+                                            step3-label={step3Label}
+                                            step4-label={step4Label}
+                                            step5-label={step5Label}
+                                            step6-label={step6Label}
+                                            step7-label={step7Label}
+                                            step8-label={step8Label}
+                                            user={currentUserRecord}
+                                            use-topic-metadata={useTopicMetadata}
+                                            topic-slides={topicSlides}
+                                            onprogressstepclick={handleProgressClick}>
+                </c-x7s-onboarding-progress>
+            </div>
+        </template>
+        <template if:true={displayOnboardingSection}>
+            <div role="dialog" aria-labelledby="header" class={onboardingSectionContainerClass}>
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-p-bottom_none">
+                        <!-- establishing different behavior for the 'X' in the top right.  It should either close the modal,
+                        close the modal and check the Onboarding_Complete___c field, or lead to the 'Bye' screen, which is what the users see before closing the modal entirely  -->
+                        <template if:true={isModalViewEnabled}>
+                            <template if:true={stepsCloseButton}>
+                                <lightning-button variant="base" class="slds-button slds-modal__close slds-button--icon-inverse" label="X" title="Close" onclick={toByeScreen}>
+                                </lightning-button>
+                            </template>
+                            <template if:true={byeCloseButton}>
+                                <lightning-button variant="base" class="slds-button slds-modal__close slds-button--icon-inverse" label="X" title="Close" onclick={closeModal}>
+                                    X
+                                </lightning-button>
+                            </template>
+                            <template if:true={modalCloseButton}>
+                                <lightning-button variant="base" class="slds-button slds-modal__close slds-button--icon-inverse" label="X" title="Close" onclick={closeModalFinal}>
+                                    X
+                                </lightning-button>
+                            </template>
+                        </template>
+                        <template if:true={headerText}>
+                            <h2 id="header" class="slds-text-heading_medium slds-p-right_large slds-p-bottom_small">{headerText}</h2>
+                        </template>
+                        <lightning-progress-indicator data-current-step={page} current-step={page} type="base" variant="base" class={indicatorClass}>
+                            <template if:true={showStep1}>
+                                <div class="onboarding-progress__item" role="presentation" data-step="1">
+                                     <lightning-progress-step label={step1Label} value="1" onclick={handleWelcomeClick}></lightning-progress-step>
+                                    <div class="onboarding-progress__item-label">{step1Label}</div>
+                                </div>
+                            </template>
+                            <template if:true={showStep2}>
+                                <div class="onboarding-progress__item" role="presentation">
+                                     <lightning-progress-step label={step2Label} value="2" onclick={handleProfileClick}></lightning-progress-step>
+                                    <div class="onboarding-progress__item-label">{step2Label}</div>
+                                </div>
+                            </template>
+                            <template if:true={showStep3}>
+                                <div class="onboarding-progress__item" role="presentation">
+                                     <lightning-progress-step label={step3Label} value="3" onclick={handleshowAdditionUserDataLabelClick}></lightning-progress-step>
+                                    <div class="onboarding-progress__item-label">{step3Label}</div>
+                                </div>
+                            </template>
+                            <template if:true={showStep7}>
+                                <div class="onboarding-progress__item" role="presentation" data-step="4">
+                                    <lightning-progress-step label={step7Label} value="4" onclick={handleToursClick}></lightning-progress-step>
+                                    <div class="onboarding-progress__item-label">{step7Label}</div>
+                                </div>
+                            </template>
+                            <template if:true={showStep5}>
+                                <div class="onboarding-progress__item" role="presentation">
+                                     <lightning-progress-step label={step5Label} value="9" onclick={handleGroupsClick}></lightning-progress-step>
+                                    <div class="onboarding-progress__item-label">{step5Label}</div>
+                                </div>
+                            </template>
+                            <template if:true={showStep6}>
+                                <div class="onboarding-progress__item" role="presentation">
+                                     <lightning-progress-step label={step6Label} value="10" onclick={handleNotificationClick}></lightning-progress-step>
+                                    <div class="onboarding-progress__item-label">{step6Label}</div>
+                                </div>
+                            </template>
+                            <template if:true={showStep4}>
+                                <template if:true={useTopicMetadata}>
+                                    <template for:each={topicSlidesList} for:item="topicSlide" for:index="slideIndex">
+                                        <div class="onboarding-progress__item" key={topicSlide.pageNo} role="presentation">
+                                            <lightning-progress-step class={topicSlide.parentLabel.parentLabel} label={topicSlide.parentLabel.parentLabel} value={topicSlide.pageNo} onclick={handleTopicsClick}></lightning-progress-step>
+                                            <div class="onboarding-progress__item-label">{topicSlide.parentLabel.parentLabel}</div>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:false={useTopicMetadata}>
+                                    <div class="onboarding-progress__item" role="presentation" data-step="11">
+                                        <lightning-progress-step label={step4Label} value="11" onclick={handleTopicsClick}></lightning-progress-step>
+                                        <div class="onboarding-progress__item-label">{step4Label}</div>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:true={showStep8}>
+                                <div class="onboarding-progress__item" role="presentation">
+                                     <lightning-progress-step label={step8Label} value="12" onclick={handleFinalizeClick}></lightning-progress-step>
+                                    <div class="onboarding-progress__item-label">{step8Label}</div>
+                                </div>
+                            </template>
+                        </lightning-progress-indicator>
+                    </div>
+                    <div class={slideClass} role="form">
+                        <!-- as the page attribute is changed a new slide should appear.
+                        the page attribute is changed by an event that's called within each child slide component -->
+                        <template if:true={displaySteps}>
+                            <template if:true={isPage1}>
+                                <c-x7s-onboarding-welcome   welcome-header ={welcomeHeader}
+                                                            welcome-message ={welcomeMessage}
+                                                            button-color ={buttonColor}
+                                                            begin-button-label ={beginButtonLabel}
+                                                            show-terms-and-conditions ={showTermsAndConditions}
+                                                            terms-and-conditions-prompt ={termsAndConditionsPrompt}
+                                                            agree-to-terms-and-conditions-label ={agreeToTermsAndConditionsLabel}
+                                                            terms-and-conditions ={termsAndConditionsText}
+                                                            agreed-to-terms ={currentUserRecord.X7S_Agreed_to_Terms_and_Conditions__c}
+                                                            onwelcomeclick={handlePageChange}
+                                                            >
+                                </c-x7s-onboarding-welcome>
+                               
+                            </template>
+                            <template if:true={isPage2}>
+                                <c-x7s-onboarding-profile   profile-message={profileMessage}
+                                                            user={currentUserRecord}
+                                                            button-color={buttonColor}
+                                                            profile-header={profileHeader}
+                                                            profile-action={profileAction}
+                                                            show-title={showTitle}
+                                                            show-company={showCompany}
+                                                            show-email={showEmail}
+                                                            show-mobile={showMobile}
+                                                            show-nickname={showNickname}
+                                                            show-about-me={showAboutMe}
+                                                            show-avatar-upload={showAvatarUpload}
+                                                            show-first-name={showFirstName}
+                                                            first-name-label={firstNameLabel}
+                                                            show-last-name={showLastName}
+                                                            last-name-label={lastNameLabel}
+                                                            title-label={titleLabel}
+                                                            company-label={companyLabel}
+                                                            email-label={emailLabel}
+                                                            mobile-label={mobileLabel}
+                                                            nickname-label={nicknameLabel}
+                                                            about-me-label={aboutMeLabel}
+                                                            next-button-label={nextButtonLabel}
+                                                            back-button-label={backButtonLabel}
+                                                            drop-file-label={dropFileLabel}
+                                                            onprofileclick ={handlePageChange}
+                                                            onprofilebackclick ={handlePageChange}>
+
+                                </c-x7s-onboarding-profile>
+                            </template>
+                            <template if:true={isPage3}>
+                                <c-x7s-onboarding-additional-details    button-color ={buttonColor}
+                                                                        additional-slide-header ={additionalSlideHeader}
+                                                                        additional-slide-message ={additionalSlideMessage}
+                                                                        additional-slide-label ={additionalSlideLabel}
+                                                                        additional-slide-user-field-name1 ={additionalSlideUserFieldName1}
+                                                                        additional-slide-user-field-label1 ={additionalSlideUserFieldLabel1}
+                                                                        additional-slide-user-field-tooltip1 ={additionalSlideUserFieldTooltip1}
+                                                                        additional-slide-user-field-name2 ={additionalSlideUserFieldName2}
+                                                                        additional-slide-user-field-label2 ={additionalSlideUserFieldLabel2}
+                                                                        additional-slide-user-field-tooltip2 ={additionalSlideUserFieldTooltip2}
+                                                                        next-button-label ={nextButtonLabel}
+                                                                        back-button-label ={backButtonLabel}
+                                                                        onadditionaldetailsclick={handlePageChange}
+                                                                        onadditionaldetailsbackclick={handlePageChange}>
+                                </c-x7s-onboarding-additional-details>
+                            </template>
+                            
+                            <template if:true={isPage4}>
+                                <c-x7s-onboarding-tours tours-message ={toursMessage}
+                                                        done-message={doneMessage}
+                                                        button-color={buttonColor}
+                                                        tours-header ={toursHeader}
+                                                        video-type1 ={videoType1}
+                                                        video-url1 ={videoUrl1}
+                                                        video-title1 ={videoTitle1}
+                                                        video-description1 ={videoDescription1}
+                                                        video-iframe-title-for-aria={videoIframeTitleForAria}
+                                                        video-align ={videoAlign}
+                                                        back-button-label ={backButtonLabel}
+                                                        tour-end-button-label ={tourEndButtonLabel}
+                                                        ontourclick={handlePageChange}
+                                                        ontourbackclick={handlePageChange}>
+                                </c-x7s-onboarding-tours>
+                            </template>
+                            <template if:true={isPage9}>
+                                <c-x7s-onboarding-groups    groups-message ={groupsMessage}
+                                                            show-user-specific-groups ={showUserSpecificGroups}
+                                                            show-group-description ={showGroupDescription}
+                                                            group-i-ds ={groupIDs}
+                                                            button-color ={buttonColor}
+                                                            groups-header ={groupsHeader}
+                                                            groups-action ={groupsAction}
+                                                            next-button-label ={nextButtonLabel}
+                                                            back-button-label ={backButtonLabel}
+                                                            ongroupclick={handlePageChange}
+                                                            ongroupbackclick={handlePageChange}>
+                                </c-x7s-onboarding-groups>
+                            </template>
+                            <template if:true={isPage10}>
+                                <c-x7s-onboarding-notifications notification-message ={notificationMessage}
+                                                                button-color ={buttonColor}
+                                                                notification-header ={notificationHeader}
+                                                                notification-action ={notificationAction}
+                                                                notification-info-url ={notificationInfoUrl}
+                                                                notification-link-label ={notificationLinkLabel}
+                                                                notification-text ={notificationText}
+                                                                notification-user ={notificationUser}
+                                                                email-preference ={emailPreference}
+                                                                notification-chk-by-user ={notificationChkByUser}
+                                                                next-button-label ={nextButtonLabel}
+                                                                back-button-label ={backButtonLabel}
+                                                                onnotificationclick ={handlePageChange}
+                                                                onnotificationbackclick ={handlePageChange}>
+                                </c-x7s-onboarding-notifications>
+                            </template>
+                            
+                            <template if:true={isPage11}>
+                                <template if:true={useTopicMetadata}>
+                                    <c-x7s-onboarding-topics    use-topic-metadata ={useTopicMetadata}
+                                                                topic-slides ={topicSlides}
+                                                                current-slide ={currentSlide}
+                                                                button-color ={buttonColor}
+                                                                user ={currentUserRecord}
+                                                                next-button-label ={nextButtonLabel}
+                                                                back-button-label ={backButtonLabel}
+                                                                ontopicclick ={handlePageChange}
+                                                                ontopicbackclick ={handlePageChange}>
+                                    </c-x7s-onboarding-topics>
+                                </template>
+                                <template if:false={useTopicMetadata}>
+                                    <c-x7s-onboarding-topics    topics-message ={topicsMessage}
+                                                                topics1-ids ={topics}
+                                                                topics2-ids ={topicsProduct}
+                                                                use-topic-metadata ={useTopicMetadata}
+                                                                topic-slides ={topicSlides}
+                                                                button-color ={buttonColor}
+                                                                topics-header ={topicsHeader}
+                                                                topics-action ={topicsAction}
+                                                                group1-topic-label ={group1TopicLabel}
+                                                                group2-topic-label ={group2TopicLabel}
+                                                                user ={currentUserRecord}
+                                                                next-button-label ={nextButtonLabel}
+                                                                back-button-label ={backButtonLabel}
+                                                                ontopicclick ={handlePageChange}
+                                                                ontopicbackclick={handlePageChange}>
+                                    </c-x7s-onboarding-topics>
+                                </template>
+                            </template>
+                            
+                            
+                            <template if:true={isPage12}>
+                                <c-x7s-onboarding-done  done-message ={doneMessage}
+                                                        user ={currentUserRecord}
+                                                        button-color ={buttonColor}
+                                                        done-header ={doneHeader}
+                                                        done-action ={doneAction}
+                                                        new-tab-link ={newTabLink}
+                                                        action1-icon ={action1Icon} 
+                                                        action1-text ={action1Text} 
+                                                        action1-description ={action1Description}
+                                                        action1-url ={action1Url} 
+                                                        action1-use-user-id={action1UseUserId}
+                                                        action2-icon={action2Icon} 
+                                                        action2-text={action2Text} 
+                                                        action2-description ={action2Description}
+                                                        action2-url ={action2Url} 
+                                                        action2-use-user-id ={action2UseUserId}
+                                                        action3-icon ={action3Icon} 
+                                                        action3-text ={action3Text} 
+                                                        action3-description ={action3Description}
+                                                        action3-url ={action3Url} 
+                                                        action3-use-user-id ={action3UseUserId}
+                                                        action4-icon ={action4Icon} 
+                                                        action4-text ={action4Text} 
+                                                        action4-description ={action4Description}
+                                                        action4-url ={action4Url} 
+                                                        action4-use-user-id ={action4UseUserId}
+                                                        complete-button-label ={completeButtonLabel}
+                                                        back-button-label ={backButtonLabel}
+                                                        ondoneclick={handlePageChange}
+                                                        ondonebackclick={handlePageChange}>
+                                </c-x7s-onboarding-done>
+                            </template>
+                        </template>
+                        <template if:true={displayBye}>
+                            <c-x7s-onboarding-slide class ="close-onboarding"
+                                                    title ={byeForNowHeader}
+                                                    hide-onboarding-modal ={hideOnboardingModal}
+                                                    description ={byeForNowMessage}
+                                                    primary-button-label ={closeButtonLabel}
+                                                    primary-button-color ={buttonColor}
+                                                    onprimaryclick ={closeModal}
+                                                    back-button-label ={backButtonLabel}
+                                                    onbackclick ={goBackToOnboarding}
+                                                    close-modal-by-user ={closeModalByUser}>
+                            </c-x7s-onboarding-slide>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+        
+</template>

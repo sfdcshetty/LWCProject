@@ -1,0 +1,327 @@
+<apex:component controller="DocuvaultFileRequest" allowDML="true" id="comp" access="global" >
+    <apex:stylesheet value="{!URLFOR($Resource.TVA_CFB__Lightning_Zip_Docuvault, '/assets/styles/salesforce-lightning-design-system-modified.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.TVA_CFB__JQueryMin, '')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.TVA_CFB__Lightning_Zip_Docuvault, '/he.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.TVA_CFB__Lightning_Zip_Docuvault, '/progressBar/radialIndicator.js')}"/>
+    <apex:slds />
+    <style>
+        #indicatorContainer {
+            position: absolute;
+            display: inline-block;
+            margin-left: 10px;
+            margin-top: -8px;
+        }
+    </style>
+        
+    <script>
+        var successCount = 0;
+        var failedCount = 0;
+        var progressBar = '';
+        
+        $(document).ready(function()
+        {
+            var obj = $("#filesChooserDiv");
+            obj.on('dragenter', function (e) 
+            {
+
+                e.stopPropagation();
+                e.preventDefault();
+            });
+            
+            obj.on('dragover', function (e) 
+            {
+                 e.stopPropagation();
+                 e.preventDefault();
+            });
+            
+            obj.on('drop', function (e) 
+            {
+                successCount = 0;
+                failedCount = 0;
+                e.preventDefault();
+                var files = e.originalEvent.dataTransfer.files;                 
+                if (!document.getElementById('fileid').disabled)
+                    startFileUpload (files, 0);
+            });
+        
+            $(document).on('dragenter', function (e) 
+            {
+                e.stopPropagation();
+                e.preventDefault();
+            });
+    
+            $(document).on('dragover', function (e) 
+            {
+                e.stopPropagation();
+                e.preventDefault();
+            });
+    
+            $(document).on('drop', function (e) 
+            {
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+        
+        function startUpload (i) {
+            successCount = 0;
+            failedCount = 0;
+            var inp = document.getElementById('fileid');
+            startFileUpload (inp.files, i);
+        }
+        
+        function startFileUpload (fileList, i) {
+            if (fileList.length != 0) {
+                $("#toast").addClass('slds-hide');
+                var obj = {};
+                
+                var signatureDetailsMap = new Object ();            
+                signatureDetailsMap['parentObjectAPI'] = '';
+                signatureDetailsMap['parentID'] = '';
+                
+                var inp = document.getElementById('fileid');
+                    inp.setAttribute ('disabled','true');
+                    
+                if (i < fileList.length) {
+                
+                    $('#indicatorContainer').html('');
+                    progressBar = radialIndicator('#indicatorContainer');
+                    progressBar.option('percentage', true);
+                    progressBar.option('barWidth', 3);
+                    progressBar.option('radius', 20);
+                    progressBar.option('roundCorner', true);
+                    progressBar.option('fontWeight', 200);
+                    uploadSingleFile(obj, signatureDetailsMap, fileList[i], function(result, statusFlag, resultType) {
+                        if (resultType == 'Error') {
+                        
+                            failedCount += 1;
+                        }
+                        
+                        if (resultType == 'Success') {
+                            successCount += 1;
+                        }
+                        
+                        if (resultType == 'Uploading') {
+                            progressBar.value(parseInt(result));
+                        }
+    
+                        if (i < fileList.length && statusFlag) {
+                            ++i;
+                            startFileUpload (fileList, i);
+                        }
+                    });
+                }
+                
+                if (i == fileList.length) {
+                    $('#indicatorContainer').html('');
+
+                    var message = '<span>Success: '+successCount+"</span> &nbsp; <span>Failed: "+failedCount+"</span>";
+                    $("#toast").addClass('slds-theme--success').removeClass('slds-hide');
+                    $("#ToastMessage").text ("{!JSENCODE('Files uploaded successfully.')}");
+                    $("#countMessage").html (message);
+                    $(inp).removeAttr('disabled');
+                }
+            }
+        }
+        
+        
+    </script>
+    
+    
+    <script>
+        var ajaxProgress = null;
+        function confirmExit () {
+            return "{!JSENCODE($Label.tva_cfb__confirm_exit)}";
+        }
+        function uploadSingleFile (Obj, signatureMap, fileDetails, callback) {
+            var maxprogress = 100;
+            window.onbeforeunload = confirmExit;
+
+            if (fileDetails.size == 0)
+                callback ("{!JSENCODE($Label.tva_cfb__is_0_bytes_so_it_will_not_be_uploaded)}", true, 'Error');
+            else {
+                ajaxProgress = null;
+                
+                var uploadingFileName = fileDetails.name;
+                var uploadingFileSize = fileDetails.size;
+                
+                var uploadingFiletype = uploadingFileName.split(/[\s.]+/);
+                uploadingFiletype = uploadingFiletype[uploadingFiletype.length-1];
+                
+                uploadingFileName = uploadingFileName.replace('.'+uploadingFiletype, '');
+                
+                if (uploadingFileName.length > 70 )
+                    uploadingFileName = uploadingFileName.substring(0, 70);
+                
+                var bucketName = '{!bucketName}';
+            
+                var multipartUpload = false;
+                if (fileDetails.size >= 10000 * 1024) {      
+                    multipartUpload = true;
+                }
+                if (navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || (typeof $.browser !== "undefined" && $.browser.msie == 1)) {
+                    multipartUpload = false;
+                }
+                
+                if (multipartUpload == true) { 
+
+                    
+                } else {
+                
+                    var signatureDetailsMap = new Object(); 
+                        signatureDetailsMap['BucketName'] = bucketName ;
+                        signatureDetailsMap['region'] = '';
+                        signatureDetailsMap['parentObjectName'] = signatureMap['parentObjectAPI'];
+                        signatureDetailsMap['parentID'] = signatureMap['parentID'];
+                        signatureDetailsMap['fileName'] = uploadingFileName+'.'+uploadingFiletype;
+                        
+                    DocuvaultFileRequest.calculateSignature(signatureDetailsMap, function(sigResult, event){
+                        if (event.status) {
+                            var region = sigResult['region'];
+                            
+                            var fileDetailsMap = new Object(); 
+                                fileDetailsMap['Name'] = uploadingFileName+'.'+uploadingFiletype;
+                                fileDetailsMap['FileSize'] = uploadingFileSize;
+                                fileDetailsMap['FileType'] = uploadingFiletype;
+                                fileDetailsMap['BucketName'] = bucketName ;
+                                fileDetailsMap['Region'] = region;
+                                
+                            DocuvaultFileRequest.uploadStandaloneFile (JSON.stringify(Obj), fileDetailsMap, function (result, event){
+                                if (event.status) {
+                                    var data = new FormData(); 
+                                    
+                                    data.append('key', result+'.'+uploadingFiletype);
+                                    data.append('acl','private');
+                                    
+                                    if (sigResult['content-type'] != '')
+                                        data.append('content-type', sigResult['content-type']);
+                                    
+                                    data.append('success_action_redirect', '');
+                                    data.append('X-Amz-Credential', sigResult['X-Amz-Credential']);
+                                    data.append('X-Amz-Algorithm', sigResult['X-Amz-Algorithm']);
+                                    data.append('X-Amz-Date', sigResult['X-Amz-Date']);
+                                    data.append('x-amz-meta-tag', '');
+                                    
+                                    data.append('x-amz-meta-parentId', signatureMap['parentID']);
+                                    data.append('x-amz-meta-filename', uploadingFileName+'.'+uploadingFiletype);
+                                    
+
+                                    if ('x-amz-meta-parentobjectname' in sigResult)
+                                        data.append('x-amz-meta-parentobjectname', he.decode (sigResult['x-amz-meta-parentobjectname']));
+                                    else
+                                        data.append('x-amz-meta-parentobjectname', 'null');
+                                        
+                                    data.append('x-amz-meta-ownername', he.decode (sigResult['x-amz-meta-ownername']));
+                                    data.append('x-amz-meta-objectCreatedDate', sigResult['x-amz-meta-objectCreatedDate']);
+                                    
+                                    if (sigResult['EnableServerEncryption'] == 'TRUE')
+                                        data.append('x-amz-server-side-encryption','AES256');
+                                                
+                                    data.append('Policy', sigResult['Policy']);
+                                    data.append('X-Amz-Signature', sigResult['X-Amz-Signature']);
+                                    
+                                    data.append('file', fileDetails);
+                                    ajaxProgress = $.ajax({
+                                        url: sigResult['EndpointURL'],
+                                        data: data,
+                                        cache: false,
+                                        contentType: false,
+                                        processData: false,
+                                        crossDomain: true,
+                                        type: 'POST',
+                                        xhr: function() {
+                                            var myXhr = $.ajaxSettings.xhr();
+                                            if(myXhr.upload){
+                                                myXhr.upload.addEventListener('progress', function(e) {
+                                                    if (e.lengthComputable) {
+                                                        var max = e.total;
+                                                        var current = e.loaded;
+                                                
+                                                        var Percentage = (current * 100)/max;
+                                                        var progressnum = '';
+                                                        actualprogress = Math.floor(Percentage);
+                                                        if (actualprogress <= maxprogress) {
+                                                            progressnum = actualprogress + "%";
+                                                            
+                                                        }
+                                                        if (Percentage >= 100)
+                                                        {
+                                                            actualprogress = Math.floor(Percentage);                     
+                                                            progressnum = "100%";
+                                                        }
+                                                        callback (actualprogress, false, 'Uploading');
+                                                    }
+                                                }, false);                      
+                                            }
+                                                                                
+                                            return myXhr;
+                                        },
+                                        beforeSend: function(xhr) {
+                                            xhr.setRequestHeader('Access-Control-Expose-Headers', 'ETag, x-amz-version-id');
+
+                                        },    
+                                        success: function(data, textStatus, xhr) {
+                                            if (204 != xhr.status) {
+                                               DocuvaultFileRequest.deleteFailedRec(result, function(result, event){
+                                                   if (event.status) {
+                                                       window.onbeforeunload = null;
+                                                       callback ("{!JSENCODE($Label.tva_cfb__error_while_uploading_files)}", true, 'Error');
+                                                   }
+                                                   else {
+                                                       window.onbeforeunload = null;
+                                                       callback ("{!JSENCODE($Label.tva_cfb__error_while_uploading_files)}", true, 'Error');
+                                                       
+                                                   }
+                                               });
+                                            }
+                                            if (204 == xhr.status) {
+                                      
+                                                DocuvaultFileRequest.updateETag(xhr.getResponseHeader('ETag'),xhr.getResponseHeader('x-amz-version-id'), result, xhr.status, function(result, event){
+                                                    if (event.status) {
+                                                        window.onbeforeunload = null;
+                                                        callback ("{!JSENCODE('Files uploaded successfully.')}", true, 'Success');  
+                                                        
+                                                    }
+                                                    else 
+                                                    {
+                                                        window.onbeforeunload = null;
+                                                        callback ("{!JSENCODE($Label.tva_cfb__error_while_uploading_files)}", true, 'Error');
+                                                    }
+                                                });
+                                                                                                
+                                            }
+                                        },
+                                        error: function(e) {
+                                            DocuvaultFileRequest.deleteFailedRec(result, function(result, event){
+                                               if (event.status) {
+                                                   window.onbeforeunload = null;
+                                                   callback ("{!JSENCODE($Label.tva_cfb__error_while_uploading_files)}", true, 'Error');
+                                               }
+                                               else {
+                                                   window.onbeforeunload = null;
+                                                   callback ("{!JSENCODE($Label.tva_cfb__error_while_uploading_files)}", true, 'Error');
+                                               }
+                                           });
+                                        } 
+                                    });
+                                        
+                                }
+                                else {
+                                    window.onbeforeunload = null;
+                                    callback ("{!JSENCODE($Label.tva_cfb__error_while_uploading_files)}", true, 'Error');
+                                }
+                            });
+                        }
+                        else {
+                            window.onbeforeunload = null;
+                            callback ("{!JSENCODE($Label.tva_cfb__error_while_uploading_files)}", true, 'Error');
+                        }
+                    }); 
+                }
+            }
+            
+        }
+               
+        
+    </script> 
+</apex:component>

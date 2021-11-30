@@ -1,0 +1,20 @@
+<apex:page showHeader="false" sidebar="false" cache="false">
+<apex:slds />
+    <apex:includeScript value="{!URLFOR ($Resource.TVA_CFB__JQueryMin, '')}"/>
+    <c:LightningLookup id="lookup_ltng" 
+                    lookupId="{!$CurrentPage.parameters.lookupId}" 
+                    lookupLabel="Search {!$CurrentPage.parameters.objName}"
+                    apexHiddenField="" 
+                    apexField=""
+                     recordTypeName="{!$CurrentPage.parameters.recordTypeName}"
+                    placeholderLookupLabel="{!$CurrentPage.parameters.objName}"
+                    placeholderLookupLabel1="In All fields" 
+                    objectApiName="{!$CurrentPage.parameters.objName}" 
+                    objectType="{!$ObjectType[$CurrentPage.parameters.objName].custom}" 
+                    rendered="true" 
+                    searchableFieldName=""
+                    LightningIcon="{!URLFOR($Asset.slds, '/assets/icons/')}"/>
+                    
+                    <br/><br/>
+                  
+</apex:page>

@@ -1,0 +1,61 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickActionWithoutHeader"
+                controller="WEG_ManagePortalUserController" access="global" >
+	
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="contactId" type="String" default=""/>
+    <aura:attribute name="userId" type="String" default=""/>
+    
+    <aura:attribute name="email" type="String" default=""/>
+    <aura:attribute name="userEmail" type="String" default=""/>
+    <aura:attribute name="mobilePhone" type="String" default=""/>
+    <aura:attribute name="userMobilePhone" type="String" default=""/>
+    <aura:attribute name="isActive" type="Boolean" default=""/>
+    <aura:attribute name="userIsActive" type="Boolean" default=""/>
+    
+    <aura:attribute name="username" type="String" default=""/>
+    <aura:attribute name="status" type="String" default=""/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="slds-p-around--medium" style="border-bottom: lightgrey 2px solid;margin-left: -32px;margin-right: -32px;text-align: center;padding: 10px;">
+        <h2 class="slds-text-heading--medium">Manage Portal User</h2>
+    </div>
+    
+    <div class="slds-m-top_medium">
+        <lightning:input type="checkbox" name="activeCheckbox" label="Active" onchange="{!c.handleActiveChange}"
+                         checked="{!v.isActive}" disabled="{!v.userId == null}" />
+    </div>
+    
+    <div aura:id="userDetails" class="toggle">
+        <div class="slds-m-top_medium">
+            <lightning:input type="email" name="email1" value="{!v.email}" required="true" label="Portal Email Address" />
+        </div>
+        
+        <div class="slds-m-top_medium">
+            <lightning:input type="tel" name="phone3" value="{!v.mobilePhone}" placeholder="1234567890"
+                             pattern="[0-9]{10}" required="true" label="Mobile Phone" />
+        </div>
+        
+        <aura:if isTrue="{!v.userId != null}">
+            <div class="slds-m-top_medium">
+                <p>Username: {!v.username}</p>
+            </div>
+        </aura:if>
+    </div>
+    
+    <div class="slds-m-top_small slds-p-top_small slds-border_top">
+        <lightning:layout>
+            <lightning:layoutItem size="9">
+                <div class="slds-p-top_x-small">
+                    {!v.status}
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3">
+                <div class="slds-float_right">
+                    <lightning:button variant="brand" label="Save" onclick="{!c.handleSave}"/>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

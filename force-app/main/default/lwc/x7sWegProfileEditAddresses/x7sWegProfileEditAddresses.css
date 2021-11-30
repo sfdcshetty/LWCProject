@@ -1,0 +1,40 @@
+/**
+ * salesforce-app - Salesforce App
+ * @version 1.0.0
+ * @author
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.select-user {
+    display: inline-block;
+}
+.phone-header {
+    padding-top: 20px;
+}
+.phone-header-checkbox {
+    padding-top: 25px;
+}
+.slds-form-element__control .slds-radio,
+.slds-form-element__control .slds-checkbox {
+    display: inline-block !important;
+}
+.select-user .slds-form-element__control .slds-radio {
+    display: inline-block !important;
+}
+.finish-header {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+.checkmark {
+    width: 30px;
+}
+
+.edit-address-checkbox{
+    font-size:10px;
+}
+
+.coclient-checkbox { display: inline-block; }
+
+.field-title {
+    font-weight: bold;
+}

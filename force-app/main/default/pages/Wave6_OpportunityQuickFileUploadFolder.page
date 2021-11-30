@@ -1,0 +1,6 @@
+<!-- Page to Upload Files Directly from Account Page -->
+<apex:page standardController="Opportunity" docType="html-5.0" id="page">
+    <TVA_CFB:CloudCategoryUpload componentVisibilty="true" enableNew="false" id="category"/><br/>
+    <TVA_CFB:QuickUploadFiles CloudBucketName=""/>
+    
+</apex:page>

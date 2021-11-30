@@ -1,0 +1,234 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+/**
+ * Created by karolbrennan on 5/3/21.
+ */
+/* * {
+  font-family: "ProximaNova", sans-serif;
+} */
+h1 {
+  font-size: 38px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.68;
+  letter-spacing: -1.9px;
+  text-align: left;
+  color: #000000;
+  position: relative;
+  margin-bottom: 20px;
+}
+h1:after {
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  height: 3px;
+  background-color: #3f9c35;
+}
+h2 {
+  font-size: 27px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.37;
+  letter-spacing: 0.1px;
+  text-align: left;
+  color: #63656a;
+}
+h3 {
+  font-size: 21px;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.14;
+  letter-spacing: -0.42px;
+  text-align: left;
+  color: #3f9c35;
+  margin-bottom: 14px;
+  margin-top: 29px;
+}
+h4 {
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: -0.36px;
+  text-align: left;
+  color: #000000;
+}
+strong {
+  font-family: "ProximaNova-Bold", sans-serif;
+  font-weight: bold;
+}
+svg {
+  fill: #63656a;
+}
+a {
+  color: #00777a;
+}
+a:hover {
+  color: #3f9c35;
+}
+.email-link {
+  word-break: break-all;
+}
+.primary-btn {
+  padding: 8px 14px 8px 17px;
+  border-radius: 20px;
+  border: solid 1px #00777a;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4.27;
+  letter-spacing: normal;
+  text-align: left;
+  color: #00777a;
+}
+.slds-card {
+  padding: 23px 12px 0px 22px;
+  border:1px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+}
+.compact {
+  padding-left: 0px !important;
+}
+li,
+p {
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  text-align: left;
+  color: #63656a;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+.primary-text {
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  text-align: left;
+  color: #63656a;
+  margin-top: 14px;
+}
+img.advisor-image {
+  border-radius: 62px;
+  height: 92px;
+  width: 92px;
+}
+.homepage-image {
+  margin-left: 15px;
+}
+.compact-image {
+  height: 82px !important;
+  width: 82px !important;
+  margin-left: 0px;
+}
+.advisor-name {
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: -0.36px;
+  text-align: left;
+  color: #000000;
+}
+.title {
+  margin: 4px 0px 13px 0px;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: 0.7px;
+  text-align: left;
+}
+.myadvisor-header{
+  height: 22px;
+  font-size: 22px !important;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: black !important;
+  /* color: #fff; */
+}
+.profile-button {
+  /* display: inline-block; */
+  display: inline-flex; /* use flexbox to vertical align everything */
+  align-items: center;
+  height: 31px;
+  margin: 0;
+  /* padding: 10px 14px 24px 17px; */
+  padding: 0 14px 0 17px; /* removed top/bottom padding */
+  border-radius: 20px;
+  border: solid 1px #01777A;
+  background-color: #FFFFFF;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #01777A;
+  cursor: pointer;
+}
+.profile-button > span {
+  /* display: inline-block; */
+  margin-right: 20px;
+}
+.profile-button a {
+  color: #01777A;
+}
+.profile-button .slds-icon_container {
+  top: -1px; /* nudge the icon icon up a bit since it's not square */
+  position: relative;
+}
+/* .profile-button {
+  display: inline-block;
+  height: 31px;
+  margin: 0;
+  padding: 10px 14px 24px 17px;
+  border-radius: 20px;
+  border: solid 1px #01777a;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #01777a;
+  cursor: pointer;
+}
+.profile-button>span {
+  display: inline-block; 
+  margin-right:20px;
+}
+.profile-button a {
+  color: #01777a;
+} */

@@ -1,0 +1,332 @@
+<!--
+ - Created by 7Summits on 9/28/17.
+ -->
+<aura:component description="7Summits Uber Theme - Single Bar Header"
+                controller="X7S_ThemeController" 
+                access="global">
+
+    <!-- Internal attributes -->
+    <aura:attribute name="siteName" type="String" access="global" />
+
+    <!-- general items  -->
+    <aura:attribute name="logoWidth" type="String"  access="global"/>
+    <aura:attribute name="logoHeight" type="String"  access="global"/>
+
+    <!-- component type -->
+    <!-- need to implement --><aura:attribute name="searchDropdown" type="Boolean"  access="global"/>
+
+    <!-- layout items -->
+    <aura:attribute name="hideNotifications" type="Boolean"  access="global"/>
+    <aura:attribute name="hideProfile" type="Boolean"  access="global"/>
+    <aura:attribute name="hideMenu" type="Boolean"  access="global"/>
+    <aura:attribute name="hideSearch" type="Boolean"  access="global"/>
+    <aura:attribute name="searchIsOpen" type="Boolean" default="false"  access="global"/>
+
+    <!-- styles -->
+    <aura:attribute name="height" type="String"  access="global"/>
+    <aura:attribute name="heightScrolled" type="String"  access="global"/>
+    <aura:attribute name="bkgColor" type="String"  access="global"/>
+    <aura:attribute name="bkgColorScrolled" type="String"  access="global"/>
+    <aura:attribute name="bkgImage" type="String"  access="global"/>
+    <aura:attribute name="navColor" type="String"  access="global"/>
+    <aura:attribute name="navColorScrolled" type="String"  access="global"/>
+    <aura:attribute name="navColorHover" type="String"  access="global"/>
+    <aura:attribute name="navColorHoverScrolled" type="String"  access="global"/>
+    <aura:attribute name="dropdownLinkBkgColor" type="String" access="global" />
+    <aura:attribute name="dropdownLinkBkgColorHover" type="String" access="global" />
+    <aura:attribute name="navShadow" type="String" default="none"  access="global"/>
+    <aura:attribute name="navShadowScrolled" type="String" default="small"  access="global"/>
+
+    <!-- components -->
+    <aura:attribute name="navBarComponent" type="Aura.Component[]"  access="global"/>
+    <aura:attribute name="searchComponent" type="Aura.Component[]"  access="global"/>
+    <aura:attribute name="profileMenuComponent" type="Aura.Component[]"  access="global"/>
+
+    <!-- events -->
+    <aura:handler event="forceCommunity:routeChange" action="{!c.hideSearch}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:html tag="style">
+        .x7s-theme__single-bar-header .x7s-theme__logo-link {
+            height: {!v.logoHeight};
+            width: {!v.logoWidth};
+        }
+        .x7s-theme__single-bar-header {
+            background-color: {!v.bkgColor};
+            background-image: url('{!v.bkgImage}');
+            height: {!v.height};
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header {
+            background-color: {!v.bkgColorScrolled};
+            height: {!v.heightScrolled};
+        }
+
+        /* Nav link and hover states */
+        .x7s-theme__single-bar-header .comm-navigation__list li a,
+        .x7s-theme__single-bar-header .slds-list__item button,
+        /* Login Link */
+        .x7s-theme__single-bar-header .login .linkLabel {
+            background-color: transparent;
+            color: {!v.navColor};
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 4;
+            letter-spacing: normal;
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header .comm-navigation__list li a,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .slds-list__item button,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .login .linkLabel {
+            color: {!v.navColorScrolled};
+        }
+
+        .x7s-theme__single-bar-header .comm-navigation__list li a:hover,
+        .x7s-theme__single-bar-header .slds-list__item button:hover,
+        .x7s-theme__single-bar-header .comm-navigation__list li a:focus,
+        .x7s-theme__single-bar-header .slds-list__item button:focus {
+            color: {!v.navColorHover};
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header .comm-navigation__list li a:hover,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .slds-list__item button:hover,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .comm-navigation__list li a:focus,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .slds-list__item button:focus {
+            color: {!v.navColorHoverScrolled};
+        }
+
+        /* App Menu Icon */
+        .x7s-theme__single-bar-header .slds-icon-waffle_container:not(:hover):not(:focus) [class*=slds-r] {
+            background-color: {!v.navColor};
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header .slds-icon-waffle_container:not(:hover):not(:focus) [class*=slds-r] {
+            background-color: {!v.navColorScrolled};
+        }
+
+        /* Dropdown menus */
+        .x7s-theme__single-bar-header .comm-navigation__list .slds-list_vertical {
+            background-color: {!if(v.dropdownLinkBkgColor != '', v.dropdownLinkBkgColor, v.bkgColor)};
+        }
+        .x7s-theme__single-bar-header .comm-navigation__list .slds-list_vertical li a:hover,
+        .x7s-theme__single-bar-header .comm-navigation__list .slds-list_vertical li a:focus {
+            background-color: {!v.dropdownLinkBkgColorHover};
+        }
+
+        .uiMenuList{
+            background-color:#01777a !important;
+            width: 176px;
+            padding: 10px 23px 14px 13px !important;
+            left:0% !important;
+            top:60px !important;
+        }
+
+        .actionMenu ul li.uiMenuItem{
+            line-height: 5px !important;
+        }
+
+        .popupTargetContainer::before {
+            background-color:#01777a !important;
+            content: "";
+            position:fixed;
+            top:-19px;
+            right:22px;
+            font-size: 0px; 
+            line-height: 0%; 
+            width: 0px;
+            border-bottom: 20px solid #01777a;
+            border-left: 15px solid #f6f6f6;
+            border-right: 15px solid #f6f6f6;
+        }
+        .uiMenuItem a {
+            color: #fff !important;
+            font-size: 16px !important;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.75;
+            letter-spacing: normal;
+            text-align: left;
+        }
+
+        .comm-navigation__list{
+            justify-content:center !important;
+        }
+
+        .x7s-theme__single-bar-header .slds-button .slds-icon {
+            color: #63656a !important;
+        }
+
+        .slds-list_horizontal .slds-list__item {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+            font-family: Times !important;
+        }
+
+        /* Mobile Sidebar Menu */
+        @media only screen and (max-width: 47.999em) {
+            .x7s-theme__single-bar-header .forceCommunityGlobalNavigation .slds-list_vertical {
+                /*background-color: {!if(v.dropdownLinkBkgColor != '', v.dropdownLinkBkgColor, v.bkgColor)};*/
+            }
+        }
+
+        /* Search Bar */
+        .x7s-theme__single-bar-header .x7s-search {
+            background-color: {!if(v.bkgColor != '', v.bkgColor, '#fff')};
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header .x7s-search {
+            background-color: {!if(v.bkgColorScrolled != '', v.bkgColorScrolled, '#fff')};
+        }
+
+        /* Search and Notification Icons */
+        .x7s-theme__single-bar-header svg,
+        .x7s-theme__single-bar-header .x7s-search-icon .slds-icon-utility-search .slds-icon,
+        .x7s-theme__single-bar-header .notifications button .slds-icon {
+            fill: #666;
+        }
+        .profile-drop svg{
+            fill: {!v.navColorScrolled} !important;
+        }
+        .headerButtonBody{
+            padding-right:20px;
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header svg,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .x7s-search-icon .slds-icon-utility-search .slds-icon,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .notifications button .slds-icon {
+            fill: {!v.navColorScrolled};
+        }
+
+        /* Profile Icons */
+        .x7s-theme__single-bar-header .slds-button .slds-icon,
+        .x7s-theme__single-bar-header .selfServiceProfileMenuTrigger .trigger-link {
+            color: {!v.navColor};
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header .slds-button .slds-icon,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .selfServiceProfileMenuTrigger .trigger-link {
+            color: {!v.navColorScrolled};
+        }
+
+        /* Dropdown menu links */
+        .x7s-theme__single-bar-header .slds-button:hover .slds-icon,
+        .x7s-theme__single-bar-header .slds-button:focus .slds-icon,
+        .x7s-theme__single-bar-header .selfServiceProfileMenuTrigger .trigger-link:hover,
+        .x7s-theme__single-bar-header .selfServiceProfileMenuTrigger .trigger-link:focus {
+            color: {!v.navColorHover};
+        }
+        .x7s-header_scrolled .x7s-theme__single-bar-header .slds-button:hover .slds-icon,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .slds-button:focus .slds-icon,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .selfServiceProfileMenuTrigger .trigger-link:hover,
+        .x7s-header_scrolled .x7s-theme__single-bar-header .selfServiceProfileMenuTrigger .trigger-link:focus {
+            color: {!v.navColorHoverScrolled};
+        }
+
+        .slds-is-active {
+            background-color:#fff !important;
+        }
+
+        .forceCommunityGlobalNavigation .slds-list_horizontal>.slds-list__item>.comm-navigation__item>a:hover, .forceCommunityGlobalNavigation .slds-list_horizontal>.slds-list__item>.comm-navigation__item>a.slds-is-active:not([data-type="home"]), .forceCommunityGlobalNavigation .slds-list_horizontal>.slds-list__item>.comm-navigation__item>button:hover, .forceCommunityGlobalNavigation .slds-list_horizontal>.slds-list__item>.comm-navigation__item>button.slds-is-active:not([data-type="home"]) {
+            background-color: #fff !important;
+        }
+    </aura:html>
+
+    <div class="{!'x7s-theme__single-bar-header' + if(v.searchIsOpen, ' x7s-theme_search-active', '') + ' x7s-header_shadow-' + v.navShadow + ' x7s-header_shadow-scrolled-' + v.navShadowScrolled}">
+
+        <div class="x7s-theme__navigation-bar-container slds-container_x-large">
+            <lightning:layout class="x7s-theme__navigation-bar"
+                              verticalAlign="center"
+                              horizontalAlign="spread"
+                              pullToBoundary="small"
+            >
+
+                <!-- LOGO -->
+                <lightning:layoutItem class="x7s-theme__logo"
+                                      padding="horizontal-small"
+                >
+                    <a class="x7s-theme__logo-link" href="javascript:void(0);" data-url="/" onclick="{!c.goToSiteHome}"><span class="assistiveText">{!v.siteName}</span></a>
+                </lightning:layoutItem>
+                
+                <!-- NAV -->
+                <aura:if isTrue="{!v.hideMenu != true}">
+                    <lightning:layoutItem class="x7s-theme__navbar"
+                                          padding="horizontal-small"
+                    >
+                        {!v.navBarComponent}
+                    </lightning:layoutItem>
+                </aura:if>
+
+                <!-- ACTION ICONS -->
+                <lightning:layoutItem class="x7s-theme__actions"
+                                      padding="horizontal-small"
+                >
+                    <lightning:layout verticalAlign="center"
+                                      horizontalAlign="end"
+                    >
+
+                        <!-- SEARCH -->
+                        <aura:if isTrue="{!v.hideSearch != true}">
+                            <!-- Are we using a search dropdown or inline search -->
+                            <aura:if isTrue="{!v.searchDropdown == true}">
+                                <lightning:layoutItem class="slds-p-right_x-small x7s-search-icon">
+                                    <a href="javascript:void(0);" onclick="{!c.toggleSearch}">
+                                        <lightning:icon iconName="utility:search" size="small" alternativeText="Toggle Search"/>
+                                    </a>
+                                </lightning:layoutItem>
+                                <aura:set attribute="else">
+                                    <lightning:layoutItem class="slds-p-right_x-small x7s-search-input x7s-search-input_small">
+                                        {!v.searchComponent}
+                                    </lightning:layoutItem>
+                                </aura:set>
+                            </aura:if>
+                        </aura:if>
+
+                        <!-- NOTIFICATIONS -->
+                        <aura:if isTrue="{!v.hideNotifications != true}">
+                            <lightning:layoutItem class="slds-p-horizontal_x-small x7s-theme__notifications">
+                                <forceCommunity:notifications/>
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                        <!-- PROFILE -->
+                        <aura:if isTrue="{!v.hideProfile != true}">
+                            <lightning:layoutItem class="slds-p-left_x-small x7s-theme__profile">
+                                {!v.profileMenuComponent}
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+
+        <!-- Add search dropdown to the page if needed -->
+        <aura:if isTrue="{!and(v.searchDropdown == true, v.hideSearch != true)}">
+            <div class="x7s-search x7s-search_large">
+                <div class="x7s-search__container">
+                    <lightning:layout class="slds-container_x-large"
+                                      verticalAlign="center"
+                                      horizontalAlign="spread"
+                                      pullToBoundary="small"
+                    >
+                        <lightning:layoutItem class="x7s-search-icon"
+                                              flexibility="no-grow"
+                                              padding="horizontal-small">
+                            <lightning:icon iconName="utility:search" size="small" alternativeText="Search"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="x7s-search-input"
+                                              flexibility="grow"
+                                              padding="horizontal-small">
+                            {!v.searchComponent}
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="x7s-search-icon"
+                                              flexibility="no-grow"
+                                              padding="horizontal-small">
+                            <a href="javascript:void(0);" onclick="{!c.hideSearch}">
+                                <lightning:icon iconName="utility:close" size="small" alternativeText="Clear Search"/>
+                            </a>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </div>
+        </aura:if>
+
+    </div>
+
+</aura:component>

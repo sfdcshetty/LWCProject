@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>X7S My Advisor Team</description>
+    <isExposed>true</isExposed>
+    <masterLabel>X7S My Advisor Team</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+    <targetConfig targets="lightningCommunity__Default">
+        <property name="layoutType" label="Layout Type" type="String" datasource="compact, homepage, full"
+                  description="Compact layout is used to display only the user's primary advisors with a meet the team button. The full layout will show the entire My Advisor Team."/>
+        <property name="secureMessagingLink" label="Secure Messaging Page Link" type="String" />
+        <property name="myTeamLink" label="My Team Page Link" type="String" />
+    </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

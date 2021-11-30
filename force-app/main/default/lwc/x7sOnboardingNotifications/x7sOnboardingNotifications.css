@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+ */
+
+.slds-checkbox__label {
+    padding: 1rem 1.5rem;
+    border-radius: var(--lwc-borderRadiusMedium);
+    background: #f9f9f9;
+    display: block;
+}
+
+@media (max-width: 47.9375em) {
+    .slds-form-element__label {
+        hyphens: none;
+    }
+    .slds-checkbox__label {
+        padding: 1rem;
+        text-align: left;
+    }
+}

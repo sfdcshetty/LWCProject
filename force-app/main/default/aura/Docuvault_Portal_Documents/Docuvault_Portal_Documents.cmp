@@ -1,0 +1,10 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                controller="Docuvault_PortalDocumentsHelper"
+                access="global" >
+	
+	    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute type="String" name="parentId" default="" />
+    <aura:attribute name="FolderView" type="Aura.Component[]" access="global" />
+    {!v.FolderView}    
+</aura:component>

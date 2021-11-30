@@ -1,0 +1,34 @@
+<template>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving"></lightning-spinner>
+    
+    <h1>Preferences</h1>
+    <lightning-layout multiple-rows>
+        
+        <lightning-layout-item size="9"><div class="preferences-line-item">Marketing News and Updates</div></lightning-layout-item>
+        <lightning-layout-item size="3"><div class="preferences-line-item"><lightning-input class="pref-checkbox" type="checkbox" data-id="newsInsights" label="" name="newsInsights" value="newsInsights" onchange={selectThisPreference}></lightning-input> Email</div></lightning-layout-item>
+        
+        <lightning-layout-item size="9"><div class="preferences-line-item">To Do Assignments</div></lightning-layout-item>
+        <lightning-layout-item size="3"><div class="preferences-line-item"><lightning-input class="pref-checkbox" type="checkbox" data-id="toDoAssignments" label="" name="toDoAssignments" value="toDoAssignments" onchange={selectThisPreference}></lightning-input> Email</div></lightning-layout-item>
+        
+        <!--<lightning-layout-item size="9"><div class="preferences-line-item">To Do Reminders</div></lightning-layout-item>
+        <lightning-layout-item size="3"><div class="preferences-line-item"><lightning-input class="pref-checkbox" type="checkbox" data-id="toDoReminders" label="" name="toDoReminders" value="toDoReminders" onchange={selectThisPreference}></lightning-input> Email</div></lightning-layout-item>
+        
+        <lightning-layout-item size="9"><div class="preferences-line-item">Portal Announcements</div></lightning-layout-item>
+        <lightning-layout-item size="3"><div class="preferences-line-item"><lightning-input class="pref-checkbox" type="checkbox" data-id="portalAnnouncements" label="" name="portalAnnouncements" value="portalAnnouncements" onchange={selectThisPreference}></lightning-input> Email</div></lightning-layout-item>
+
+        <lightning-layout-item size="9"><div class="preferences-line-item">Updates to My Wealth Accounts</div></lightning-layout-item>
+        <lightning-layout-item size="3"><div class="preferences-line-item"><lightning-input class="pref-checkbox" type="checkbox" data-id="updatesToWealth" label="" name="updatesToWealth" value="updatesToWealth" onchange={selectThisPreference}></lightning-input> Email</div></lightning-layout-item>-->
+
+        <lightning-layout-item size="9"><div class="preferences-line-item">Updates to Profile</div></lightning-layout-item>
+        <lightning-layout-item size="3"><div class="preferences-line-item"><lightning-input class="pref-checkbox" type="checkbox" data-id="updatesToProfile" label="" name="updatesToProfile" value="updatesToProfile" onchange={selectThisPreference}></lightning-input> Email</div></lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-small" style="text-align: center;">
+            <lightning-button variant="brand-outline" label="Cancel" title="Cancel" onclick={handleCancel} class="slds-m-left_x-small" disabled={disableButtons}></lightning-button> 
+            <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-m-left_x-small continue" disabled={disableButtons}></lightning-button>
+        </lightning-layout-item>
+        <!--Advisor team secure messaging
+Task updates
+Appointment notifications and reminders
+New events posted
+Registered event reminders-->
+    </lightning-layout>
+</template>

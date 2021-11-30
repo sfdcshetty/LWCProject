@@ -1,0 +1,34 @@
+.THIS .tdPadding {
+    padding-bottom :5px;
+    padding-right :5px;
+}
+
+.THIS .datatable {
+    /*white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;*/
+}
+
+.THIS .floatRight {
+    float:right;
+    margin-right:20px;
+}
+
+.THIS .floatClear {
+    float:clear;
+}
+
+.THIS .slds-combobox__input {
+    cursor:pointer;
+}
+
+.THIS .slds-scrollable_x {
+    overflow-y:visible!important;
+    overflow-x:visible!important;
+}
+
+.THIS .slds-scrollable_y {
+    height: 350px !important;    
+    overflow-y:visible!important;
+    overflow-x:visible!important;
+}

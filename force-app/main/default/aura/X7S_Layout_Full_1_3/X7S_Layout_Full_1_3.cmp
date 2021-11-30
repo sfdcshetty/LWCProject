@@ -1,0 +1,31 @@
+<aura:component
+  implements="forceCommunity:layout"
+  description="3 Column (3:1)"
+  access="global"
+>
+  <aura:attribute name="leftColumn" type="Aura.Component[]" required="false" />
+  <aura:attribute name="rightColumn" type="Aura.Component[]" required="false" />
+
+  <section class="slds-container_x-large slds-container_center">
+    <div class="slds-container_x-large slds-container_center">
+      <lightning:layout pullToBoundary="small" multipleRows="true">
+        <lightning:layoutItem
+          size="3"
+          mediumDeviceSize="3"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.leftColumn}
+        </lightning:layoutItem>
+        <lightning:layoutItem
+          size="9"
+          mediumDeviceSize="9"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.rightColumn}
+        </lightning:layoutItem>
+      </lightning:layout>
+    </div>
+  </section>
+</aura:component>

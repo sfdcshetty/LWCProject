@@ -1,0 +1,31 @@
+<template>
+  <template if:true={isDisplayComponent}>
+    <div class="investmentHeader slds-m-bottom_medium">{componentTitle}</div>
+    <p if:true={introParagraph} class="slds-m-top_small slds-text-body_regular">
+      {introParagraph}
+    </p>
+    <div class="investmentListContainer slds-p-top_small">
+      <lightning-datatable
+        key-field="Id"
+        data={dataList}
+        columns={columns}
+        hide-checkbox-column="true"
+        class="investmentTable slds-max-medium-table_stacked-horizontal"
+        default-sort-direction={defaultSortDirection}
+        sorted-direction={sortDirection}
+        sorted-by={sortedBy}
+        onsort={onHandleSort}
+      >
+      </lightning-datatable>
+    </div>
+    <div class="totalAmount">
+      $
+      <lightning-formatted-number
+        value={totalAmt}
+        format-style="decimal"
+        maximum-fraction-digits="0"
+        currency-code="USD"
+      ></lightning-formatted-number>
+    </div>
+  </template>
+</template>

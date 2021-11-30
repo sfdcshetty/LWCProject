@@ -1,0 +1,19 @@
+/**
+ * 7Summits_Theme - Front-end assets used for the 7Summits Theme
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.THIS {
+  background-position: center top;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.THIS .x7s-theme__two-bar-content-body,
+.THIS .x7s-theme__two-bar-content-body-inner {
+  height: 100%;
+}
+.THIS .x7s-theme__two-bar-search {
+  position: relative;
+}

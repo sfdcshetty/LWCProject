@@ -1,0 +1,39 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global" >
+    <aura:attribute name="successFilesCount" type="Integer" default="0" access="global"/>
+    <aura:attribute name="errorFilesCount" type="Integer" default="0" access="global"/>
+    <aura:attribute name="cloudRecord" 
+                    type="TVA_CFB__Cloud_Files__c" access="global" 
+                    default="{'sobjectType': 'TVA_CFB__Cloud_Files__c', 'TVA_CFB__Folder__c':''}"
+                    />
+    <aura:attribute name="uploadingFile" type="Object" access="global" default="" />
+    <aura:attribute name="progressBar" type="String" access="global" default="0%"/>
+    <TVA_CFB:Docuvault_Upload 
+                              aura:id="uploadFilesComp"
+                              recordId="{!v.recordId}" 
+                              uploadStatus="{!v.progressBar}"
+                              displayFile="{!v.uploadingFile}"
+                              successFiles="{!v.successFilesCount}"
+                              errorFiles="{!v.errorFilesCount}"/>
+    
+    <lightning:input type="file" class="fileChooser slds-text-align_center" 
+                     aura:id="inp" name="file" 
+                     multiple="true"
+                     onchange="{!c.uploadFile}"
+                     />
+    
+    <aura:if isTrue="{! !empty (v.uploadingFile)}">
+        <table class="slds-p-top--large">
+            <tr>
+                <td style="width: 8%;" role="gridcell">
+                    <lightning:icon iconName="{!v.uploadingFile.Type}"/>
+                </td>
+                <td>{!v.uploadingFile.Name}</td>
+                <td>{!v.uploadingFile.Size}</td>
+                <td>{!v.progressBar}</td>
+                
+            </tr>
+        </table>
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,346 @@
+<template>
+  <template if:true={showSaving}>
+    <lightning-spinner alternative-text="Saving..."></lightning-spinner>
+  </template>
+
+  <h3 class="estatePlanningHeader slds-m-bottom_medium">{customHeader}</h3>
+  <lightning-spinner if:true={showSpinner} alternative-text="Saving..."></lightning-spinner>
+
+  <div class="x7s-finprofile_estate-planning">
+    <lightning-layout multiple-rows class="slds-gutters">
+      <!-- mimic the lighting-checkbox-group structure so it inherits the same styles, but don't add the checkboxes -->
+      <lightning-layout-item
+        size="12"
+        class="slds-col slds-m-bottom_small x7s-checkbox-table_header"
+      >
+        <lightning-layout multiple-rows class="slds-form-element_horizontal">
+          <lightning-layout-item
+            size="12"
+            medium-device-size="8"
+          ></lightning-layout-item>
+          <lightning-layout-item
+            if:true={primaryName}
+            size="12"
+            medium-device-size="2"
+          >
+            <div class="slds-form-element__control">
+              <span class="slds-checkbox">
+                <span class="x7s-visible">{primaryName}</span>
+              </span>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item
+            if:true={secondaryName}
+            size="12"
+            medium-device-size="2"
+          >
+            <div class="slds-form-element__control">
+              <span class="slds-checkbox">
+                <span class="x7s-visible">{secondaryName}</span>
+              </span>
+            </div>
+          </lightning-layout-item>
+        </lightning-layout>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+        <lightning-layout multiple-rows class="slds-form-element_horizontal"
+          ><!-- this class provides important styling for the checkboxes and labels -->
+
+          <!-- the questions array contains both primary and secondary questions -->
+          <lightning-layout-item
+            key={willExists.fieldPath}
+            size="12"
+            medium-device-size="8"
+            class="slds-p-vertical_small"
+          >
+            <legend class="slds-form-element__legend slds-form-element__label">
+              <span class="questionLabel">{willExists.fieldLabel}</span>
+            </legend>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            medium-device-size="2"
+            class="slds-p-vertical_small"
+          >
+            <lightning-input
+              type="checkbox"
+              label={primaryName}
+              value={willExists.primaryValue}
+              data-field={willExists.fieldPath}
+              data-id="primaryWillExists"
+              checked={willExists.primaryValue}
+              onchange={handleChangeCheckbox}
+            ></lightning-input>
+          </lightning-layout-item>
+
+          <template if:true={secondaryName}>
+            <lightning-layout-item
+              size="12"
+              medium-device-size="2"
+              class="slds-p-vertical_small"
+            >
+              <lightning-input
+                type="checkbox"
+                label={secondaryName}
+                value={willExists.secondaryValue}
+                data-field={willExists.fieldPath}
+                data-id="secondaryWillExists"
+                checked={willExists.secondaryValue}
+                onchange={handleChangeCheckbox}
+              ></lightning-input>
+            </lightning-layout-item>
+          </template>
+
+          <!--<lightning-layout-item key={trustExists.fieldPath} size="12" medium-device-size="8" class="slds-p-vertical_small">
+                        <legend class="slds-form-element__legend slds-form-element__label">
+                            <span class="questionLabel">{trustExists.fieldLabel}</span>
+                        </legend>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="2" class="slds-p-vertical_small">
+                        <lightning-combobox name="primaryTrustExists" label="" value={trustExists.primaryValue}
+                                            class="inputField" options={trustOptions}
+                                            onchange={handleChangePicklist}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+
+                    <template if:true={secondaryName}>
+                        <lightning-layout-item size="12" medium-device-size="2" class="slds-p-vertical_small">
+                            <lightning-combobox name="secondaryTrustExists" label=""  value={trustExists.secondaryValue}
+                                                class="inputField" options={trustOptions}
+                                                onchange={handleChangePicklist}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </template>-->
+
+          <lightning-layout-item
+            key={trustExists.fieldPath}
+            size="12"
+            medium-device-size="8"
+            class="slds-p-vertical_small"
+          >
+            <legend class="slds-form-element__legend slds-form-element__label">
+              <span class="questionLabel"
+                >{revocableTrustExists.fieldLabel}</span
+              >
+            </legend>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            medium-device-size="2"
+            class="slds-p-vertical_small"
+          >
+            <!--<lightning-combobox name="primaryTrustExists" label="" value={trustExists.primaryValue}
+                                            class="inputField" options={trustOptions}
+                                            onchange={handleChangePicklist}>
+                        </lightning-combobox>-->
+            <lightning-input
+              type="checkbox"
+              value={revocableTrustExists.primaryValue}
+              data-field={revocableTrustExists.primaryValue}
+              data-id="primaryRevocableTrustExists"
+              checked={revocableTrustExists.primaryValue}
+              onchange={handleChangeCheckbox}
+            ></lightning-input>
+            <!--<lightning-radio-group name="revocableTrustRadio"
+                          options={revocableTrustOptions}
+                          value={revocableTrustExists.primaryValue}
+                          type="radio"
+                          data-id="primaryRevocableTrustExists"
+                          onchange={handleRadioChange}></lightning-radio-group>-->
+          </lightning-layout-item>
+
+          <template if:true={secondaryName}>
+            <lightning-layout-item
+              size="12"
+              medium-device-size="2"
+              class="slds-p-vertical_small"
+            >
+              <!--<lightning-combobox name="secondaryTrustExists" label=""  value={trustExists.secondaryValue}
+                                                class="inputField" options={trustOptions}
+                                                onchange={handleChangePicklist}>
+                            </lightning-combobox>-->
+              <!--<lightning-radio-group name="revocableTrustRadioSecondary"
+                              options={revocableTrustOptions}
+                              value={revocableTrustExists.secondaryValue}
+                              type="radio"
+                              data-id="secondaryRevocableTrustExists"
+                              onchange={handleRadioChange}></lightning-radio-group>-->
+              <lightning-input
+                type="checkbox"
+                value={revocableTrustExists.secondaryValue}
+                data-field={revocableTrustExists.secondaryValue}
+                data-id="secondaryRevocableTrustExists"
+                checked={revocableTrustExists.secondaryValue}
+                onchange={handleChangeCheckbox}
+              ></lightning-input>
+            </lightning-layout-item>
+          </template>
+
+          <lightning-layout-item
+            key={trustExists.fieldPath}
+            size="12"
+            medium-device-size="8"
+            class="slds-p-vertical_small"
+          >
+            <legend class="slds-form-element__legend slds-form-element__label">
+              <span class="questionLabel"
+                >{irrevocableTrustExists.fieldLabel}</span
+              >
+            </legend>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            medium-device-size="2"
+            class="slds-p-vertical_small"
+          >
+            <!--<lightning-combobox name="primaryTrustExists" label="" value={trustExists.primaryValue}
+                                            class="inputField" options={trustOptions}
+                                            onchange={handleChangePicklist}>
+                        </lightning-combobox>-->
+            <!--<lightning-radio-group name="irrevocableTrustRadio"
+                          options={irrevocableTrustOptions}
+                          value={irrevocableTrustExists.primaryValue}
+                          data-id="primaryIrrevocableTrustExists"
+                          type="radio"
+                          onchange={handleRadioChange}></lightning-radio-group>-->
+            <lightning-input
+              type="checkbox"
+              value={irrevocableTrustExists.primaryValue}
+              data-field={irrevocableTrustExists.primaryValue}
+              data-id="primaryIrrevocableTrustExists"
+              checked={irrevocableTrustExists.primaryValue}
+              onchange={handleChangeCheckbox}
+            ></lightning-input>
+          </lightning-layout-item>
+
+          <template if:true={secondaryName}>
+            <lightning-layout-item
+              size="12"
+              medium-device-size="2"
+              class="slds-p-vertical_small"
+            >
+              <!--<lightning-combobox name="secondaryTrustExists" label=""  value={trustExists.secondaryValue}
+                                                class="inputField" options={trustOptions}
+                                                onchange={handleChangePicklist}>
+                            </lightning-combobox>-->
+              <!--<lightning-radio-group name="irrevocableTrustRadioSecondary"
+                              options={irrevocableTrustOptions}
+                              value={irrevocableTrustExists.secondaryValue}
+                              data-id="secondaryIrrevocableTrustExists"
+                              type="radio"
+                              onchange={handleRadioChange}></lightning-radio-group>-->
+              <lightning-input
+                type="checkbox"
+                value={irrevocableTrustExists.secondaryValue}
+                data-field={irrevocableTrustExists.secondaryValue}
+                data-id="secondaryIrrevocableTrustExists"
+                checked={irrevocableTrustExists.secondaryValue}
+                onchange={handleChangeCheckbox}
+              ></lightning-input>
+            </lightning-layout-item>
+          </template>
+
+          <lightning-layout-item
+            key={powerOfAttorney.fieldPath}
+            size="12"
+            medium-device-size="8"
+            class="slds-p-vertical_small"
+          >
+            <legend class="slds-form-element__legend slds-form-element__label">
+              <span class="questionLabel">{powerOfAttorney.fieldLabel}</span>
+            </legend>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            medium-device-size="2"
+            class="slds-p-vertical_small"
+          >
+            <lightning-input
+              type="checkbox"
+              label={primaryName}
+              value={powerOfAttorney.primaryValue}
+              data-field={powerOfAttorney.fieldPath}
+              data-id="primaryPowerOfAttorney"
+              checked={powerOfAttorney.primaryValue}
+              onchange={handleChangeCheckbox}
+            ></lightning-input>
+          </lightning-layout-item>
+
+          <template if:true={secondaryName}>
+            <lightning-layout-item
+              size="12"
+              medium-device-size="2"
+              class="slds-p-vertical_small"
+            >
+              <lightning-input
+                type="checkbox"
+                label={secondaryName}
+                value={powerOfAttorney.secondaryValue}
+                data-field={powerOfAttorney.fieldPath}
+                data-id="secondaryPowerOfAttorney"
+                checked={powerOfAttorney.secondaryValue}
+                onchange={handleChangeCheckbox}
+              ></lightning-input>
+            </lightning-layout-item>
+          </template>
+
+          <lightning-layout-item
+            key={livingWillExists.fieldPath}
+            size="12"
+            medium-device-size="8"
+            class="slds-p-vertical_small"
+          >
+            <legend class="slds-form-element__legend slds-form-element__label">
+              <span class="questionLabel">{livingWillExists.fieldLabel}</span>
+            </legend>
+          </lightning-layout-item>
+
+          <lightning-layout-item
+            size="12"
+            medium-device-size="2"
+            class="slds-p-vertical_small"
+          >
+            <lightning-input
+              type="checkbox"
+              label={primaryName}
+              value={livingWillExists.primaryValue}
+              data-field={livingWillExists.fieldPath}
+              data-id="primaryLivingWillExists"
+              checked={livingWillExists.primaryValue}
+              onchange={handleChangeCheckbox}
+            ></lightning-input>
+          </lightning-layout-item>
+
+          <template if:true={secondaryName}>
+            <lightning-layout-item
+              size="12"
+              medium-device-size="2"
+              class="slds-p-vertical_small"
+            >
+              <lightning-input
+                type="checkbox"
+                label={secondaryName}
+                value={livingWillExists.secondaryValue}
+                data-field={livingWillExists.fieldPath}
+                data-id="secondaryLivingWillExists"
+                checked={livingWillExists.secondaryValue}
+                onchange={handleChangeCheckbox}
+              ></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" style="text-align: center;">
+              <lightning-button variant="brand-outline" label="Cancel" title="Cancel" onclick={handleCancel} class="slds-m-left_x-small" disabled={disableButtons}></lightning-button>
+              <lightning-button variant="brand" label="Save" title="Save" onclick={saveData} class="slds-m-left_x-small continue" disabled={disableButtons}></lightning-button>
+            </lightning-layout-item>
+
+          </template>
+        </lightning-layout>
+      </lightning-layout-item>
+    </lightning-layout>
+  </div>
+</template>

@@ -1,0 +1,100 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.main-container {
+  border-radius: 20px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  margin-bottom: 20px;
+  z-index: 10;
+}
+.container {
+  position: relative;
+  display: inline;
+  font-size: 30px;
+  width: 100%;
+  z-index: 10;
+}
+.container div.inner {
+  display: inline-block;
+  color: #000;
+  vertical-align: top;
+  background-color: #fff;
+  padding: 10px;
+  text-align: center;
+  vertical-align: center;
+  min-height: 110px;
+  padding-top: 30px;
+  border-radius: 10px;
+  width: 48%;
+  box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.08);
+}
+.inner-content {
+  text-align: left;
+  margin-left: 30px;
+}
+.container div.info {
+  padding-right: 50px;
+}
+.my-wealth-title {
+  font-size: 38px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1.68;
+  letter-spacing: -1px;
+  text-align: left;
+  color: #000;
+  line-height: 1;
+}
+.my-wealth-border {
+  height: 3px;
+  background-color: #000;
+  width: 100px;
+  margin-top: 24px;
+}
+.my-wealth-holdings-header {
+  font-size: 24px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4.57;
+  letter-spacing: 0.35px;
+  text-align: right;
+  color: #000;
+  line-height: 1;
+  text-align: left;
+}
+.my-wealth-holdings-desc {
+  text-transform: uppercase;
+  color: #000;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: 0.35px;
+  text-align: left;
+}
+.my-wealth-holdings-lower {
+  opacity: 0.7;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #000;
+  text-align: left;
+}
+.icon {
+  float: left;
+  height: 50px;
+  width: 50px;
+  margin: 0px 20px 40px -10px;
+}

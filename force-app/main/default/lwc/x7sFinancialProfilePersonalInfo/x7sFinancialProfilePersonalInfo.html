@@ -1,0 +1,68 @@
+<template>
+    <form class="x7s-finprofile_personalinfo">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="8" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="First name" max-length="50" value={firstName} onchange={handleChangeFirstName}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" large-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-input label="M.I." max-length={lenMiddleInitial} title="Middle initial" value={middleInitial} onchange={handleChangeMiddleInitial}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="8" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Last name" max-length="50" value={lastName} onchange={handleChangeLastName}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" large-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-input label="suffix" max-length={lenSuffix} value={suffix} onchange={handleChangeSuffix}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="date" label="Date of birth" value={dateOfBirth} onchange={handleChangeDateOfBirth}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="8" class="slds-col slds-m-bottom_large">
+                <!-- nothing goes here -->
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="12" large-device-size="12" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Street Address" value={streetAddress} onchange={handleChangeStreetAddress}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="12" large-device-size="6" class="slds-col slds-m-bottom_large">
+                <lightning-input label="City" value={city} onchange={handleChangeCity}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="3" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label="State" placeholder="Select one" value={state}
+                    options={optionsState} onchange={handleChangeState}
+                ></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="3" class="slds-col slds-m-bottom_large">
+                <lightning-input label="ZIP Code" value={zipCode} onchange={handleChangeZipCode}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="email" label="Work Email" value={emailWork} onchange={handleChangeEmailWork}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="email" label="Personal Email" value={emailPersonal} onchange={handleChangeEmailPersonal}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="email" label="Other Email" value={emailOther} onchange={handleChangeEmailOther}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="tel" label="Work Phone" value={phoneWork} onchange={handleChangePhoneWork}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="tel" label="Home Phone" value={phoneHome} onchange={handleChangePhoneHome}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="tel" label="Mobile Phone" value={phoneMobile} onchange={handleChangePhoneMobile}></lightning-input>
+            </lightning-layout-item>
+
+        </lightning-layout>
+
+    </form>
+</template>

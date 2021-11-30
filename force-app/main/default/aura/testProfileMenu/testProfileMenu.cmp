@@ -1,0 +1,13 @@
+<aura:component implements="forceCommunity:profileMenuInterface" access="global">
+    <aura:attribute name="currentUser" type="User" />
+    <force:recordData aura:id="recordLoader" recordId="{!$SObjectType.CurrentUser.Id}" fields="Profile.Name" targetFields="{!v.currentUser}"/>
+    
+    <aura:attribute name="options" type="String[]" default="Option 1, Option 2"/>
+    <div>=={!$SObjectType.CurrentUser}</div>
+    <lightning:avatar variant="circle" src="{!v.currentUser.SmallPhotoUrl}" fallbackIconName="standard:person_account" alternativeText="{!v.currentUser}" />
+    <lightning:buttonMenu alternativeText="Profile Menu" variant="container" iconName="utility:connected_apps">
+        <aura:iteration items="{!v.options}" var="itemLabel">
+            <lightning:menuItem label="{!itemLabel}" />
+        </aura:iteration>        
+    </lightning:buttonMenu>
+</aura:component>

@@ -1,0 +1,101 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.c-container {
+  position: relative;
+  background-color: #fff;
+  border-radius: 20px;
+  width: 290px;
+  padding: 20px;
+}
+.mydocs-header {
+  height: 22px;
+  font-size: 22px !important;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  /* color: #fff; */
+}
+.no-border {
+  border-style: none;
+}
+.mydocs-text {
+  width: 244px;
+  height: 60px;
+  margin-top: 28px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.38;
+  letter-spacing: normal;
+  text-align: left;
+  color: #63656a;
+}
+.profile-button {
+  /* display: inline-block; */
+  display: inline-flex; /* use flexbox to vertical align everything */
+  align-items: center;
+  height: 31px;
+  margin: 0;
+  /* padding: 10px 14px 24px 17px; */
+  padding: 0 14px 0 17px; /* removed top/bottom padding */
+  border-radius: 20px;
+  border: solid 1px #01777A;
+  background-color: #FFFFFF;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #01777A;
+  cursor: pointer;
+}
+.profile-button > span {
+  /* display: inline-block; */
+  margin-right: 20px;
+}
+.profile-button a {
+  color: #01777A;
+}
+.profile-button .slds-icon_container {
+  top: -1px; /* nudge the icon icon up a bit since it's not square */
+  position: relative;
+}
+.profile-chevron {
+  height: 10px;
+}
+.mydocs-list {
+  margin: 20px 0px;
+  line-height: 2.5;
+}
+.mydocs-list li a {
+  color: #00777a;
+  font-size: 18px;
+}
+.doc-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 12px;
+}
+
+.primary-btn {
+  padding: 8px 14px 8px 17px;
+  border-radius: 20px;
+  border: solid 1px #00777a;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 4.27;
+  text-align: left;
+  color: #00777a;
+}

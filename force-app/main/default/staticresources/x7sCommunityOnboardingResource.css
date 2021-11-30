@@ -1,0 +1,24 @@
+/*
+ * Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+ */
+
+c-x7s-onboarding .slds-progress {
+   max-width: 80% !important;
+   margin-bottom: 3rem !important;
+}
+
+c-x7s-Onboarding-Progress-Step .slds-button {
+	color: #333;
+}
+
+c-x7s-onboarding-topic-button .following .slds-button {
+   color: white;
+}
+
+c-x7s-onboarding-done-card .slds-icon {
+   fill: var(--lwc-colorBrand);
+}
+
+c-x7s-onboarding-slide .primaryButtonLabelClass .slds-button {
+   color: var(--lwc-colorTextInverse);
+}

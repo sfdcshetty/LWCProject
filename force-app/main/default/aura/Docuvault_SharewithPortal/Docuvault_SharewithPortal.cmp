@@ -1,0 +1,62 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" 
+                controller="Docuvault_PortalDocumentsHelper">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="CloudFileId" type="string" access="global" default=""/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="portalFolderOptions" type="List" access="global" default="" />
+    <aura:attribute name="isRecordShared" type="Boolean" access="global" default="true" />
+    <aura:attribute name="activePortalUser" type="Boolean" access="global" default = "true"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <force:recordData aura:id="recordHandler"
+                      recordId="{!v.CloudFileId}"
+                      layoutType="FULL"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordError}"
+                      mode="EDIT"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            <ui:message title="Error" severity="error" closable="true">
+                {!v.recordError}
+            </ui:message>
+        </div>
+    </aura:if>
+    <div class="{!if(not(empty(v.simpleRecord.Share_On_Portal__c)),'','slds-hide')}">
+        <aura:if isTrue="{!(v.activePortalUser)}">
+            <aura:if isTrue="{!and (v.simpleRecord.Share_On_Portal__c, v.isRecordShared)}">
+                <div class="slds-notify_container slds-is-relative">
+                    <div class="slds-notify slds-notify_toast slds-theme_info" role="alert">
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_small">This file is already shared with portal.</h2>
+                        </div>
+                    </div>
+                </div>                
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.Spinner}">
+                        <div class="exampleHolder">
+                            <lightning:spinner alternativeText="Loading" size="medium" />
+                        </div>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div class="slds-notify_container slds-is-relative">
+                    <div class="slds-notify slds-notify_toast  slds-theme_error" role="alert">
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_small">There are no active Portal users.</h2>
+                        </div>
+                    </div>
+                </div>
+            </aura:set>
+        </aura:if>
+        <!-- Display an editing form -->
+    </div>
+</aura:component>

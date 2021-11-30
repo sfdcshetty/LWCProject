@@ -1,0 +1,16 @@
+<template>
+
+    <div class="x7s-finprofile_bank-accounts">
+        <lightning-layout multiple-rows class="slds-gutters">
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+                <!-- <p class="slds-m-top_small"></p> -->
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <c-x7s-financial-profile-asset-rows type="account" 
+            row-data={rowData} types={optionsTypes} owners={optionsOwner} 
+            onupdate={handleUpdateRowData}>
+        </c-x7s-financial-profile-asset-rows>
+    </div>
+</template>

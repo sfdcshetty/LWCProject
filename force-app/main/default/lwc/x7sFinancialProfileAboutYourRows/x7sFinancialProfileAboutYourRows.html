@@ -1,0 +1,83 @@
+<template>
+    <div class="x7s-finprofile_about-your-rows">
+
+        <template if:false={showRows}>
+            <lightning-layout multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">{headerYesNo}</h1>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <lightning-layout multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <lightning-radio-group type="button" variant="label-hidden" class="x7s-finprofile_radio-button-brand"
+                        label={headerYesNo} options={optionsYesNo}
+                        onchange={handleChangeShowRows}
+                    ></lightning-radio-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    
+        <!-- =================================================================================================== -->
+
+        <template if:true={showRows}>
+            <lightning-layout multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">{header}</h1>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <template iterator:it={incomeExpensesOfType}>
+                <lightning-layout key={it.value.Id} vertical-align="end" multiple-rows class="slds-gutters">
+            
+                    <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large">
+                        <lightning-input label="Description" autocomplete="off"
+                            value={it.value.Description__c} 
+                            data-row-id={it.value.Id} data-row-index={it.index} 
+                            onchange={handleChangeDescription}>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large">
+                        <lightning-input label={labelAmount} type="number" formatter="currency" step="1"
+                            placeholder="Round to the nearest dollar"  autocomplete="off"
+                            value={it.value.Amount__c} 
+                            data-row-id={it.value.Id} data-row-index={it.index} 
+                            onchange={handleChangeAmount}>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" medium-device-size="2" class="slds-col slds-m-bottom_large">
+                        <lightning-combobox label="Owner" 
+                            options={optionsOwner} value={it.value.Owner__c} 
+                            data-row-id={it.value.Id} data-row-index={it.index} 
+                            onchange={handleChangeOwner}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item if:false={it.first} size="6" medium-device-size="4" class="slds-col slds-m-bottom_large slds-m-top_x-large">
+                        <lightning-button variant="base" icon-name="utility:close" label="Remove this row" 
+                            data-row-id={it.value.Id} data-row-index={it.index} 
+                            onclick={handleClickRemoveRow}>
+                        </lightning-button>
+                    </lightning-layout-item>
+                    <!-- special case - always display 'remove' option for Planned Expenses -->
+                    <template if:true={it.first}>
+                        <lightning-layout-item if:true={showYesNo} size="6" medium-device-size="4" class="slds-col slds-m-bottom_large slds-m-top_x-large">
+                            <lightning-button variant="base" icon-name="utility:close" label="Remove this row" 
+                                data-row-id={it.value.Id} data-row-index={it.index} 
+                                onclick={handleClickRemoveRow}>
+                            </lightning-button>
+                        </lightning-layout-item>
+                    </template>
+
+                </lightning-layout>
+            </template>
+
+            <lightning-layout>
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <lightning-button variant="base" icon-name="utility:new" label="Add Another"
+                        onclick={handleClickAddAnotherRow}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+    </div>
+</template>

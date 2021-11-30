@@ -1,0 +1,61 @@
+<!--
+ - Created by 7Summits on 9/27/17.
+ -->
+<design:component label="7Summits Theme">
+
+    <design:attribute name="logoWidth" label="Logo - Width (px or %)" />
+    <design:attribute name="logoHeight" label="Logo - Height (px or %)" />
+
+    <!-- whole header -->
+    <design:attribute name="headerType" label="Main Header - Header Type" datasource="Top Header Navigation,Navigation with Featured Area" />
+    <design:attribute name="headerBkgColor" label="Main Header - Background Color" description="The background color that is displayed behind both the navigation and the featured area." />
+    <design:attribute name="headerBkgImage" label="Main Header - Background Image" description="The background image that is displayed behind both the navigation and the featured area." />
+    <design:attribute name="enableFixedHeader" label="Main Header - Enable Fixed Header" />
+    <design:attribute name="showHeaderTopContainer" label="Main Header - Enable Top Region" />
+    <design:attribute name="showHeaderBottomContainer" label="Main Header - Enable Bottom Region" />
+    <design:attribute name="hideHeader" label="Main Header - Hide Complete Header" />
+    <design:attribute name="hideNotifications" label="Main Header - Hide Notifications" />
+    <design:attribute name="hideProfile" label="Main Header - Hide Profile Menu" />
+
+    <!-- Bar One -->
+    <design:attribute name="navHeight" label="Navigation - Height" />
+    <design:attribute name="navHeightScrolled" label="Navigation - Height, Scrolled" />
+    <design:attribute name="navBkgColor" label="Navigation - Background Color" />
+    <design:attribute name="navBkgColorScrolled" label="Navigation - Background Color, Scrolled" />
+    <design:attribute name="navBkgImage" label="Navigation - Background Image" />
+    <design:attribute name="navTextColor" label="Navigation - Text Color" description="Text and Icon color for all items within the navigation." />
+    <design:attribute name="navTextColorScrolled" label="Navigation - Text Color, Scrolled" description="Text and Icon color for all items within the navigation." />
+    <design:attribute name="navTextColorHover" label="Navigation - Text Color, Hover" description="Text and Icon color for all items within the navigation." />
+    <design:attribute name="navTextColorHoverScrolled" label="Navigation - Text Color, Hover, Scrolled" description="Text and Icon color for all items within the navigation." />
+    <design:attribute name="dropdownLinkBkgColor" label="Navigation - Dropdown Background" description="Background color for the dropdown menu items." />
+    <design:attribute name="dropdownLinkBkgColorHover" label="Navigation - Dropdown Background, Hover" description="Background color for the dropdown menu items when hovered." />
+    <design:attribute name="navShadow" label="Navigation - Shadow" datasource="none,xs,small,medium,large,xl"/>
+    <design:attribute name="navShadowScrolled" label="Navigation - Shadow, Scrolled" datasource="none,xs,small,medium,large,xl"/>
+    <design:attribute name="hideMenu" label="Navigation - Hide Navigation Menu" />
+
+    <!-- Bar 2 (Focused Area under Single Bar) -->
+    <design:attribute name="featuredHeight" label="Featured Area - Height" />
+    <design:attribute name="featuredBkgColor" label="Featured Area - Background Color" />
+    <design:attribute name="featuredBkgImage" label="Featured Area - Background Image" />
+    <design:attribute name="featuredAlignment" label="Featured Area - Content Alignment" description="How should the featured area be aligned?" dataSource="Left, Center" />
+    <design:attribute name="featuredDesktopColumns" label="Featured Area - Content Width" description="Select the number of columns you'd like the content to span on a desktop layout." dataSource="1,2,3,4,5,6,7,8,9,10,11,12" />
+    <design:attribute name="showFeaturedTopRegion" label="Featured Area - Enable Top Region" description="Shown above the search input, only used with the Featured Area" />
+    <design:attribute name="showFeaturedBottomRegion" label="Featured Area - Enable Bottom Region" description="Shown below the search input, only used with the Featured Area" />
+
+    <!-- Search Bar -->
+    <design:attribute name="searchType" label="Search - Search Type" datasource="Icon w/Dropdown,Inline Search" />
+    <design:attribute name="searchBarColor" label="Search Bar - Text Color" />
+    <design:attribute name="searchBarBkgColor" label="Search Bar - Background Color" />
+    <design:attribute name="searchBarPlaceholderColor" label="Search Bar - Placeholder Text Color" />
+    <design:attribute name="hideSearch" label="Hide Search" />
+
+    <!-- Theme -->
+    <design:attribute name="themeContentWidth" label="Theme - Max Content Width" />
+    <design:attribute name="enableFullWidthBanner" label="Theme - Enable Full Width Lead Banners" description="Select to enable a full width lead banner, best for placing 7S Banner components with full-width background images." />
+    <design:attribute name="leadBkgColor" label="Theme - Lead Banner BG Color" description="Lead Banners support a background shading and will apply this color to those regions. Additional customization may be needed to account for components within those regions." />
+    <design:attribute name="leadBkgImage" label="Theme - Lead Banner BG Image" description="Lead Banners support a background image and apply this background to those regions. Additional customization may be needed to account for components within those regions." />
+    <design:attribute name="shadedBkgColor" label="Theme - Shaded BG Color" description="Shaded areas support a background shading and will apply this color to those regions. Additional customization may be needed to account for components within those regions." />
+    <design:attribute name="shadedBkgImage" label="Theme - Shaded BG Image" description="Shaded areas support a background image and apply this background to those regions. Additional customization may be needed to account for components within those regions." />
+
+    <design:attribute name="hideFooter" label="Theme - Hide Footer" />
+</design:component>

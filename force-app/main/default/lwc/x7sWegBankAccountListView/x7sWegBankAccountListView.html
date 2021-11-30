@@ -1,0 +1,262 @@
+<template>
+  <template if:true={isDisplayComponent}>
+    <div class="bankAccountHeader slds-m-bottom_medium" style="margin-top: 1em">
+      {componentTitle}
+    </div>
+
+    <template if:true={isLoading}>
+      <lightning-spinner
+        alternative-text="Loading"
+        size="medium"
+        variant="brand"
+      ></lightning-spinner>
+    </template>
+
+    <div class="bankAccountListContainer slds-p-top_small">
+      <lightning-datatable
+        key-field="Id"
+        data={dataList}
+        columns={columns}
+        hide-checkbox-column="true"
+        onrowaction={handleRowAction}
+        class="personalPropertTable slds-max-medium-table_stacked-horizontal"
+        default-sort-direction={defaultSortDirection}
+        sorted-direction={sortDirection}
+        sorted-by={sortedBy}
+        onsort={onHandleSort}
+      >
+      </lightning-datatable>
+    </div>
+  </template>
+
+  <div class="slds-m-top_medium slds-grid">
+    <span class="slds-grow">
+      <span class={addBankAccount}>
+        <button
+          class="addBankAccount slds-text-heading_small"
+          onclick={handleAddBankAccountClick}
+        >
+          <div class="iconContainer addBankAccountIcon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 52 52"
+              id="add"
+            >
+              <path
+                d="M30 29h16.5c.8 0 1.5-.7 1.5-1.5v-3c0-.8-.7-1.5-1.5-1.5H30c-.6 0-1-.4-1-1V5.5c0-.8-.7-1.5-1.5-1.5h-3c-.8 0-1.5.7-1.5 1.5V22c0 .6-.4 1-1 1H5.5c-.8 0-1.5.7-1.5 1.5v3c0 .8.7 1.5 1.5 1.5H22c.6 0 1 .4 1 1v16.5c0 .8.7 1.5 1.5 1.5h3c.8 0 1.5-.7 1.5-1.5V30c0-.6.4-1 1-1z"
+              ></path>
+            </svg>
+          </div>
+          <span class="slds-p-left_small"><b>Add Bank Account</b></span
+          >&nbsp;
+        </button>
+      </span>
+    </span>
+    <span class="totalAmount"
+      >$
+      <lightning-formatted-number
+        value={totalAmt}
+        format-style="decimal"
+        maximum-fraction-digits="0"
+        currency-code="USD"
+      >
+      </lightning-formatted-number>
+    </span>
+  </div>
+
+  <template if:true={isModalOpen}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container slds-p-around_small">
+        <header class="slds-modal__header">
+          <button
+            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+            title="Close"
+            onclick={closeModal}
+          >
+            <lightning-icon
+              icon-name="utility:close"
+              alternative-text="close"
+              variant="inverse"
+              size="small"
+            ></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <div class="bankAccountHeader">{bankAccountHeader}</div>
+        </header>
+
+        <div
+          class="slds-modal__content slds-p-around_medium"
+          id="modal-content-id-1"
+        >
+          <lightning-layout multiple-rows="true" pull-to-boundary="small">
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <lightning-input
+                class="inputField slds-m-vertical_medium validateAccountName"
+                name="bankAccountName"
+                type="text"
+                label="Account Name"
+                value={bankAccountName}
+                onchange={handleAccountNameChange}
+                data-id="Name"
+                required
+              >
+              </lightning-input>
+            </lightning-layout-item>
+
+            <!--<lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-combobox name="bankCustodian" label="Custodian" value={bankCustodian}
+                                class="inputField slds-m-vertical_medium validateCustodian" options={bankCustodianOptions}
+                                onchange={handleCustodianChange} data-id="Type" required>
+                            </lightning-combobox>
+                        </lightning-layout-item>-->
+            <!--<lightning-combobox name="bankAccountType" label="Account Type" value={bankAccountType}
+                                class="inputField slds-m-vertical_medium validateType" options={bankAccountTypeOptions}
+                                onchange={handleAccountTypeChange} data-id="Type">
+                            </lightning-combobox>
+                        </lightning-layout-item>-->
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <!--<lightning-combobox name="bankCustodian" label="Custodian" value={bankCustodian}
+                                class="inputField slds-m-vertical_medium validateCustodian" options={bankCustodianOptions}
+                                onchange={handleCustodianChange} data-id="Type" required>
+                            </lightning-combobox>-->
+              <lightning-combobox
+                name="bankAccountType"
+                label="Account Type"
+                value={bankAccountType}
+                class="inputField slds-m-vertical_medium validateType"
+                options={bankAccountTypeOptions}
+                onchange={handleAccountTypeChange}
+                data-id="Type"
+              >
+              </lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <!--<lightning-combobox name="bankAccountType" label="Account Type" value={bankAccountType}
+                                class="inputField slds-m-vertical_medium validateType" options={bankAccountTypeOptions}
+                                onchange={handleAccountTypeChange} data-id="Type" required>
+                            </lightning-combobox>-->
+              <lightning-combobox
+                name="bankAccountOwner"
+                label="Account Owner"
+                value={bankAccountOwner}
+                class="inputField slds-m-vertical_medium validateOwner"
+                options={bankAccountOwnerOptions}
+                onchange={handleBankOwnerChange}
+                data-id="Owner"
+                required
+              >
+              </lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <!--<lightning-combobox name="bankAccountOwner" label="Account Owner" value={bankAccountOwner}
+                                class="inputField slds-m-vertical_medium validateOwner" options={bankAccountOwnerOptions}
+                                onchange={handleBankOwnerChange} data-id="Owner" required>
+                            </lightning-combobox>-->
+              <lightning-input
+                class="inputField slds-m-vertical_medium validateAccountNumber"
+                name="bankAccountNumber"
+                type="text"
+                label="Account Number"
+                value={bankAccountNumber}
+                onchange={handleAccountNumberChange}
+                data-id="AccountNumber"
+              >
+              </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <!--<lightning-input class="inputField slds-m-vertical_medium validateAccountNumber" name="bankAccountNumber" type="text"
+                                label="Account Number" value={bankAccountNumber} onchange={handleAccountNumberChange}
+                                data-id="AccountNumber"></lightning-input>-->
+              <lightning-input
+                class="inputField slds-m-vertical_medium validateBankAccountAmount"
+                name="bankAccountAmount"
+                type="number"
+                label="Value (Round to nearest dollar)"
+                value={bankAccountAmount}
+                onchange={handleAmountChange}
+                data-id="Value"
+                formatter="currency"
+                step="1"
+              >
+              </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <lightning-input
+                class="inputField slds-m-vertical_medium validateAsOfDate"
+                name="bankAsOfDate"
+                type="date"
+                label="As of Date"
+                value={bankAsOfDate}
+                onchange={handleAsOfDateChange}
+                data-id="AsOfDate"
+              >
+              </lightning-input>
+            </lightning-layout-item>
+          </lightning-layout>
+        </div>
+
+        <footer class="slds-modal__footer">
+          <button
+            class="addBankAccount cancelButton slds-float_left slds-button"
+            onclick={closeModal}
+            title={cancelButtonLabel}
+          >
+            {cancelButtonLabel}
+          </button>
+
+          <button
+            class="slds-button slds-button_brand slds-float_left"
+            onclick={submitDetails}
+            title={bankAccountBtnLabel}
+          >
+            {bankAccountBtnLabel}
+          </button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

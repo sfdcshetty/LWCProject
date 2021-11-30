@@ -1,0 +1,121 @@
+<!--
+ - Created by karolbrennan on 5/3/21.
+ -->
+
+<!-- X7S My Advisor Team -->
+<template>
+    <!-- Homepage Layout -->
+    <template if:true={isHomepageLayout}>
+        <div class="slds-card" style="margin-top:90px;box-shadow:none">
+            <h2 class="myadvisor-header">My Advisor Team</h2>
+            <!-- <h4 style="font-weight:600; font-size:24px; font-weight:normal">My Advisory Team</h4> -->
+            <lightning-layout  style="margin-top:10px;" multiple-rows vertical-align="start"><div style="display:none">{advisorLength}</div>
+                <template for:each={advisorData} for:item="advisor">
+                    <lightning-layout-item key={advisor.User.Id} size="12" class="slds-p-vertical_small">
+                        <lightning-layout>
+                            <lightning-layout-item size="12" class="slds-p-left_medium">
+                                <c-x7s-my-advisor-team-item id={advisor.User.Id} photourl={advisor.photoUrl} username={advisor.User.WEG_Public_Display_Name__c} title={advisor.Title} email={advisor.User.Email} maillink={advisor.mailLink} teamphone={advisor.User.Team_Phone__c}  bio={advisor.User.Team_Bio__c} mode="Homepage"></c-x7s-my-advisor-team-item>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+            <a href={myTeamLink} class="profile-button"><span>Meet My Team</span>
+                <lightning-icon
+                    size="xx-small"
+                    icon-name="utility:chevronright"
+                    alternative-text=""
+                ></lightning-icon>
+            </a>
+            <!-- <a href={myTeamLink} class="profile-button"><span>Meet My Team</span> 
+                <lightning-icon size="xx-small" icon-name="utility:chevronright"
+                    class="slds-col_bump-right list-open"
+                    variant="border-filled"
+                    alternative-text=""
+                    ></lightning-icon>
+            </a> -->
+            <!-- <a class="primary-btn" href={myTeamLink}>Meet the Team
+                <lightning-icon icon-name="utility:chevronright" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+            </a> -->
+        </div>
+    </template>
+    <!-- Compact Layout -->
+    <template if:true={isCompactLayout}>
+        <div class="slds-card compact" style="margin-top:90px;box-shadow:none">
+            <h4 style="font-weight:600; font-size:24px; font-weight:normal">My Advisors</h4>
+            <lightning-layout multiple-rows vertical-align="start"><div style="display:none">{advisorLength}</div>
+                <template for:each={advisorData} for:item="advisor">
+                    <lightning-layout-item key={advisor.User.Id} size="12" class="slds-p-vertical_small">
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <c-x7s-my-advisor-team-item id={advisor.User.Id} photourl={advisor.photoUrl} username={advisor.User.WEG_Public_Display_Name__c} title={advisor.Title} email={advisor.User.Email} maillink={advisor.mailLink} teamphone={advisor.User.Team_Phone__c}  bio={advisor.User.Team_Bio__c} mode="Compact"></c-x7s-my-advisor-team-item>
+                                <!--<img src={advisor.photoUrl} alt={advisor.User.Name} class="advisor-image compact-image"/>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8" class="slds-p-left_medium">
+                                <strong class="advisor-name">{advisor.User.Name}</strong>
+                                <p class="title">{advisor.Title}</p>
+                                <ul>
+                                    <li>
+                                        <lightning-icon size="x-small" class="slds-m-right_x-small" icon-name="utility:email"></lightning-icon>
+                                        <a class="email-link" href={advisor.mailLink}>{advisor.User.Email}</a>
+                                    </li>
+                                </ul>-->
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+            <a href={myTeamLink} class="profile-button"><span>Meet My Team</span>
+                <lightning-icon
+                    size="xx-small"
+                    icon-name="utility:chevronright"
+                    alternative-text=""
+                ></lightning-icon>
+            </a>
+        </div>
+    </template>
+    <!-- Full Layout -->
+    <template if:true={isFullLayout}>
+        <lightning-layout multiple-rows class="slds-p-vertical_large slds-p-horizontal_medium">
+            <lightning-layout-item size="12" class="slds-m-bottom_medium">
+                <h1>My Advisor Team</h1>
+                <div class="primary-text">
+                    We call our exceptional team of specialists and advisors the Roundtable. It's a diverse team of seasoned financial professionals skilled in a range of wealth management disciplines, and we built it so that you get all the specialists you need, all in one place. <strong>Note: use <a
+                        href={secureMessagingLink}>secure messaging</a> if you need to share sensitive
+                        information.</strong>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" class="slds-m-bottom_medium">
+                <h2>Meet Your Team</h2>
+                <template if:true={showAdvisors}>
+                    <h3>Advisors</h3>
+                    <div class="primary-text">For advice regarding your financial goals, tax strategies, estate planning, and more; we're here for you.</div>
+                    <lightning-layout multiple-rows vertical-align="start">
+                        <template for:each={advisorData} for:item="advisor">
+                            <lightning-layout-item key={advisor.User.Id} size="12" medium-device-size="6"
+                                                   class="slds-p-right_large slds-p-vertical_medium">
+                
+                                <c-x7s-my-advisor-team-item id={advisor.User.Id} photourl={advisor.photoUrl} username={advisor.User.WEG_Public_Display_Name__c} title={advisor.Title} email={advisor.User.Email} maillink={advisor.mailLink} teamphone={advisor.User.Phone}  bio={advisor.User.Team_Bio__c} mode="Full"></c-x7s-my-advisor-team-item>
+                                
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" if:true={showServiceData} class="slds-m-bottom_medium">
+                <h3>Specialists</h3>
+                <p>Need specialized assistance or have day-to-day questions about your accounts with us? Please let us know.</p>
+                <lightning-layout multiple-rows vertical-align="start">
+                    <template for:each={serviceData} for:item="service">
+                        <lightning-layout-item key={service.User.Id} size="12" medium-device-size="6"
+                                               class="slds-p-right_large slds-p-vertical_medium">
+                                               
+                            <c-x7s-my-advisor-team-item id={service.User.Id} photourl={service.photoUrl} username={service.User.WEG_Public_Display_Name__c} title={service.Title} email={service.User.Email} maillink={service.mailLink} teamphone={service.User.Phone}  bio={service.User.Team_Bio__c} mode="Full"></c-x7s-my-advisor-team-item>
+
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>

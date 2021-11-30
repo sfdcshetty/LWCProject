@@ -1,0 +1,75 @@
+<!--
+  ~ Copyright (c) 2020. 7Summits Inc. All rights reserved.
+  -->
+
+<aura:component implements="forceCommunity:layout" description="7S Lead, 1, 1:2 Fixed" access="global">
+    <aura:attribute name="leadBanner" description="Content" type="Aura.Component[]" required="false" />
+    <aura:attribute name="full" description="Content" type="Aura.Component[]" required="false" />
+    <!-- left column: fixed, right column: main content-->
+    <aura:attribute name="leftColumn" description="Sidebar" type="Aura.Component[]" required="false" />
+    <aura:attribute name="rightColumn" description="Content" type="Aura.Component[]" required="false" />
+    <aura:attribute name="bottom" description="Content" type="Aura.Component[]" required="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <section class="x7s-layout__lead x7s-layout_full x7s-layout_shaded">
+        <div class="x7s-layout__lead-content">
+            {!v.leadBanner}
+        </div>
+    </section>
+
+    <section class="x7s-layout__main">
+        <div class="slds-container_x-large slds-container_center">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <lightning:layoutItem size="12"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.full}
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+    
+    <section class="x7s-layout__main">
+        <div class="slds-container_x-large slds-container_center leftHandNav">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <div class="fixed-col slds-p-vertical_large slds-p-horizontal_small slds-size_12-of-12 slds-medium-size_4-of-12">
+                    <div aura:id="dataPinnable">
+                        <div class="x7s-theme-vertical-nav-container">
+                            {!v.leftColumn}
+                        </div>
+                    </div>
+                </div>
+                <lightning:layoutItem size="12"
+                                      mediumDeviceSize="8"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.rightColumn}
+                    <div aura:id="dataRemovePinnable"></div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+
+
+    <section class="x7s-layout__main">
+        <div class="slds-container_x-large slds-container_center">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <lightning:layoutItem size="12"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.bottom}
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+</aura:component>

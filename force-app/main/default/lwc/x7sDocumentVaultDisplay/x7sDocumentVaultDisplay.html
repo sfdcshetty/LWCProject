@@ -1,0 +1,299 @@
+<!--
+ - Created by karolbrennan on 4/15/21.
+ -->
+
+<!-- X7S Document Vault -->
+<template>
+    <lightning-layout
+            class="x7sDocumentVault slds-p-vertical_large"
+            multiple-rows>
+        <lightning-layout-item size="12">
+            <h3>Document Vault:</h3>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" class="slds-card slds-p-around_medium slds-is-relative">
+            <template if:true={isLoading}>
+                <lightning-spinner size="medium" variant="brand" alternative-text="Loading files..."></lightning-spinner>
+            </template>
+            <template if:false={isLoading}>
+                <div>
+                    <lightning-layout class="bottom-border">
+                        <lightning-layout-item size="3" padding="around-small">
+                            <strong>{fileCountString}</strong>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="9">
+                            <lightning-layout>
+
+                                <template if:true={inFolderView}>
+                                    <template if:true={currentViewHasFiles}>
+                                        <lightning-layout-item size="3" padding="around-small" class="column-title">
+                                            <span>Title</span>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="3" padding="around-small" class="column-title">
+                                            <span>Type</span>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="3" padding="around-small" class="column-title">
+                                            <span>Created By</span>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="2" padding="around-small" class="column-title">
+                                            <span>Last Modified</span>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="1" padding="around-small" class="column-title">
+                                            <span>Actions</span>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <template if:false={currentViewHasFiles}>
+                                        <lightning-layout-item size="12" padding="around-small"
+                                                               class="column-title"></lightning-layout-item>
+                                    </template>
+                                </template>
+
+                                <template if:false={inFolderView}>
+                                    <lightning-layout-item size="3" padding="around-small" class="column-title">
+                                        <span>Title</span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="9" padding="around-small" class="column-title">
+                                        <span>Last Modified</span>
+                                    </lightning-layout-item>
+                                </template>
+
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="3" padding="around-small">
+                            <template for:each={sortedFileList} for:item="category">
+                                <a key={category.name} href="javascript:void(0)"
+                                   data-id={category.name}
+                                   class={category.classList}
+                                   onclick={handleCategorySelect}>
+                                    {category.name}
+                                </a>
+                            </template>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="9">
+                            <template for:each={sortedFileList} for:item="category">
+                                <div if:true={category.active} key={category.name}>
+                                    <template if:true={currentViewHasFiles}>
+                                        <div if:true={category.hasFolders}>
+                                            <template for:each={category.folders} for:item="folder">
+                                                <!-- If not in a folder, show folders -->
+                                                <div key={folder.name}>
+                                                    <!-- show folders -->
+                                                    <template if:false={inFolderView}>
+                                                        <lightning-layout class="file-row">
+                                                            <lightning-layout-item size="9" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                                <lightning-icon icon-name="doctype:folder" size="small"
+                                                                                class="folder-icon"></lightning-icon>
+                                                                <a href="javascript:void(0)"
+                                                                   data-id={folder.name}
+                                                                   onclick={handleFolderSelect}>{folder.name}</a>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="3" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                                <span></span>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </template>
+                                                    <!-- If in a folder, show files and back to folder button -->
+                                                    <template if:true={inFolderView}>
+                                                        <template if:true={folder.active}>
+                                                            <template for:each={folder.files} for:item="file">
+                                                                <lightning-layout key={file.Id} class="file-row">
+                                                                    <!-- File Icon and Title -->
+                                                                    <lightning-layout-item size="3" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                                        <lightning-layout horizontal-align="spread">
+                                                                            <lightning-layout-item flexibility="no-shrink">
+                                                                                <lightning-icon icon-name={file.iconName}
+                                                                                                size="small"
+                                                                                                class="folder-icon"></lightning-icon>
+                                                                            </lightning-layout-item>
+                                                                            <lightning-layout-item flexibility="grow">
+                                                                                <span if:false={file.viewLink}>{file.Name}</span>
+                                                                                <div if:true={file.viewLink}>
+                                                                                    <lightning-formatted-rich-text value={file.viewLink}>
+                                                                                    </lightning-formatted-rich-text>
+                                                                                </div>
+                                                                            </lightning-layout-item>
+                                                                        </lightning-layout>
+                                                                    </lightning-layout-item>
+                                                                    <!-- File Type -->
+                                                                    <lightning-layout-item size="3" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                                        {file.folder}
+                                                                    </lightning-layout-item>
+                                                                    <!-- Created by -->
+                                                                    <lightning-layout-item size="3"
+                                                                                           class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                                        {file.CreatedBy.Name}
+                                                                    </lightning-layout-item>
+                                                                    <!-- Last Modified -->
+                                                                    <lightning-layout-item size="2" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                                        <span><lightning-formatted-date-time value={file.LastModifiedDate}></lightning-formatted-date-time></span>
+                                                                    </lightning-layout-item>
+                                                                    <!-- Actions -->
+                                                                    <lightning-layout-item size="1"
+                                                                                           class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                                        <lightning-layout horizontal-align="spread">
+                                                                            <lightning-layout-item flexibility="no-shrink">
+                                                                                <div class="slds-m-right_small docActionIcon"
+                                                                                     if:true={file.downloadIcon}>
+                                                                                    <lightning-formatted-rich-text
+                                                                                            value={file.downloadIcon}>
+                                                                                    </lightning-formatted-rich-text>
+                                                                                </div>
+                                                                                <!--                                                                        <div class="slds-m-right_small docActionIcon"-->
+                                                                                <!--                                                                             if:true={file.viewIcon}>-->
+                                                                                <!--                                                                            <lightning-formatted-rich-text-->
+                                                                                <!--                                                                                    value={file.viewIcon}>-->
+                                                                                <!--                                                                            </lightning-formatted-rich-text>-->
+                                                                                <!--                                                                        </div>-->
+                                                                                <div class="docActionIcon"
+                                                                                     if:true={file.allowDelete}>
+                                                                                    <a href="javascript:void(0)"
+                                                                                       data-id={file.Id} onclick={handleFileDelete}>
+                                                                                        <img src={icons.delete}
+                                                                                             class="small-icon"
+                                                                                             alt="Delete file"/>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </lightning-layout-item>
+                                                                        </lightning-layout>
+                                                                    </lightning-layout-item>
+                                                                </lightning-layout>
+                                                            </template>
+                                                            <lightning-layout horizontal-align="spread"
+                                                                              vertical-align="center"
+                                                                              class="slds-p-vertical_large">
+                                                                <lightning-layout-item size="6">
+                                                                    <!-- disabled button -->
+                                                                    <lightning-button if:true={paginationData.prevButtonDisabled}
+                                                                                      label="Prev" disabled
+                                                                                      variant="brand" onclick={handlePrevPage}></lightning-button>
+                                                                    <!-- enabled button -->
+                                                                    <lightning-button if:false={paginationData.prevButtonDisabled}
+                                                                                      label="Prev"
+                                                                                      variant="brand" onclick={handlePrevPage}></lightning-button>
+                                                                    <span class="slds-p-left_medium">{currentPage}</span> / <span
+                                                                        class="slds-p-right_medium">{paginationData.totalPages}</span>
+                                                                    <!-- disabled button -->
+                                                                    <lightning-button if:true={paginationData.nextButtonDisabled}
+                                                                                      label="Next" disabled
+                                                                                      variant="brand" onclick={handleNextPage}></lightning-button>
+                                                                    <!-- enabled button -->
+                                                                    <lightning-button if:false={paginationData.nextButtonDisabled}
+                                                                                      label="Next"
+                                                                                      variant="brand" onclick={handleNextPage}></lightning-button>
+                                                                </lightning-layout-item>
+                                                                <lightning-layout-item size="6" class="slds-text-align_right">
+                                                                    <a href="javascript:void(0)" data-id={category.name}
+                                                                       onclick={handleCategorySelect}>Back to {category.name}</a>
+                                                                </lightning-layout-item>
+                                                            </lightning-layout>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <!-- If the category doesn't have folders, show the files -->
+                                        <div if:false={category.hasFolders}>
+                                            <template for:each={category.files} for:item="file">
+                                                <lightning-layout key={file.Id} class="file-row">
+                                                    <!-- File Icon and Title -->
+                                                    <lightning-layout-item size="3" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                        <lightning-layout horizontal-align="spread">
+                                                            <lightning-layout-item flexibility="no-shrink">
+                                                                <lightning-icon icon-name={file.iconName}
+                                                                                size="small"
+                                                                                class="folder-icon"></lightning-icon>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item flexibility="grow">
+                                                                <span if:false={file.viewLink}>{file.Name}</span>
+                                                                <div if:true={file.viewLink}>
+                                                                    <lightning-formatted-rich-text value={file.viewLink}>
+                                                                    </lightning-formatted-rich-text>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </lightning-layout-item>
+                                                    <!-- File Type -->
+                                                    <lightning-layout-item size="3" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                        {file.folder}
+                                                    </lightning-layout-item>
+                                                    <!-- Created by -->
+                                                    <lightning-layout-item size="3"
+                                                                           class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                        {file.CreatedBy.Name}
+                                                    </lightning-layout-item>
+                                                    <!-- Last Modified -->
+                                                    <lightning-layout-item size="2" class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                        <span><lightning-formatted-date-time value={file.LastModifiedDate}></lightning-formatted-date-time></span>
+                                                    </lightning-layout-item>
+                                                    <!-- Actions -->
+                                                    <lightning-layout-item size="1"
+                                                                           class="slds-p-vertical_medium slds-p-horizontal_small">
+                                                        <lightning-layout horizontal-align="spread">
+                                                            <lightning-layout-item flexibility="no-shrink">
+                                                                <div class="slds-m-right_small docActionIcon"
+                                                                     if:true={file.downloadIcon}>
+                                                                    <lightning-formatted-rich-text
+                                                                            value={file.downloadIcon}>
+                                                                    </lightning-formatted-rich-text>
+                                                                </div>
+                                                                <div class="docActionIcon"
+                                                                     if:true={file.allowDelete}>
+                                                                    <a href="javascript:void(0)"
+                                                                       data-id={file.Id} onclick={handleFileDelete}>
+                                                                        <img src={icons.delete}
+                                                                             class="small-icon"
+                                                                             alt="Delete file"/>
+                                                                    </a>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </template>
+                                            <!--pagination-->
+                                            <lightning-layout horizontal-align="spread"
+                                                                vertical-align="center"
+                                                                class="slds-p-vertical_large">
+                                                <lightning-layout-item size="6">
+                                                    <!-- disabled button -->
+                                                    <lightning-button if:true={paginationData.prevButtonDisabled}
+                                                                        label="Prev" disabled
+                                                                        variant="brand" onclick={handlePrevPage}></lightning-button>
+                                                    <!-- enabled button -->
+                                                    <lightning-button if:false={paginationData.prevButtonDisabled}
+                                                                        label="Prev"
+                                                                        variant="brand" onclick={handlePrevPage}></lightning-button>
+                                                    <span class="slds-p-left_medium">{currentPage}</span> / <span
+                                                        class="slds-p-right_medium">{paginationData.totalPages}</span>
+                                                    <!-- disabled button -->
+                                                    <lightning-button if:true={paginationData.nextButtonDisabled}
+                                                                        label="Next" disabled
+                                                                        variant="brand" onclick={handleNextPage}></lightning-button>
+                                                    <!-- enabled button -->
+                                                    <lightning-button if:false={paginationData.nextButtonDisabled}
+                                                                        label="Next"
+                                                                        variant="brand" onclick={handleNextPage}></lightning-button>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="6" class="slds-text-align_right">
+                                                    <a href="javascript:void(0)" data-id={category.name}
+                                                        onclick={handleCategorySelect}>Back to {category.name}</a>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                            <!--end pagination-->
+                                        </div>
+                                        <!-- End category without folders -->
+                                    </template>
+                                    <template if:false={currentViewHasFiles}>
+                                        <p class="slds-text-align_center slds-p-around_large">{noFilesMessage}</p>
+                                    </template>
+                                </div>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-hide">{refresh}</div>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

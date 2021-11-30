@@ -1,0 +1,531 @@
+<!--
+ - Created by martinblase on 4/6/21.
+ -->
+
+<!-- 7S Financial Profile -->
+<template>
+  <div class="x7s-finprofile slds-p-around_small">
+    <c-x7s-financial-profile-nav menu-items={menuItems} current-index={currentMenuIndex} onnavigate={handleNavigate}>
+    </c-x7s-financial-profile-nav>
+
+    <!-- introduction copy, no subcomponent -->
+    <template if:true={menuActiveState.introduction}>
+      <lightning-layout multiple-rows class="slds-gutters x7s-finprofile_remove-margins">
+
+        <lightning-layout-item size="12" large-device-size="6" class="slds-col">
+            <div class="slds-box slds-theme_default">
+              <div class="slds-p-around_x-large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+                <template iterator:it={paragraphs}>
+                  <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-heading_medium">{it.value}</p>
+                </template>
+                <p class="slds-m-top_small slds-text-heading_small">{note}</p>
+                <div class="slds-m-top_x-large">
+                  <button class="slds-button slds-button_brand slds-m-top_x-large" onclick={goNext}>
+                    Continue
+                    <lightning-icon size="x-small" variant="inverse" icon-name="utility:forward" class="slds-m-left_small">
+                    </lightning-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" large-device-size="6" class="slds-col">
+          <!-- <c-x7s-my-advisor-team layout-type="homepage" style="margin-top:-60px;"></c-x7s-my-advisor-team> -->
+          <c-x7s-financial-profile-advisor-info></c-x7s-financial-profile-advisor-info>
+        </lightning-layout-item>
+      </lightning-layout>
+    </template>
+
+    <!-- document list modal (triggered by button in header) -->
+    <template if:true={showDocListModal}>
+      <c-x7s-financial-profile-doc-list-modal onclose={toggleDocList}></c-x7s-financial-profile-doc-list-modal>
+    </template>
+    
+    <!-- sharing documents -->
+    <template if:true={menuActiveState.sharingDocuments}> <!-- TODO: combine with shareDocuments -->
+      <c-x7s-financial-profile-sharing-documents debug={debug}></c-x7s-financial-profile-sharing-documents>
+    </template>
+
+    <!-- ========================================================================= -->
+    <!-- personal information section -->
+
+    <template if:true={menuActiveState.personalInformation}>
+      <c-x7s-financial-profile-personal-info debug={debug} 
+        first-name={finProfile.First_Name__c} middle-initial={finProfile.Middle_Initial__c} 
+        last-name={finProfile.Last_Name__c} suffix={finProfile.Suffix__c}
+        date-of-birth={finProfile.Date_of_Birth__c} 
+        street-address={finProfile.Street__c} city={finProfile.City__c} 
+        state={finProfile.State__c} zip-code={finProfile.PostalCode__c}
+        email-work={finProfile.Business_Email__c} email-personal={finProfile.Personal_Email__c} email-other={finProfile.Other_Email__c}
+        phone-mobile={finProfile.Phone__c} phone-work={finProfile.Work_Phone__c} phone-home={finProfile.Home_Phone__c}
+        onsavetempdata={handleSaveTempData}>
+      </c-x7s-financial-profile-personal-info>
+    </template>
+
+    <template if:true={menuActiveState.addCoClient}>
+      <c-x7s-financial-profile-add-co-client debug={debug} 
+        co-client-id={finProfile.Co_Client_Contact__c} co-client-data={finProfile.Co_Client_Contact__r}
+        onsavetempdata={handleSaveTempData} onnext={goNext}>
+      </c-x7s-financial-profile-add-co-client>
+    </template>
+
+    <template if:true={menuActiveState.addTrustedContact}>
+      <c-x7s-financial-profile-add-trusted-contact debug={debug} first-name={finProfile.Trusted_Contact_First_Name__c}
+        last-name={finProfile.Trusted_Contact_Last_Name__c} email={finProfile.Trusted_Contact_Email__c}
+        phone={finProfile.Trusted_Contact_Phone__c} onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-add-trusted-contact>
+    </template>
+
+    <template if:true={menuActiveState.addDependents}>
+      <c-x7s-financial-profile-add-dependents debug={debug} onnext={goNext}
+        dependents={finProfileDependents} onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-add-dependents>
+    </template>
+
+    <template if:true={menuActiveState.currentlyEmployed}>
+      <c-x7s-financial-profile-currently-employed debug={debug} 
+        employers={finProfileEmployers}
+        retirement-age={finProfile.Expected_Retirement_Age__c} is-retired={finProfile.Is_Retired__c}
+        onnext={goNext} onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-currently-employed>
+    </template>
+
+    <template if:true={menuActiveState.coClientCurrentlyEmployed}>
+      <c-x7s-financial-profile-currently-employed debug={debug} 
+        is-co-client=true other-contact-record={finProfile.Co_Client_Contact__r} 
+        contact-id={finProfile.Co_Client_Contact__c} employers={finProfileCoClientEmployers}
+        retirement-age={finProfile.Co_Client_Expected_Retirement_Age__c} is-retired={finProfile.Co_Client_Is_Retired__c}
+        onnext={goNext} onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-currently-employed>
+    </template>
+
+    <template if:true={menuActiveState.planningObjectives}>
+      <c-x7s-financial-profile-planning-objectives debug={debug}
+        fields={planningFields.data} answers={planningAnswers}
+        onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-planning-objectives>
+    </template>
+
+    <template if:true={menuActiveState.lifeEvents}>
+      <c-x7s-financial-profile-life-events debug={debug} 
+        options-events={optionsLifeEvents}
+        selected-events={finProfile.Future_Life_Event__c} explanation={finProfile.Future_Life_Event_Explanation__c} 
+        onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-life-events>
+    </template>
+
+    <template if:true={menuActiveState.financialGoals}>
+      <c-x7s-financial-profile-financial-goals debug={debug} goals={finProfileGoals}
+        onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-financial-goals>
+    </template>
+
+    <template if:true={menuActiveState.primaryWealth}>
+      <c-x7s-financial-profile-primary-wealth debug={debug}
+        primary-wealth={finProfile.Primary_Source_of_Wealth__c}
+        options-wealth={optionsSourceOfWealth}
+        onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-primary-wealth>
+    </template>
+
+    <!-- ========================================================================= -->
+    <!-- income/expenses section -->
+
+    <template if:true={menuActiveState.incomeExpenses}>
+      <c-x7s-financial-profile-income-expenses></c-x7s-financial-profile-income-expenses>
+    </template>
+
+    <template if:true={menuActiveState.totalAnnualIncome}>
+      <c-x7s-financial-profile-total-annual-income debug={debug}
+      first-name={finProfile.First_Name__c} co-client-name={coClientFirstName}
+      income-primary={finProfile.Total_Annual_Income__c} income-secondary={finProfile.Co_Client_Total_Annual_Income__c}
+      onsavetempdata={handleSaveTempData}
+    ></c-x7s-financial-profile-total-annual-income>
+    </template>
+
+    <template if:true={menuActiveState.federalTaxBracket}>
+      <c-x7s-financial-profile-federal-tax-bracket debug={debug}
+        filing-status={finProfile.Filing_Status__c}
+        onsavetempdata={handleSaveTempData}
+    ></c-x7s-financial-profile-federal-tax-bracket>
+    </template>
+
+    <template if:true={menuActiveState.confirmTaxBracket}>
+      <c-x7s-financial-profile-confirm-tax-bracket debug={debug}
+        income-combined={finProfile.Combined_Annual_Income__c} tax-bracket-rate={finProfile.Tax_Bracket_Rate__c}
+        filing-status={finProfile.Filing_Status__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-confirm-tax-bracket>
+    </template>
+
+    <template if:true={menuActiveState.otherTaxFactors}>
+      <c-x7s-financial-profile-other-tax-factors debug={debug}
+        questions={otherTaxFactorsFields.data} 
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        answers={otherTaxFactorsAnswers}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-other-tax-factors>
+    </template>
+
+    <template if:true={menuActiveState.socialSecurityBenefit}>
+      <c-x7s-financial-profile-social-security-benefit debug={debug}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_Social_Security__c} show-secondary={finProfile.Secondary_has_Social_Security__c}
+        income-expenses={finProfileIncomeExpenses}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-social-security-benefit>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourPension}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Pension'
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_pension__c} show-secondary={finProfile.Secondary_has_pension__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourAlimony}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Alimony'
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_alimony__c} show-secondary={finProfile.Secondary_has_alimony__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourChildSupport}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Child Support'
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_child_support__c} show-secondary={finProfile.Secondary_has_child_support__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourRentalProperty}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Rental Property'
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_rental_property__c} show-secondary={finProfile.Secondary_has_rental_property__c}
+        onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourDisabilityBenefits}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Disability Benefits'
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_disability_benefits__c} show-secondary={finProfile.Secondary_has_disability_benefits__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourGifts}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Gifts'
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_gifts__c} show-secondary={finProfile.Secondary_has_gifts__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourOtherIncome}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Other'
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_other_income__c} show-secondary={finProfile.Secondary_has_other_income__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <template if:true={menuActiveState.estimateYourMonthlySpending}>
+      <c-x7s-financial-profile-monthly-spending debug={debug}
+        estimate-monthly-spending={finProfile.Estimated_Monthly_Spending__c}
+        onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-monthly-spending>
+    </template>
+
+    <template if:true={menuActiveState.aboutYourPlannedExpenses}>
+      <c-x7s-financial-profile-about-your-rows debug={debug}
+        income-expense-type='Planned Expense' is-expense=true
+        income-expenses={finProfileIncomeExpenses}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-yes-no=true
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-about-your-rows>
+    </template>
+
+    <!-- ========================================================================= -->
+    <!-- assets/liabilities section -->
+
+    <template if:true={menuActiveState.assetsLiabilities}>
+      <c-x7s-financial-profile-assets-liabilities></c-x7s-financial-profile-assets-liabilities>
+    </template>
+
+    <template if:true={menuActiveState.bankAccounts}> 
+      <c-x7s-financial-profile-account-rows debug={debug}
+        financial-accounts-type='Bank'
+        financial-accounts={finProfileFinancialAccounts}
+        assets-liabilities={finProfileAssets}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-account-rows>
+    </template>
+
+    <template if:true={menuActiveState.retirementAccounts}>
+      <c-x7s-financial-profile-account-rows debug={debug}
+          financial-accounts-type='Retirement'
+          financial-accounts={finProfileFinancialAccounts}
+          assets-liabilities={finProfileAssets}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-account-rows>
+    </template>
+
+    <template if:true={menuActiveState.investmentAccounts}>
+      <c-x7s-financial-profile-account-rows debug={debug}
+          financial-accounts-type='Investment'
+          financial-accounts={finProfileFinancialAccounts}
+          assets-liabilities={finProfileAssets}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-account-rows>
+    </template>
+
+    <template if:true={menuActiveState.childrenAccounts}>
+      <c-x7s-financial-profile-account-rows debug={debug}
+          financial-accounts-type='Children'
+          financial-accounts={finProfileFinancialAccounts}
+          assets-liabilities={finProfileAssets}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-account-rows>
+    </template>
+
+    <template if:true={menuActiveState.otherAccounts}>
+      <c-x7s-financial-profile-account-rows debug={debug}
+          financial-accounts-type='Other Account'
+          financial-accounts={finProfileFinancialAccounts}
+          assets-liabilities={finProfileAssets}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-account-rows>
+    </template>
+
+    <template if:true={menuActiveState.liquidityNeeds}>
+      <c-x7s-financial-profile-liquidity-needs debug={debug}
+        liquidity-needs={finProfile.Liquidity_Needs_Details__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-liquidity-needs>
+    </template>
+
+    <template if:true={menuActiveState.investmentTimeHorizon}>
+      <c-x7s-financial-profile-investment-time-horizon debug={debug}
+        investment-time-horizon={finProfile.General_Investment_Time_Horizon__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-investment-time-horizon>
+    </template>
+
+    <template if:true={menuActiveState.yearsOfInvesting}>
+      <c-x7s-financial-profile-years-of-investing debug={debug}
+        years-of-investing={finProfile.Combined_Years_of_Investing__c}
+        secondary-name={coClientFirstName}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-years-of-investing>
+    </template>
+
+    <template if:true={menuActiveState.realEstate}>
+      <c-x7s-financial-profile-asset-rows debug={debug}
+          assets-liabilities-type='Real Estate' 
+          assets-liabilities={finProfileAssets}
+          financial-accounts={finProfileFinancialAccounts}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-asset-rows>
+    </template>
+
+    <template if:true={menuActiveState.vehicleAssets}>
+      <c-x7s-financial-profile-asset-rows debug={debug}
+          assets-liabilities-type='Vehicle' 
+          assets-liabilities={finProfileAssets}
+          financial-accounts={finProfileFinancialAccounts}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-asset-rows>
+    </template>
+
+    <template if:true={menuActiveState.otherAssets}>
+      <c-x7s-financial-profile-asset-rows debug={debug}
+          assets-liabilities-type='Other Asset' 
+          assets-liabilities={finProfileAssets}
+          financial-accounts={finProfileFinancialAccounts}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-asset-rows>
+    </template>
+
+    <template if:true={menuActiveState.debtLiabilities}>
+      <c-x7s-financial-profile-asset-rows debug={debug}
+          assets-liabilities-type='Debt' 
+          assets-liabilities={finProfileAssets}
+          financial-accounts={finProfileFinancialAccounts}
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-asset-rows>
+    </template>
+
+    <!-- ========================================================================= -->
+    <!-- insurance section -->
+
+    <template if:true={menuActiveState.insurance}>
+      <c-x7s-financial-profile-insurance debug={debug}></c-x7s-financial-profile-insurance>
+    </template>
+
+    <template if:true={menuActiveState.insuranceCategories}>
+      <c-x7s-financial-profile-insurance-categories debug={debug}
+        questions={insuranceCategoriesFields.data} 
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        answers={insuranceCategoriesAnswers}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-insurance-categories>
+    </template>
+
+    <template if:true={menuActiveState.lifeInsurance}>
+      <c-x7s-financial-profile-insurance-rows debug={debug}
+        insurance-policies-type='Life' 
+        insurance-policies={finProfileInsurance}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_life_insurance__c} show-secondary={finProfile.Secondary_has_life_insurance__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-insurance-rows>
+    </template>
+
+    <template if:true={menuActiveState.longTermCareInsurance}>
+      <c-x7s-financial-profile-insurance-rows debug={debug}
+        insurance-policies-type='Long-Term Care' 
+        insurance-policies={finProfileInsurance}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_long_term_care_insurance__c} show-secondary={finProfile.Secondary_has_long_term_care_insurance__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-insurance-rows>
+    </template>
+
+    <template if:true={menuActiveState.disabilityInsurance}>
+      <c-x7s-financial-profile-insurance-rows debug={debug}
+        insurance-policies-type='Disability' 
+        insurance-policies={finProfileInsurance}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_disability_insurance__c} show-secondary={finProfile.Secondary_has_disability_insurance__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-insurance-rows>
+    </template>
+
+    <template if:true={menuActiveState.healthInsurance}>
+      <c-x7s-financial-profile-insurance-rows debug={debug}
+        insurance-policies-type='Health' 
+        insurance-policies={finProfileInsurance}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_health_insurance__c} show-secondary={finProfile.Secondary_has_health_insurance__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-insurance-rows>
+    </template>
+
+    <template if:true={menuActiveState.propertyAndCasualtyInsurance}>
+      <c-x7s-financial-profile-insurance-rows debug={debug}
+        insurance-policies-type='Property and Casualty' 
+        insurance-policies={finProfileInsurance}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_property_casualty_insurance__c} show-secondary={finProfile.Secondary_has_property_casualty_ins__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-insurance-rows>
+    </template>
+
+    <template if:true={menuActiveState.otherInsurance}>
+      <c-x7s-financial-profile-insurance-rows debug={debug}
+        insurance-policies-type='Other' 
+        insurance-policies={finProfileInsurance}
+        primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+        primary-contact-id={finProfile.ContactId__c} secondary-contact-id={finProfile.Co_Client_Contact__c}
+        show-primary={finProfile.Primary_has_other_insurance__c} show-secondary={finProfile.Secondary_has_other_insurance__c}
+        onsavetempdata={handleSaveTempData}
+      ></c-x7s-financial-profile-insurance-rows>
+    </template>
+    
+    <!-- ========================================================================= -->
+    <!-- estate planning section -->
+
+    <template if:true={menuActiveState.estatePlanning}>
+      <c-x7s-financial-profile-estate-planning debug={debug}
+          questions={estatePlanningFields.data} 
+          primary-name={finProfile.First_Name__c} secondary-name={coClientFirstName}
+          answers={estatePlanningAnswers}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-estate-planning>
+    </template>
+
+    <template if:true={menuActiveState.trustType}>
+      <c-x7s-financial-profile-type-of-trust debug={debug}
+          has-trust={finProfile.Primary_Has_Trust__c}
+          trust-type={finProfile.Primary_Trust_Type__c}
+          options-trust-type={optionsTypeOfTrust}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-type-of-trust>
+    </template>
+
+    <template if:true={menuActiveState.moreAboutTrust}>
+      <c-x7s-financial-profile-more-about-trust debug={debug}
+          has-trust={finProfile.Primary_Has_Trust__c}
+          trust-type={finProfile.Primary_Trust_Type__c}
+          trust-name={finProfile.Primary_Trust_Name__c} trust-value={finProfile.Primary_Trust_Value__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-more-about-trust>
+    </template>
+
+    <template if:true={menuActiveState.coClientTypeOfTrust}>
+      <c-x7s-financial-profile-type-of-trust debug={debug}
+          has-trust={finProfile.Secondary_Has_Trust__c}
+          co-client-name={coClientFirstName}
+          trust-type={finProfile.Secondary_Trust_Type__c}
+          options-trust-type={optionsTypeOfTrust}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-type-of-trust>
+    </template>
+
+    <template if:true={menuActiveState.coClientMoreAboutTrust}>
+      <c-x7s-financial-profile-more-about-trust debug={debug}
+          has-trust={finProfile.Secondary_Has_Trust__c}
+          co-client-name={coClientFirstName}
+          trust-type={finProfile.Secondary_Trust_Type__c}
+          trust-name={finProfile.Secondary_Trust_Name__c} trust-value={finProfile.Secondary_Trust_Value__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-more-about-trust>
+    </template>
+
+    <!-- ========================================================================= -->
+    <!-- profile completed -->
+
+    <template if:true={menuActiveState.shareDocuments}> <!-- TODO: combine with sharingDocuments -->
+      <c-x7s-financial-profile-share-documents debug={debug}
+        vault-page-api={documentVaultPageApi}
+      ></c-x7s-financial-profile-share-documents>
+    </template>
+
+    <template if:true={menuActiveState.profileComplete}>
+      <c-x7s-financial-profile-complete debug={debug}
+          is-completed={finProfile.Is_Completed__c} completed-date={finProfile.Completed_Date__c}
+          onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-complete>
+    </template>
+
+  </div>
+</template>

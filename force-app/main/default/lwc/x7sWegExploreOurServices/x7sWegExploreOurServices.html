@@ -1,0 +1,43 @@
+<template>
+    <div class="slds-grid slds-wrap">
+        <h3 class="my-team-explore-our-services">{title}</h3>
+        <div class="slds-size_12-of-12 container">
+            <div class="list-container">
+                <ul class="quick-links">
+                    <template for:each={links1} for:item="link">
+                        <li key={link.title}> 
+                            <c-x7s-weg-explore-our-services-item title={link.title} url={link.url} external={link.external}></c-x7s-weg-explore-our-services-item>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+            <template if:true={presentLinks2}>
+                <div class="list-container">
+                    <ul class="quick-links">
+                        <template for:each={links2} for:item="link">
+                            <li key={link.title}> 
+                                <c-x7s-weg-explore-our-services-item title={link.title} url={link.url} external={link.external}></c-x7s-weg-explore-our-services-item>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+            <template if:true={presentLinks3}>
+                <div class="list-container">
+                    <ul class="quick-links">
+                        <template for:each={links3} for:item="link">
+                            <li key={link.title}> 
+                                <c-x7s-weg-explore-our-services-item title={link.title} url={link.url} external={link.external}></c-x7s-weg-explore-our-services-item>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+        <div class="profile-button" onclick={goToWegSite}><div class='button-text'>{buttonText}</div> <lightning-icon size="xx-small" icon-name="utility:chevronright"
+                            class="slds-col_bump-right button-open"
+                            variant="border-filled"
+                            alternative-text={buttonText}
+                            ></lightning-icon></div>
+    </div>
+</template>

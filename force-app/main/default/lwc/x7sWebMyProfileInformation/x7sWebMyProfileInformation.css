@@ -1,0 +1,14 @@
+.primaryIndividualName{
+    font-size: 22px; 
+}
+.slds-form-element_readonly {
+    border-width: 0;
+}
+.slds-form-element_readonly .slds-form-element__control{
+    border-bottom: 1px solid #dddbda;
+    margin-bottom: 0;
+}
+.slds-form-element{
+    position: relative;
+    min-width: 0;
+}

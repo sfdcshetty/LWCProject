@@ -1,0 +1,165 @@
+<!--
+ - Created by 7Summits on 4/14/21.
+ -->
+
+<!-- X7S Weg Profile Edit Email -->
+<template>
+    <div class="profile-button" onclick={openModal} data-id="email">Change an Email Address <div class="icon-container">
+            <img src={chevron} class="profile-chevron" /></div>
+    </div>
+
+    <!--Use template if:true to display/hide popup based on isModalOpen value-->
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-0" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header no-border">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h3 class="modal-header">Edit {mode} for {userName}</h3>
+                    <div class='modal-lower-edit-border'></div>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" if:true={onStep1}>
+                    <lightning-layout>
+                        <lightning-layout-item padding="around-small">
+                            <div class="slds-grid slds-gutters">
+                                <lightning-radio-group name="radioGroup"
+                                    label="For whom would you like to edit an email address?" options={options}
+                                    value={selectedUserId} onchange={handleUserSelectChange} type="radio">
+                                </lightning-radio-group>
+                            </div>
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+                    <div>
+                        <lightning-layout-item padding="around-small">
+                            <lightning-button variant="neutral" label="Cancel" title="Cancel action"
+                                onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+                            <lightning-button variant="brand" label="Continue" title="Continue action"
+                                onclick={handleUserSelectContinue} class="slds-m-left_x-small"></lightning-button>
+                        </lightning-layout-item>
+                    </div>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2" if:true={onStep2}>
+                    <div class="loadingSpinner" if:true={isSaving}>
+                        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                    </div>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <span>Type</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <span>Email Address</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <span>Primary</span>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-3">
+                            <span>Personal</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input type="email" label="Personal Email" name="WEGP1_PersonalEmail__c"
+                                onchange={handleFieldUpdated} value={selectedUser.WEGP1_PersonalEmail__c}
+                                ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input type="Checkbox" label="Primary" value={isPersonalEmailPrimary}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-3">
+                            <span>Work</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input type="email" label="Work Email" name="WEG_Business_Email__c"
+                                onchange={handleFieldUpdated} value={selectedUser.WEG_Business_Email__c}
+                                ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input type="Checkbox" label="Primary" value={isWorkEmailPrimary}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-3">
+                            <span>Other</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input type="email" label="Other Email" name="WEGP1_OtherEmail__c"
+                                onchange={handleFieldUpdated} value={selectedUser.WEGP1_OtherEmail__c}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input type="Checkbox" label="Primary" value={isOtherEmailPrimary}>
+                            </lightning-input>
+                        </div>
+
+                        <span>NOTE: Your primary email address is your username. Changing it will take up to 7 business
+                            days.</span>
+                    </div>
+                    <div>
+                        <lightning-layout-item padding="around-small">
+                            <lightning-button variant="neutral" label="Cancel" title="Cancel action"
+                                onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+                            <lightning-button variant="brand" label="Save Email" title="Save Email action"
+                                onclick={handleSaveEmailClick} class="slds-m-left_x-small"></lightning-button>
+                        </lightning-layout-item>
+                    </div>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3" if:true={onStep3}>
+                    <lightning-layout if:true={primaryEmailWasChanged}>
+                        <h1>Change is Pending</h1>
+                        <span>You've changed your primary email address. This change is pending and may take up to one
+                            (1) week.</span>
+                        <span>You will be notified when it has been updated in our systems. Please continue to use your
+                            previous email as your username </span>{priorPrimaryEmail}<span> when logging in.</span>
+                        <br />
+                        <span>If you have questions or would like to cancel, please contact your advisor team.</span>
+                    </lightning-layout>
+                    <lightning-layout if:false={primaryEmailWasChanged}>
+                        <h1>Got it, thanks!</h1>
+                        <span>Changes to your email address have been saved.</span>
+                    </lightning-layout>
+                    <div>
+                        <lightning-layout-item padding="around-small">
+                            <lightning-button variant="brand" label="Close" title="Close action" onclick={closeModal}
+                                class="slds-m-left_x-small"></lightning-button>
+                        </lightning-layout-item>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!--    <div class="c-container">-->
+    <!--        <lightning-layout>-->
+    <!--&lt;!&ndash;            <header class="slds-modal__header">&ndash;&gt;-->
+    <!--&lt;!&ndash;                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    </svg>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <span class="slds-assistive-text">Close</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;                </button>&ndash;&gt;-->
+    <!--&lt;!&ndash;                <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">Edit Email for FirstName</h2>&ndash;&gt;-->
+    <!--&lt;!&ndash;            </header>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;            <footer class="slds-modal__footer">&ndash;&gt;-->
+    <!--&lt;!&ndash;                <button class="slds-button slds-button_neutral">Cancel</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;                <button class="slds-button slds-button_brand">Save Email</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;            </footer>&ndash;&gt;-->
+    <!--        </lightning-layout>-->
+    <!--        <div>-->
+    <!--            <lightning-layout-item padding="around-small">-->
+    <!--                <lightning-button variant="brand" label="Brand" title="Primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>-->
+    <!--            </lightning-layout-item>-->
+    <!--        </div>-->
+    <!--    </div>-->
+</template>

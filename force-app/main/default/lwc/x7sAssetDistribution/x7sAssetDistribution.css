@@ -1,0 +1,30 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+ .container {
+    position: relative;
+    background-color: #fff;
+    padding: 37px;
+    border-radius: 8px;
+    box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.08);
+  }
+  
+  .asset-allocation-header {
+    font-size: 22px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+    
+  }
+  
+  .slds-card__header-title {
+    display: none !important;
+  }

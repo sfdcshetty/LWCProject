@@ -1,0 +1,45 @@
+<!--
+ - Created by martinblase on 4/6/21.
+ -->
+
+<!-- 7S Financial Profile Footer -->
+<template>
+    <div if:true={showTotalAssets} class="x7s-finprofile_total-assets-footer slds-m-bottom_x-small slds-grid slds-text-title_caps">
+        <span class="slds-grow slds-text-align_right slds-p-horizontal_small">Total assets: </span>
+        <span>$<lightning-formatted-number format-style="decimal" maximum-fraction-digits="0" value={totalAssets}></lightning-formatted-number></span>
+    </div>
+
+    <lightning-layout multiple-rows vertical-align="center" class="x7s-finprofile_footer">
+        <lightning-layout-item size="6" small-device-size="4" medium-device-size="3" large-device-size="2" 
+            class="slds-text-align_left slds-order_2 slds-medium-order_1 slds-p-vertical_small slds-p-horizontal_large">
+            <button class="slds-button slds-button_outline-brand" onclick={handleClickBack} disabled={isFirstPage}>
+                <lightning-icon size="x-small" icon-name="utility:back" class="slds-m-right_small"></lightning-icon>
+                Back
+            </button>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="3" large-device-size="6" 
+            class="slds-text-align_center slds-order_1 slds-medium-order_2 slds-p-vertical_small">
+            <c-x7s-financial-profile-progress-bar percent={percentProgress}></c-x7s-financial-profile-progress-bar>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="6" small-device-size="3" medium-device-size="3" large-device-size="2" 
+            class="slds-text-align_right slds-order_3 slds-p-vertical_small slds-p-horizontal_large">
+            <button class="slds-button slds-button_outline-brand" onclick={handleClickSkip} disabled={isLastPage}>
+                Skip
+                <lightning-icon size="x-small" icon-name="utility:skip" class="slds-m-left_small"></lightning-icon>
+            </button>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="5" medium-device-size="3" large-device-size="2" 
+            class="slds-text-align_right slds-order_4 slds-p-vertical_small slds-p-horizontal_large">
+            <button if:false={isLastPage} class="slds-button slds-button_brand" onclick={handleClickSaveAndNext}>
+                Save &amp; Next
+                <lightning-icon size="x-small" variant="inverse" icon-name="utility:forward" class="slds-m-left_small"></lightning-icon>
+            </button>
+            <button if:true={isLastPage} class="slds-button slds-button_brand" onclick={handleClickSaveAndClose}>
+                {labelSaveAndClose}
+                <lightning-icon size="x-small" variant="inverse" icon-name="utility:close" class="slds-m-left_small"></lightning-icon>
+            </button>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

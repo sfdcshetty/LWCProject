@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="to get the selected record from the lookup" >
+    <aura:attribute name="record" type="sObject"/>
+</aura:event>

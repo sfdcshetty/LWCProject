@@ -1,0 +1,222 @@
+<!--
+ - Created by jasonmiletta on 4/15/21.
+ -->
+
+<!-- X7S Weg Profile Edit Addresses -->
+<template>
+    <div class="c-container">
+        <lightning-layout>
+            <template if:true={page_1}>
+                
+                    <lightning-layout-item style="width:100%; text-align:center" padding="around-small">
+                        <div style="width:100%; text-align:left;">
+                            <div class="slds-grid slds-gutters"
+                                style="display: flex;align-items: center; justify-content: center;">
+                                <lightning-spinner if:false={options.length}></lightning-spinner>
+                    <lightning-radio-group label="For whom would you like to edit an address?"
+                                           name="radioButtonGroup"
+                                           onchange={handleUserSelectChange}
+                                           options={options}
+                                           value={selectedUserId}
+                                           type="radio"
+                                           class="select-user"
+                                           if:true={options}
+                    ></lightning-radio-group>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+
+            </template>
+            <template if:true={page_2}>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2" if:true={page_2} style="box-shadow: none;">
+                    <div class="loadingSpinner" if:true={isSaving}>
+                        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                    </div>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-p-bottom_x-large slds-p-left_medium slds-size_2-of-12">
+                            <span>Type</span>
+                        </div>
+                        <div class="slds-p-bottom_x-large slds-p-left_medium slds-size_5-of-12">
+                            <span>Street</span>
+                        </div>
+                        <div class="slds-p-bottom_x-large slds-p-left_x-large slds-size_3-of-12">
+                            <span>City</span>
+                        </div>
+                        <div class="slds-p-bottom_x-large slds-p-left_medium slds-size_2-of-12">
+                            <span>Primary</span>
+                        </div>
+
+                        <!--home section-->
+                        <div class="slds-p-top_x-small slds-p-left_medium slds-size_1-of-6">
+                            <span class="field-title">Home</span>
+                        </div>
+                        <div class="slds-col slds-size_4-of-6">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-p-left_none slds-size_4-of-6">
+                                    <lightning-input name="Account.BillingStreet" data-id="BillingStreet" value={selectedUser.Account.BillingStreet} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_2-of-6">
+                                    <lightning-input name="Account.BillingCity" data-id="BillingCity" value={selectedUser.Account.BillingCity} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-p-left_x-large slds-p-top_x-large slds-size_1-of-6">
+                            <lightning-input type="Checkbox" label="&nbsp;" data-id="home" value={isPersonalAddressPrimary} onchange={handleHomeSelectedAsPrimary}></lightning-input>
+                        </div>
+                        
+                        <div class="slds-p-bottom_x-large slds-size_1-of-6">
+                        </div>
+                        <div class="slds-p-bottom_x-large slds-size_5-of-6">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input label="State" name="Account.BillingState" data-id="BillingState" value={selectedUser.Account.BillingState} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_4-of-12">
+                                    <lightning-input label="Zip" name="Account.BillingPostalCode" data-id="BillingPostalCode" value={selectedUser.Account.BillingPostalCode} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-p-top_x-large slds-p-left_large  slds-size_6-of-12">
+                                    <lightning-input type="Checkbox" label="Also change for Co-Client" name="changeHomeForCoClient" value={changeHomeForCoClient} onchange={handleCheckboxFieldUpdated}></lightning-input>
+                                    <!--<div class="coclient-checkbox">Also change for Co-Client</div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--end home section -->
+
+                        <!--work section -->
+                        <div class="slds-p-top_x-small slds-p-left_medium slds-size_1-of-6">
+                            <span class="field-title">Work</span>
+                        </div>
+                        <div class="slds-col slds-size_4-of-6">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-p-left_none slds-size_4-of-6">
+                                    <lightning-input label="Street" name="Account.ShippingStreet" data-id="ShippingStreet" value={selectedUser.Account.ShippingStreet} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_2-of-6">
+                                    <lightning-input label="City" name="Account.ShippingCity" data-id="ShippingCity" value={selectedUser.Account.ShippingCity} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-p-left_x-large slds-p-top_x-large slds-size_1-of-6">
+                            <lightning-input type="Checkbox" label="" data-id="work" checked={isWorkAddressPrimary} onchange={handleWorkSelectedAsPrimary}></lightning-input>
+                        </div>
+                        
+                        <div class="slds-p-bottom_x-large slds-size_1-of-6">
+                        </div>
+                        <div class="slds-p-bottom_x-large slds-size_5-of-6">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input label="State" name="Account.ShippingState" data-id="ShippingState" value={selectedUser.Account.ShippingState} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_4-of-12">
+                                    <lightning-input label="Zip" name="Account.ShippingPostalCode" data-id="ShippingPostalCode" value={selectedUser.Account.ShippingPostalCode} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-p-top_x-large slds-p-left_large  slds-size_6-of-12">
+                                    <!--<lightning-input type="Checkbox" label="Also change for Co-Client" name="changeHomeForCoClient" value={changeHomeForCoClient} onchange={handleCheckboxFieldUpdated}></lightning-input>-->
+                                    <!--<div class="coclient-checkbox">Also change for Co-Client</div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--end work section -->
+
+                        <!--other section-->
+                        <div class="slds-p-top_x-small slds-p-left_medium slds-size_1-of-6">
+                            <span class="field-title">Other</span>
+                        </div>
+                        <div class="slds-col slds-size_4-of-6">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-p-left_none slds-size_4-of-6">
+                                    <lightning-input label="Street" name="OtherStreet" data-id="OtherStreet" value={selectedUser.OtherStreet} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_2-of-6">
+                                    <lightning-input label="City" name="OtherCity" data-id="OtherCity" value={selectedUser.OtherCity} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-p-left_x-large slds-p-top_x-large slds-size_1-of-6">
+                            <lightning-input type="Checkbox" label="" data-id="other" checked={isOtherAddressPrimary} onchange={handleOtherSelectedAsPrimary}></lightning-input>
+                        </div>
+                        
+                        <div class="slds-p-bottom_x-large slds-size_1-of-6">
+                        </div>
+                        <div class="slds-p-bottom_x-large slds-size_5-of-6">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input label="State" name="OtherState" data-id="OtherState" value={selectedUser.OtherState} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_4-of-12">
+                                    <lightning-input label="Zip" name="OtherPostalCode" data-id="OtherPostalCode" value={selectedUser.OtherPostalCode} onchange={handleFieldUpdated}></lightning-input>
+                                </div>
+                                <div class="slds-p-top_x-large slds-p-left_large  slds-size_6-of-12">
+                                    <lightning-input type="Checkbox" label="Also change for Co-Client" name="changeOtherForCoClient" value={changeOtherForCoClient} onchange={handleCheckboxFieldUpdated}></lightning-input>
+                                    <!--<div class="coclient-checkbox">Also change for Co-Client</div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--end other section-->
+
+                        <!--<div class="slds-p-horizontal_small slds-p-top_large">
+                            <lightning-input type="Checkbox" label="Update custodian accounts with new mailing (primary) address." name="updateCustodianAccount" value={updateCustodianAccount}  onchange={handleCheckboxFieldUpdated}></lightning-input>
+                        </div>-->
+
+                        <div class="slds-p-horizontal_small slds-p-top_large">
+                            <span>Custodian account updates may require paperwork, your advisor team will review and follow up with next steps.</span>
+                        </div>
+
+                    </div>
+                </div>
+            </template>
+            <template if:true={page_3}>
+                <div class="slds-col slds-size_3-of-3" style="width:100%; text-align:center">
+                    <h3 class="finish-header"><img src={checkmarkImage} alt="" class="checkmark" /> Change is pending</h3>
+                    <div class="slds-col slds-size_1-of-6"></div>
+                    <div class="slds-col slds-size_4-of-6" style="width:70%; margin:30px auto; color:#666">
+                        <template if:true={primaryAddressWasChanged}>You've changed your primary address. </template>This change is pending and may take up to one (1) week. You will be notified when it has been updated in our systems.
+                        <br/>
+                        <br/>
+                        If you have questions or would like to cancel, please contact your advisor team.
+                    </div>
+                    <div class="slds-col slds-size_1-of-6"></div>
+                </div>
+            </template>
+        </lightning-layout>
+    </div>
+    <div style='clear:both; margin:10px 0px 0px 0px'>
+        <template if:true={page_1}>
+            <lightning-layout-item padding="around-small">
+                <!--<lightning-button 
+                    variant="brand-outline" 
+                    label="Cancel" 
+                    title="Cancel" 
+                    onclick={closeModal} 
+                    class="slds-m-left_x-small"
+                ></lightning-button>-->
+                <lightning-button 
+                variant="brand"
+                label="Cancel" title="Cancel and close this modal"
+                onclick={closeModal}
+            ></lightning-button> 
+            <lightning-button 
+                variant="brand" 
+                label="Continue" 
+                title="Continue" 
+                onclick={handleContinue} 
+                class="slds-m-left_x-small continue" 
+                disabled={isContinueDisabled}
+            ></lightning-button>
+            </lightning-layout-item>
+        </template>
+        <template if:true={page_2}>
+            <lightning-layout-item padding="around-small">
+                <lightning-button variant="brand-outline" label="Cancel" title="Cancel" onclick={closeModal} class="slds-m-left_x-small"></lightning-button> <lightning-button variant="brand" label="Save Address" title="Save Address" onclick={handleSave} class="slds-m-left_x-small continue" disabled={isContinueDisabled}></lightning-button>
+            </lightning-layout-item>
+        </template>
+        <template if:true={page_3}>
+            <lightning-layout-item padding="around-small">
+                <div style="text-align:center">
+                    <lightning-button variant="brand" label="Close" title="Close" onclick={closeModal} class="slds-m-left_x-small continue"></lightning-button>
+                </div>
+            </lightning-layout-item>
+        </template>
+    </div>
+</template>

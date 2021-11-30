@@ -1,0 +1,101 @@
+<template>
+    <!--Use template if:true to display/hide popup based on isModalOpen value--> 
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header no-border">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class='modal-lower-edit-border'></div>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="message-upper">FROM: <b>{messageAuthor}</b> (<a>{messageAuthorEmail}</a>)</div>
+                    <div style="padding-left:50px; font-size: 20px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; text-align: left; color: #01777a; margin-bottom:10px;">{messageSubject}</div>
+                    <div style="padding-left:50px"><lightning-formatted-rich-text
+                            value={messageTarget} 
+                        ></lightning-formatted-rich-text></div>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer no-border">
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <div class="slds-grid slds-wrap slds-gutters">
+        <div class="slds-col slds-size_6-of-6"><h1>Secure Messages</h1></div>
+        <!--<div class="slds-col slds-size_2-of-6" style="margin-bottom:20px">
+            <lightning-combobox
+                    name="Inbox"
+                    label=""
+                    value={value}
+                    placeholder="Inbox"
+                    options={messageOptions}
+                    onchange={handleChange} ></lightning-combobox>
+        </div>-->
+        
+            <div class="slds-col slds-size_4-of-6"></div>
+            
+                    <!--<div class="slds-col slds-size_2-of-6 messages-main">Messages <img class="info-icon" src={infoIcon} /></div>-->
+                    <div class="slds-col slds-size_5-of-6 messages-main">Messages</div>
+                    <div class="slds-col slds-size_1-of-6" style="text-align: right;">
+                        <template if:true={seeMessageMode}>
+                        <div class="button" onclick={sendNewMessage} style="margin-left:-60px"><div class='button-text'><lightning-icon size="xx-small" icon-name="utility:add"
+                            class="slds-col_bump-right new-message-icon"
+                            variant="border-filled"
+                            alternative-text="New Secure Message"
+                            ></lightning-icon>New Message</div> </div>
+                        </template>    
+                        <template if:true={sendMessageMode}>
+                            <div style="text-align: right;">
+                                <div class="button" onclick={seeMessages} style="margin-left:-60px"><div class='button-text'><lightning-icon size="xx-small" icon-name="utility:chevronleft"
+                                    class="slds-col_bump-right new-message-icon"
+                                    variant="border-filled"
+                                    alternative-text="See My Messages"
+                                    ></lightning-icon>See Messages</div> </div>                
+                            </div>
+                        </template>            
+                    </div>
+            <div class="slds-col slds-size_6-of-6 separator"></div> 
+            <template if:true={seeMessageMode}>
+                <template for:each={myMessages} for:item="message">
+                    <div key={message.Name} class="slds-col slds-size_6-of-6 secure-message">
+                        <!--<div class="message-upper">Wealth Enhancement Group</div>-->
+                        <div class="message-upper">FROM: <b>{message.Created_By__c}</b></div>
+                        <a data-message={message.Id} onclick={openModal}>{message.Name}</a><div class="message-date"><lightning-formatted-date-time value={message.LastModifiedDate}></lightning-formatted-date-time><!--<img class="trash-icon" src={trashIcon} />--></div>
+                        <div class="message-body"></div>
+                    </div>
+                </template>
+            </template>
+            <template if:true={sendMessageMode}>
+                <div class="slds-col slds-size_4-of-6">
+                    <lightning-input data-id="message-subject" label="Subject" value="" 
+                        data-row-id="test" data-row-index="test" >
+                    </lightning-input>
+                </div><div class="slds-col slds-size_2-of-6"></div>
+                
+                <div class="slds-col slds-size_6-of-6" style="margin-top:30px">
+                    <lightning-input-rich-text data-id="message-body" value="" style="border-color:red"></lightning-input-rich-text>
+                </div>
+                <div class="slds-col slds-size_4-of-6" style="margin-top:30px"></div>
+                <div class="slds-col slds-size_2-of-6" style="margin-top:30px; text-align:right">
+                    <div class="button" onclick={sendMessage}><div class='button-text'><lightning-icon size="xx-small" icon-name="utility:add"
+                        class="slds-col_bump-right new-message-icon"
+                        variant="border-filled"
+                        alternative-text="Send Message"
+                        onclick={sendMessage}
+                        ></lightning-icon>Send Message</div> </div>
+                </div>
+            </template>
+        
+    </div>
+</template>

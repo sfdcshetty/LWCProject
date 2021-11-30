@@ -1,0 +1,236 @@
+<template>
+  <template if:true={isDisplayComponent}>
+    <div class="personalPropertyHeader slds-m-bottom_medium">
+      {componentTitle}
+    </div>
+
+    <template if:true={isLoading}>
+      <lightning-spinner
+        alternative-text="Loading"
+        size="medium"
+        variant="brand"
+      ></lightning-spinner>
+    </template>
+
+    <div class="personalPropertyListContainer slds-p-top_small">
+      <lightning-datatable
+        key-field="Id"
+        data={dataList}
+        columns={columns}
+        hide-checkbox-column="true"
+        onrowaction={handleRowAction}
+        class="personalPropertTable slds-max-medium-table_stacked-horizontal"
+        default-sort-direction={defaultSortDirection}
+        sorted-direction={sortDirection}
+        sorted-by={sortedBy}
+        onsort={onHandleSort}
+      >
+      </lightning-datatable>
+    </div>
+  </template>
+
+  <div class="slds-m-top_medium slds-grid">
+    <span class="slds-grow">
+      <span class={addProperty}>
+        <button
+          class="addProperty slds-text-heading_small"
+          onclick={handleAddPropertyClick}
+        >
+          <div class="iconContainer addPropertyIcon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 52 52"
+              id="add"
+            >
+              <path
+                d="M30 29h16.5c.8 0 1.5-.7 1.5-1.5v-3c0-.8-.7-1.5-1.5-1.5H30c-.6 0-1-.4-1-1V5.5c0-.8-.7-1.5-1.5-1.5h-3c-.8 0-1.5.7-1.5 1.5V22c0 .6-.4 1-1 1H5.5c-.8 0-1.5.7-1.5 1.5v3c0 .8.7 1.5 1.5 1.5H22c.6 0 1 .4 1 1v16.5c0 .8.7 1.5 1.5 1.5h3c.8 0 1.5-.7 1.5-1.5V30c0-.6.4-1 1-1z"
+              ></path>
+            </svg>
+          </div>
+          <span class="slds-p-left_small"><b>Add Property</b></span
+          >&nbsp;
+        </button>
+      </span>
+    </span>
+    <span class="totalAmount slds-grow slds-text-align_right"
+      >$
+      <lightning-formatted-number
+        value={totalAmt}
+        format-style="decimal"
+        maximum-fraction-digits="0"
+        currency-code="USD"
+      >
+      </lightning-formatted-number>
+    </span>
+  </div>
+
+  <template if:true={isModalOpen}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container slds-p-around_small">
+        <header class="slds-modal__header">
+          <button
+            class="
+              slds-button slds-button_icon
+              slds-modal__close
+              slds-button_icon-inverse
+            "
+            title="Close"
+            onclick={closeModal}
+          >
+            <lightning-icon
+              icon-name="utility:close"
+              alternative-text="close"
+              variant="inverse"
+              size="small"
+            ></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <div class="personalPropertyHeader">{propertyHeader}</div>
+        </header>
+
+        <div
+          class="slds-modal__content slds-p-around_medium"
+          id="modal-content-id-1"
+        >
+          <lightning-layout multiple-rows="true" pull-to-boundary="small">
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <lightning-input
+                class="inputField slds-m-vertical_medium validatePropertyName"
+                name="propertyName"
+                type="text"
+                label="Property Name"
+                value={propertyName}
+                onchange={handlePropertyNameChange}
+                data-id="Name"
+                required
+              >
+              </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <lightning-combobox
+                name="propertyType"
+                label="Property Type"
+                value={propertyType}
+                class="inputField slds-m-vertical_medium validatePropertyType"
+                options={propertyTypeOptions}
+                onchange={handlePropertyTypeChange}
+                data-id="Type"
+                required
+              >
+              </lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <lightning-combobox
+                name="propertyOwner"
+                label="Property Owner"
+                value={propertyOwner}
+                class="inputField slds-m-vertical_medium validatePropertyOwner"
+                options={propertyOwnerOptions}
+                onchange={handlePropertyOwnerChange}
+                data-id="Owner"
+                required
+              >
+              </lightning-combobox>
+              <!-- <lightning-input class="inputField slds-m-vertical_medium" name="propertyOwner" type="text"
+                                label="Property Owner" value={propertyOwner} onchange={handlePropertyOwnerChange}
+                                data-id="Owner">
+                            </lightning-input> -->
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <lightning-input
+                class="inputField slds-m-vertical_medium validatePropertyAmount"
+                name="propertyAmount"
+                type="number"
+                label="Value (Round to the nearest dollar)"
+                value={propertyAmount}
+                onchange={handleAmountChange}
+                data-id="Amount"
+                formatter="currency"
+                step="1"
+              >
+              </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item
+              size="12"
+              large-device-size="6"
+              medium-device-size="12"
+              small-device-size="12"
+            >
+              <lightning-input
+                class="inputField slds-m-vertical_medium validatePropertyAsOfDt"
+                name="propertyAsOfDt"
+                type="Date"
+                label="As Of Date"
+                value={propertyAsOfDt}
+                onchange={handlePropertyAsOfDtChange}
+                data-id="AsOfDate"
+              >
+              </lightning-input>
+              <!--<lightning-input class="inputField slds-m-vertical_medium validatePropertyAsOfDt" name="propertyAsOfDt" type="Date"
+                                label="As Of Date" value={propertyAsOfDt} onchange={handlePropertyAsOfDtChange} data-id="AsOfDate">
+                            </lightning-input>-->
+            </lightning-layout-item>
+          </lightning-layout>
+        </div>
+
+        <footer class="slds-modal__footer">
+          <button
+            class="addProperty slds-float_left slds-button"
+            onclick={closeModal}
+            title={cancelButtonLabel}
+          >
+            {cancelButtonLabel}
+          </button>
+
+          <button
+            class="slds-button slds-button_brand slds-float_left"
+            onclick={submitDetails}
+            title={propertyBtnLabel}
+          >
+            {propertyBtnLabel}
+          </button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

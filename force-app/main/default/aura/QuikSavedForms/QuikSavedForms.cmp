@@ -1,0 +1,212 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="QuikFormHandler">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="asQuikFormsList" type="AS_Quik_Forms__c[]" />
+    <aura:attribute name="showModal" type="Boolean" />
+    <aura:attribute name="showFormsModal" type="Boolean" />
+    <aura:attribute name="formHTMLURL" type="String" />
+    <aura:attribute name="showSignModal" type="Boolean" />
+    <aura:attribute name="displaySpinner" type="Boolean"/>
+    <aura:attribute name="showPrintModal" type="Boolean" />
+    <aura:attribute name="allowEsign" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" />
+    <aura:method name="parentMethod" action="{!c.closeSignsModal}"/>
+    <aura:handler name="eventForCloseModal" event="c:CloseEvent" action="{!c.closeSignsModal}"/>
+    <aura:attribute name="showFormsModalClone" type="Boolean" default="false" />
+    
+    <aura:html tag="style">
+        .saveFormContainer{ 
+        max-width: 80rem !important;
+        min-width: 80rem !important;
+        height: 100% !important;
+        padding:0px !important;
+        }
+        .content {
+        height: 100% !important;
+        }     
+    </aura:html>
+    
+    <div>
+        <div class="slds-card slds-p-around_small">
+            <div class="slds-page-header slds-page-header_record-home">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h1>
+                                                        <span class="slds-page-header__title slds-truncate" title="Saved Forms">
+                                                            Saved Print Forms
+                                                        </span>
+                                                    </h1>
+                                                </td>
+                                                <td>
+                                                    <button class="slds-button slds-button_icon slds-p-left--x-small slds-p-right--x-small" 
+                                                            title="Refresh Forms" onclick="{!c.refreshForms}">
+                                                        <lightning:icon iconName="utility:refresh" size="x-small"/>
+                                                        <span class="slds-assistive-text">Refresh</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-page-header__col-actions">
+                        <div class="slds-page-header__controls">
+                            <div class="slds-page-header__control">
+                                <lightning:button label="New Form Group" variant="brand" onclick="{!c.openFormsModal}"/><br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-p-around--small" style="max-height:500px; overflow-y:auto">
+                <aura:if isTrue="{!v.displaySpinner}">
+                    <lightning:spinner size="small" variant="brand"/>
+                </aura:if>
+                <table>
+                    <aura:iteration items="{!v.asQuikFormsList}" var="asQuikForm">
+                        <tr>
+                            <td style="width:30%"><div class="slds-truncate">Form Numbers:</div></td>
+                            <td style="width:70%" class="wrapCls">
+                                <div class="wrapCls">{!asQuikForm.Form_Numbers__c}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%">Last Updated Date:</td>
+                            <td style="width:70%">
+                                <ui:outputDateTime value="{!asQuikForm.LastModifiedDate}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%">Submitted Date:</td>
+                            <td style="width:70%">
+                                <ui:outputDateTime value="{!asQuikForm.CreatedDate}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <lightning:button label="Delete" variant="base" name="{!asQuikForm.Id}" onclick="{!c.deleteRecord}"/> 
+                                |<lightning:button label="Load/View Form" variant="base" name="{!asQuikForm.Id}" onclick="{!c.openModal}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><hr style="margin:10px"/></td>
+                        </tr>
+                    </aura:iteration>
+                </table>
+            </div>
+        </div>
+        <aura:if isTrue="{!v.showModal}">
+            <div style="height:640px;">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+                         class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container saveFormContainer">
+                        <div class="slds-modal__content slds-p-around_medium content">
+                            <lightning:buttonIcon class="slds-float--right" 
+                                                  iconName="utility:close" 
+                                                  variant="border-filled" 
+                                                  onclick="{!c.closeModal}" alternativeText="close" />                            
+                            <aura:if isTrue="{!v.showSpinner}">
+                                <lightning:spinner size="medium" variant="brand" />
+                            </aura:if>
+                            <iframe src="{!'/apex/QuikHTMLView_Print?id='+v.formHTMLURL}" 
+                                    style="height:100%; width:100%; border:none" scrolling="no"/>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.showFormsModal}">
+            <div>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+                         class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container" id="modalId">
+                        <div class="slds-modal__content slds-p-around_small" style="width:80%">
+                            <div class="slds-box" style="padding:1%">
+                                <div style="display: inline">
+                                    <div align="right">
+                                        <lightning:buttonIcon iconName="utility:close"
+                                                              variant="bare"
+                                                              onclick="{!c.cancel}" alternativeText="close"/>
+                                    </div>
+                                    <div class="slds-card">
+                                        <div align="center">
+                                            <b><p style="padding-bottom: 0.5rem; font-size:16px;">Please select form type:</p></b>
+                                            <fieldset class="slds-form-element" style="font-size:17px; margin-bottom:4%">
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-radio_button-group">
+                                                        <span class="slds-button slds-radio_button">
+                                                            <input type="radio" name="example-unique-name-85" id="example-unique-id-87" 
+                                                                   value="eSign" onclick="{!c.sign}"/>
+                                                            <label class="slds-radio_button__label" for="example-unique-id-87">
+                                                                <span class="slds-radio_faux">eSign</span>
+                                                            </label>
+                                                        </span>
+                                                        <span class="slds-button slds-radio_button">
+                                                            <input type="radio" name="example-unique-name-85" id="example-unique-id-91" 
+                                                                   value="Print" />
+                                                            <label class="slds-radio_button__label" for="example-unique-id-91" 
+                                                                   onclick="{!c.print}">
+                                                                <span class="slds-radio_faux">Print</span>
+                                                            </label>
+                                                        </span>                                    
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>            
+        </aura:if>
+        <aura:if isTrue="{!v.showPrintModal}">
+            <div>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" 
+                         aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container saveFormContainer" id="modalId">
+                        <div class="slds-modal__content slds-p-around_medium content">
+                            <lightning:buttonIcon class="slds-float--right" 
+                                                  iconName="utility:close" 
+                                                  variant="border-filled" 
+                                                  onclick="{!c.closeFormsModal}" alternativeText="close" />
+                            <c:QuikCreateForms recordId="{!v.recordId}"/>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.showSignModal}">
+            <div>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+                         class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container saveFormContainer" id="modalId">
+                        <div class="slds-modal__content slds-p-around_medium content">
+                            <lightning:buttonIcon class="slds-float--right" 
+                                                  iconName="utility:close" 
+                                                  variant="border-filled" 
+                                                  onclick="{!c.closeSignsModal}" alternativeText="close" />
+                            <c:QuikCreateForms_Sign recordId="{!v.recordId}" parent="{! this }"/>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>        
+    </div>
+    
+</aura:component>

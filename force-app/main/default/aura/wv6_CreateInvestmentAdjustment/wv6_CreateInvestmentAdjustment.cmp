@@ -1,0 +1,54 @@
+<aura:component controller="wv6_FinancialAccountsGridViewController">
+    <aura:attribute name="investmentAdjustment" type="Investment_Adjustment__c" default="{ 'sobjectType': 'Investment_Adjustment__c',
+                                                                                         'Financial_Account__c': ''}
+                                                                                         "/>
+    <aura:attribute name="adjustmentTypePicklist" type="String[]"/>
+    <aura:attribute name="financialAccountId" type="String" access="public"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="showSpinner" type="boolean" default="false"/>
+    <aura:registerEvent name="refreshView" type="c:wv6_RefreshFinancialAccountsGridView"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner aura:id="mySpinner"  variant="brand"/>
+    </aura:if>
+    <div class="slds-grid slds-grid_pull-padded-medium slds-wrap slds-form slds-form_stacked slds-form-element">
+        
+        <section  class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-modal__close" title="Close" 
+                            onclick="{!c.cancel}">
+                        <lightning:icon class="white slds-icon_small" iconName="utility:close"/> 
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        New Investment Adjustment</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" > 
+                    <div class="slds-col--padded">
+                        <label class="slds-form-element__label"><span style="color:red">*</span> Adjustment Type</label>
+                        <ui:inputSelect aura:id="adjustmenttType" value="{!v.investmentAdjustment.Adjustment_Type__c}" >
+                            <ui:inputSelectOption text="" label="--None--"/>
+                            <aura:iteration items="{!v.adjustmentTypePicklist}" var="type">
+                                <ui:inputSelectOption text="{!type}" label="{!type}"/>
+                            </aura:iteration>
+                        </ui:inputSelect>
+                        <br></br>
+                        <label class="slds-form-element__label"><span style="color:red">*</span> Amount</label>
+                        <ui:inputCurrency aura:id="amount" required="true" value="{!v.investmentAdjustment.Amount__c}"/>
+                        <br></br>
+                        <label class="slds-form-element__label"><span style="color:red">*</span> Date of Adjustment</label>
+                        <ui:inputDate aura:id="dateofAdjustment" required="true" value="{!v.investmentAdjustment.Date_of_Adjustment__c}" displayDatePicker="true"/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-p-horizontal_medium slds-m-top_medium slds-m-bottom_medium">
+                        <label class="slds-form-element__label"> <span style="color:red">*</span> Adjustment Reason</label>
+                        <ui:inputTextArea aura:id="reason" required="true" value="{!v.investmentAdjustment.Adjustment_Reason__c}"/> 
+                    </div>    
+                    <div class="slds-modal__footer">
+                        <ui:button class="slds-button slds-button_neutral" label="Cancel" press="{!c.cancel}" aura:id="saveButton" />
+                        <ui:button class="slds-button slds-button_brand" label="Save" press="{!c.saveRecord}" aura:id="saveButton" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</aura:component>

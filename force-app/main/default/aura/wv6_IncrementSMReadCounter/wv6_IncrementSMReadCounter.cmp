@@ -1,0 +1,3 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global"  controller="wv6_UnreadMessageNumber">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+</aura:component>

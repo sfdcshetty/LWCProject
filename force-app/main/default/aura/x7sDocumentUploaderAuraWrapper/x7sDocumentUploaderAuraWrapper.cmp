@@ -1,0 +1,42 @@
+<!--
+ - Created by karolbrennan on 4/23/21.
+ -->
+
+<aura:component description="x7sDocumentUploaderAuraWrapper" implements="forceCommunity:availableForAllPageTypes"
+                controller="Docuvault_PortalDocumentsHelper" access="global">
+    <aura:attribute name="progressBar" type="String" access="global" default="0%"/>
+    <aura:attribute name="currentUploadIndex" type="Integer" default="0" access="global"/>
+    <aura:attribute name="successFilesCount" type="Integer" default="0" access="global"/>
+    <aura:attribute name="errorFilesCount" type="Integer" default="0" access="global"/>
+    <aura:attribute name="cloudRecord"
+                    type="TVA_CFB__Cloud_Files__c" access="global"
+                    default="{'sobjectType': 'TVA_CFB__Cloud_Files__c', 'TVA_CFB__Folder__c':''}"
+                    />
+    <aura:attribute name="uploadingFile" type="Object" access="global" default="" />
+    <aura:attribute name="uploadStatus" type="Object" access="global" default="" />
+    <aura:attribute name="fileList" type="Object" access="global" default="" />
+    <aura:attribute name="submissionMessage" type="String" access="global" default=""/>
+    <aura:attribute name="faqLink" type="String" access="global" />
+    <aura:attribute name="inModal" type="Boolean" access="global" default="false" />
+    <aura:attribute name="uploading" type="Boolean" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute type="String" name="parentId" default="" />
+    
+    <TVA_CFB:Docuvault_Upload
+        aura:id="uploadFilesComp"
+        recordId="{!v.recordId}"
+        uploadStatus="{!v.progressBar}"
+        displayFile="{!v.uploadingFile}"
+        successFiles="{!v.successFilesCount}"
+        errorFiles="{!v.errorFilesCount}"/>
+    
+    <!-- Document Uploader LWC -->
+    <c:x7sDocumentUploader
+        aura:id="x7sDocumentUploader"
+        faqLink="{!v.faqLink}"
+        inModal="{!v.inModal}"
+        uploadStatus="{!v.uploadStatus}"
+        onuploadfiles="{!c.handleFileUpload}"
+        oncompreset="{!c.resetComponent}"/>
+</aura:component>

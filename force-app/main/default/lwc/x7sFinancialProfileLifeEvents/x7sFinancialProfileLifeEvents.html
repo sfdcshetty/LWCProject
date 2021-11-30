@@ -1,0 +1,29 @@
+<template>
+    <form class="x7s-finprofile_life-events">
+
+        <lightning-layout multiple-rows class="slds-gutters">
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <template if:false={optionsEvents.length}>
+            <!-- show a loading spinner while waiting for org data -->
+            <lightning-spinner alternative-text="Loading options"></lightning-spinner>
+        </template>
+
+        <lightning-layout multiple-rows class="slds-gutters">
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <lightning-checkbox-group name="life-events" label="Select all that apply." variant="label-hidden"
+                                        options={optionsEvents} 
+                                        value={selectedEvents} 
+                                        onchange={handleChangeEvents}></lightning-checkbox-group>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={showExplanation} size="12" class="slds-col slds-m-bottom_large">
+                <lightning-textarea label="If 'Other', please explain" value={explanation} onchange={handleChangeExplanation}></lightning-textarea>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </form>
+</template>

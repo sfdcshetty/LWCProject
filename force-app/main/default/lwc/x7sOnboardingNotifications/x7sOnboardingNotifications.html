@@ -1,0 +1,54 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <c-x7s-onboarding-slide class="notifications"
+                            title={notificationHeader}
+                            description={notificationMessage}
+                            sub-text={notificationAction}
+                            primary-button-label={nextButtonLabel}
+                            primary-button-color={buttonColor}
+                            onprimaryclick={goToNext}
+                            back-button-label={backButtonLabel}
+                            onbackclick={goBack}>
+
+        <lightning-layout>
+            <lightning-layout-item size="12">
+                <template if:true={showNotification}>
+                    <lightning-formatted-url  value ={notificationInfoUrl}
+                                              label ={notificationLinkLabel}
+                                              style ="text-decoration: underline;"
+                                              onclick ={handleLinkClick}  
+                                              target ="_blank">
+                    </lightning-formatted-url>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-m-top_x-small">
+                <template if:true ={notificationUser}>
+                    <div class ={notificationButtons}>
+                        <lightning-input    type ="checkbox"
+                                            label ={notificationUser}
+                                            onchange ={notificationChange}
+                                            checked ={notificationChkByUser} >
+                        </lightning-input>
+                    </div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true ={notificationText}>
+            <div class="slds-form notificationButtons slds-m-top_x-small">
+                <div class="slds-form-element">
+                    <lightning-input    type ="checkbox"
+                                        label ={notificationText}
+                                        onchange ={updateEmailOptInOut}
+                                        checked ={emailPreference}
+                                        class ="onboarding-notifications__optin" >
+                    </lightning-input>
+                </div>
+            </div>
+        </template>
+    </c-x7s-onboarding-slide>
+</template>

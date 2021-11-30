@@ -1,0 +1,10 @@
+<design:component >
+	<design:attribute name="filterCriteria"  label="Filter Criteria"/>
+    <design:attribute name="object" label="Object API Name" /> 
+    <design:attribute name="orderByClause" label="Order By Clause" Description="This defines sorting order for Table"/>
+    <design:attribute name="displayLocation" label="Display Location" Description=" This value should match Display Location picklist values on Custom Metadata Type(Lightning Data Table Settings)"/>
+    <design:attribute name="tableTitle" label="Table Title" Description="This controls display on Title for Data Table. If kept blank, Table displayed without Title." />
+    <design:attribute name="isCommunity" label="Is Community?" Description="This is used to control base URL for hyperlinked fields."/>    
+    <design:attribute name="showGrandTotal"  label="Show Grand Total?" Description="This is used to show/hide Grand Total of Balance in Financial Account Table on Customer Portal"/>
+    <design:attribute name="msg" label="Message"  Description="Enter Message which should be displyed when no matching records found."/>
+</design:component>

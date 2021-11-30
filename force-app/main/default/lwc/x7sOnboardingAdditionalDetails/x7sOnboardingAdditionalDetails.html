@@ -1,0 +1,52 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <c-x7s-onboarding-slide class="additional"
+                            title ={additionalSlideHeader}
+                            description ={additionalSlideMessage}
+                            primary-button-label ={nextButtonLabel}
+                            primary-button-color ={buttonColor}
+                            onprimaryclick ={goToNext}
+                            back-button-label ={backButtonLabel}
+                            onbackclick ={goBack}
+                            sub-text ={additionalSlideLabel}>
+
+        <template if:true={err}>
+            <div class="slds-theme--error">{err}</div>
+        </template>
+
+        <lightning-record-edit-form record-id ={recordId}
+                                    data-id ="form"
+                                    object-api-name ="User"
+                                    onsuccess ={handleOnSuccess}>
+
+            <lightning-messages></lightning-messages>
+            <lightning-layout  multiple-rows ="true"
+                                pull-to-boundary ="small"
+                                horizontal-align ="center"
+                                class ="inputWrapper">
+
+                <template if:true={additionalSlideUserFieldName1}>
+                    <lightning-layout-item size="12" medium-device-size="8" padding="horizontal-small" class="slds-m-bottom_x-small">
+                        <label>{additionalSlideUserFieldLabel1}</label>
+                        <template if:true={additionalSlideUserFieldTooltip1}>
+                            <lightning-helptext content={additionalSlideUserFieldTooltip1}></lightning-helptext>
+                        </template>
+                        <lightning-input-field  field-name={additionalSlideUserFieldName1} variant="label-hidden"></lightning-input-field>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={additionalSlideUserFieldName2}>
+                    <lightning-layout-item size="12" medium-device-size="8" padding="horizontal-small" >
+                        <label>{additionalSlideUserFieldLabel2}</label>
+                        <template if:true={additionalSlideUserFieldTooltip2}>
+                            <lightning-helptext content={additionalSlideUserFieldTooltip2}></lightning-helptext>
+                        </template>
+                        <lightning-input-field field-name={additionalSlideUserFieldName2} variant="label-hidden"></lightning-input-field>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </lightning-record-edit-form>
+    </c-x7s-onboarding-slide>
+</template>

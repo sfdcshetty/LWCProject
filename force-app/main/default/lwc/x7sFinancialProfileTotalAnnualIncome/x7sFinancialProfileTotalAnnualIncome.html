@@ -1,0 +1,35 @@
+<template>
+  <div class="x7s-finprofile_total-annual-income">
+    <lightning-layout multiple-rows class="slds-gutters">
+
+      <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+        <h1 class="x7s-text-heading_large">{header}</h1>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+        <h3>{firstName}<br>Income</h3>
+        <div class="slds-grid slds-grid_vertical-align-end">
+          <lightning-input label={labelPrimary} variant="label-hidden"
+            type="number" formatter="currency" step="1"
+            placeholder="Round to nearest dollar" 
+            value={incomePrimary}
+            onchange={handleChangeIncomePrimary}></lightning-input>
+          <span class="slds-p-around_x-small">/year</span>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item if:true={coClientName} size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+        <h3>{coClientName}<br>Income</h3>
+        <div class="slds-grid slds-grid_vertical-align-end">
+          <lightning-input label={labelSecondary} variant="label-hidden"
+            type="number" formatter="currency" step="1"
+            placeholder="Round to nearest dollar" 
+            value={incomeSecondary}
+            onchange={handleChangeIncomeSecondary}></lightning-input>
+          <span class="slds-p-around_x-small">/year</span>
+        </div>
+      </lightning-layout-item>
+
+    </lightning-layout>
+  </div>
+</template>

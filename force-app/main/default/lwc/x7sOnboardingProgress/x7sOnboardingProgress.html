@@ -1,0 +1,114 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12" class="">
+            <div class="slds-p-around_none">
+                <div class="slds-text-align_left slds-p-around_none" style="margin-top:20px">
+                    <h2 class="slds-text-heading_small">{progressHeading}</h2>
+                    <div if:true={progressMessage} style="margin-top:10px; margin-bottom:20px">
+                        <p>{progressMessage}</p>
+                    </div>
+                </div>
+                <div role="list" class="onboarding-progress__list">
+                    <div class="onboard-list-number" style="top: 35px;">1</div>
+                    <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep1}
+                                                    label={step1Label}
+                                                    page-number="1"
+                                                    completed={user.X7S_Completed_Welcome_Slide__c}
+                                                    page-name="Welcome"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step>
+                    <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep2}
+                                                    label={step2Label}
+                                                    page-number="2"
+                                                    completed={user.X7S_Completed_Profile_Slide__c}
+                                                    page-name="Profile"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step>
+                    <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep3}
+                                                    label={step3Label}
+                                                    page-number="3"
+                                                    completed={user.X7S_Completed_Additional_User_Data__c}
+                                                    page-name="Additional"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step>
+                    
+                    <!--<div if:true={useTopicMetadata} role="presentation">
+                        <template for:each={topicSlidesList} for:item="topicSlide" for:index="index">
+                            <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                            key={topicSlide.pageNo}
+                                                            show={showStep4}
+                                                            label={topicSlide.parentLabel.parentLabel}
+                                                            page-number={topicSlide.pageNo}
+                                                            completed={metaIsCompleted}
+                                                            page-name="Topic"
+                                                            onstepclick={handlePageChange}>
+                            </c-x7s-Onboarding-Progress-Step>
+                        </template>
+                    </div>-->
+
+                    <div class="onboard-list-number" style="top: 35px; margin-top:0px">2</div>
+                    <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep7}
+                                                    label={step7Label}
+                                                    page-number="4"
+                                                    completed={user.X7S_Completed_Tours_Slide__c}
+                                                    page-name="Tours"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step>
+                    
+                    <div class="onboard-list-number" style="top: 35px; margin-top:0px">3</div>
+                    <div if:false={useTopicMetadata}>
+                        <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                        show={showStep4}
+                                                        label={step4Label}
+                                                        page-number="11"
+                                                        completed={user.X7S_Completed_Topics_Slide__c}
+                                                        page-name="Topic"
+                                                        onstepclick={handlePageChange}>
+                        </c-x7s-Onboarding-Progress-Step>
+                    </div>
+                    
+                    <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep5}
+                                                    label={step5Label}
+                                                    page-number="9"
+                                                    completed={user.X7S_Completed_Groups_Slide__c}
+                                                    page-name="Group"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step>
+                    <c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep6}
+                                                    label={step6Label}
+                                                    page-number="10"
+                                                    completed={user.X7S_Completed_Notification_Slide__c}
+                                                    page-name="Notification"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step>
+                    <!--<c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep7}
+                                                    label={step7Label}
+                                                    page-number="11"
+                                                    completed={user.X7S_Completed_Tours_Slide__c}
+                                                    page-name="Tours"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step>-->
+                    <!--<c-x7s-Onboarding-Progress-Step role="presentation"
+                                                    show={showStep8}
+                                                    label={step8Label}
+                                                    page-number="12"
+                                                    completed={user.X7S_Onboarding_Complete__c}
+                                                    page-name="Done"
+                                                    onstepclick={handlePageChange}>
+                    </c-x7s-Onboarding-Progress-Step> -->
+                </div>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

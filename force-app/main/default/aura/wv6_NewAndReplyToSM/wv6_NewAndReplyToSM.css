@@ -1,0 +1,19 @@
+.THIS .header{
+	position: relative;
+    border-top-right-radius: .25rem;
+    border-top-left-radius: .25rem;
+    border-bottom: 2px solid rgb(192, 192, 195);
+    padding: 1rem;
+    text-align: center;
+}
+
+.THIS .footer{
+    border-top: 2px solid rgb(192, 192, 195);
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    padding: .75rem 1rem;
+    background-color: rgb(249, 249, 250);
+    text-align: right;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+    
+}

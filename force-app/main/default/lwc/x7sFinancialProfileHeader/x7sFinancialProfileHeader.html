@@ -1,0 +1,40 @@
+<!--
+ - Created by martinblase on 4/6/21.
+ -->
+
+<!-- 7S Financial Profile Header -->
+<template>
+    <lightning-layout multiple-rows vertical-align="center" class="x7s-finprofile_header">
+        <lightning-layout-item size="12" medium-device-size="4" large-device-size="4" class="slds-order_1 slds-text-align_left">
+            <span class="x7s-theme__logo-link">
+                <span class="assistiveText">Wealth Enhancement Group</span>
+            </span>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12" medium-device-size="4" large-device-size="4" class="slds-order_2 slds-text-align_center">
+            <h1>
+                Financial Profile<span if:true={headerText.length}>: </span>
+                {headerText}
+            </h1>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="6" medium-device-size="4" large-device-size="2" class="slds-order_3 slds-text-align_right">
+            <!-- <button class="slds-button slds-button_neutral" onclick={handleClickUploadDocs}>
+                <lightning-icon size="x-small" icon-name="utility:upload" class="slds-m-right_small"></lightning-icon>
+                Upload Docs
+            </button> -->
+            <button class="slds-button slds-button_neutral" onclick={handleClickViewDocList}>
+                <lightning-icon size="x-small" icon-name="utility:page" class="slds-m-right_small"></lightning-icon>
+                View Doc List
+            </button>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="6" medium-device-size="12" large-device-size="2" class="slds-order_4 slds-text-align_right">
+            <button class="slds-button slds-button_brand" onclick={handleClickSaveAndClose}>
+                <lightning-icon size="x-small" variant="inverse" icon-name="utility:check" class="slds-m-right_small"></lightning-icon>
+                Save &amp; Close
+            </button>
+        </lightning-layout-item>
+
+    </lightning-layout>
+</template>

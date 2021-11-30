@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>X7S Weg Profile Edit Addresses</description>
+    <isExposed>true</isExposed>
+    <masterLabel>X7S Weg Profile Edit Addresses</masterLabel>
+</LightningComponentBundle>

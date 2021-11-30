@@ -1,0 +1,180 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+* {
+  font-family: "ProximaNova", sans-serif;
+}
+h1 {
+  font-size: 38px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.68;
+  letter-spacing: -1.9px;
+  text-align: left;
+  color: #000000;
+  position: relative;
+  margin-bottom: 20px;
+}
+h1:after {
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  height: 3px;
+  background-color: #3f9c35;
+}
+h2 {
+  font-size: 27px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.37;
+  letter-spacing: -1.35px;
+  text-align: left;
+  color: #63656a;
+}
+h3 {
+  font-size: 21px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.14;
+  letter-spacing: -0.42px;
+  text-align: left;
+  color: #3f9c35;
+  margin-bottom: 14px;
+}
+h4 {
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: -0.36px;
+  text-align: left;
+  color: #000000;
+}
+strong {
+  font-family: "ProximaNova-Bold", sans-serif;
+  font-weight: bold;
+}
+svg {
+  fill: #63656a;
+}
+a {
+  color: #00777a;
+}
+a:hover {
+  color: #3f9c35;
+}
+.email-link {
+  word-break: break-all;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+}
+.user-stats-container {
+  padding-left: 5px;
+}
+.user-stats {
+  line-height: 25px;
+}
+.primary-btn {
+  padding: 8px 14px 8px 17px;
+  border-radius: 20px;
+  border: solid 1px #00777a;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4.27;
+  letter-spacing: normal;
+  text-align: left;
+  color: #00777a;
+}
+.slds-card {
+  padding: 23px 12px 26px 22px;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+}
+li,
+p {
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  text-align: left;
+  color: #63656a;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+p.primary-text {
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: -0.36px;
+  text-align: left;
+  color: #63656a;
+}
+img.advisor-image {
+  border-radius: 100px;
+  /*height: 100px;*/
+  width: 100px;
+}
+img.advisor-image-compact {
+  border-radius: 75px;
+  /*height: 75px;*/
+  width: 75px;
+}
+.name {
+  font-size: 18px;
+}
+.title {
+  margin: 4px 0px 13px 0px;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  text-align: left;
+}
+.compact-image {
+  height: 75px !important;
+  width: 75px !important;
+}
+.image-cropper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.image-cropper-other {
+  width: 100px;
+  height: 100px;
+}
+.image-cropper-home {
+  width: 100px;
+  height: 100px;
+}
+.image-cropper-compact {
+  width: 75px;
+  height: 75px;
+}

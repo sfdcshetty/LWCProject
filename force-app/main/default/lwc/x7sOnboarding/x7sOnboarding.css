@@ -1,0 +1,228 @@
+/*
+ * Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+ */
+
+
+:host:focus {
+    outline: none;
+}
+
+.slds-modal__container {
+   margin: 0 1rem;
+   padding: 1rem 0;
+}
+
+.onboarding_on-page .slds-modal__container {
+   border: 1px solid var(--lwc-colorBorder);
+   margin: 1rem 0;
+   padding: 0;
+   width: auto;
+   max-width: initial;
+   min-width: initial;
+}
+
+.onboarding_on-page  .slds-modal__content:last-child{
+   box-shadow: none;
+   max-width: 860px;
+   margin: 0 auto;
+}
+
+.slds-fade-in-open {
+   background: rgba(0, 0, 0, .62)
+}
+
+.termsAndConditions {
+   height: 200px;
+   overflow: auto;
+}
+
+.onboarding_on-page .onboarding-progress__item-label {
+   color: #63656a;
+   font-size: 13px;
+   letter-spacing: .5px;
+   transform: translateY(15px);
+}
+
+.onboarding_on-page .slds-is-active .onboarding-progress__item-label {
+   transform: translateY(20px);
+}
+
+h2 {
+   font-size: 18px !important;
+   font-weight: 500
+}
+
+@media (min-width: 48em) {
+   .slds-modal__container {
+       margin: 0 auto;
+   }
+}
+
+.slds-icon_brand svg {
+   fill: var(--lwc-colorTextBrand);
+}
+
+.pointerEvent {
+   pointer-events: none;
+}
+
+.slds-modal__header {
+   padding: 25px;
+   background: #fff;
+   border-bottom: none;
+   box-shadow: 0 8px 18px -8px rgba(0,0,0,0.08);
+}
+
+.slds-modal__header h2 {
+   font-size: 1rem;
+   color: #000
+}
+
+.slds-modal__header .slds-modal__close {
+   top: .5rem;
+   right: .5rem;
+   color: #000;
+   border-radius: 50%;
+   background: #fafafa
+}
+
+.onboarding-progress__item {
+   flex-basis: 0;
+   position: relative;
+   display: flex;
+}
+
+.onboarding-progress__item-label {
+   position: absolute;
+   left: 50%;
+   width: 80px;
+   margin-left: -40px;
+   top: 24px;
+   display: block;
+   font-size: .625rem;
+   text-transform: uppercase;
+   line-height: 1;
+   text-align: center;
+}
+
+.slds-progress__marker {
+   width: 14px;
+   height: 14px;
+   line-height: .5;
+}
+
+.slds-is-active .slds-progress__marker {
+   background: var(--lwc-colorTextBrand);
+   border-color: var(--lwc-colorTextBrand);
+}
+
+.slds-is-active .slds-progress__marker:hover,
+.slds-is-active .slds-progress__marker:focus {
+   border-color: var(--lwc-colorTextBrand);
+}
+
+.slds-is-completed .slds-progress__marker {
+   box-shadow: rgb(255, 255, 255) 0px 0px 0px 4px;
+   border: none;
+}
+
+.slds-is-completed .slds-button__icon {
+   fill: var(--lwc-colorTextBrand);
+}
+.slds-progress .slds-progress-bar {
+   left: 11px;
+   right: 11px;
+   width: auto;
+}
+.slds-progress-bar__value {
+   background: var(--lwc-colorTextBrand);
+}
+
+.lightningProgressIndicator .slds-popover_tooltip {
+   display: none
+}
+
+@media (max-width: 48em) {
+   .slds-progress {
+       margin-bottom: 3rem;
+   }
+   .slds-progress .slds-progress-bar,
+   .onboarding-progress__item-label {
+      display: none;
+      position: absolute;
+      top: 10%;
+      font-size: .725rem;
+   }
+}
+
+.slds-modal__container .slds-modal__content {
+   padding: 1rem 2rem 1rem 2rem ;
+}
+
+.onboarding__button {
+   margin: 0 auto;
+}
+
+.onboarding__button.block {
+   display: block;
+}
+
+.slds-card {
+   padding: 1rem;
+}
+
+.inputWrapper {
+   text-align: left
+}
+
+.notificationBox {
+   display: flex;
+   margin: 1rem 3rem;
+   border-radius: 4px;
+   background: #eee;
+}
+
+.notificationButtons {
+   display: inline-flex;
+}
+
+.notificationButtons .slds-form-element__label {
+   font-size: 1rem
+}
+
+@media (max-width: 30em) {
+   .followList {
+       display: inline-block;
+       text-align: left;
+   }
+}
+
+.slds-progress_vertical .slds-progress__item_content {
+   margin-top: .45rem;
+   padding-bottom: .35rem;
+   font-size: .65rem;
+}
+
+.slds-progress_vertical .slds-progress__item:last-child .slds-progress__marker {
+   border-radius: 0;
+}
+
+.slds-progress_vertical .slds-progress__item.slds-is-completed:before,
+.slds-progress_vertical .slds-progress__item.slds-is-completed:after {
+
+   background-color: #111111;
+   z-index: -1;
+}
+
+.slds-progress_vertical .slds-progress__item:before,
+.slds-progress_vertical .slds-progress__item:after {
+
+   background-color: #CCCCCC;
+   z-index: -1;
+}
+
+.onboarding-slide.welcome .onboarding-slide__title {
+   font-size: 140px;
+   padding-bottom: 75px;
+   padding-top: 75px;
+}

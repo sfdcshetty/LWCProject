@@ -1,0 +1,47 @@
+<!--
+ - Created by 7Summits on 10/3/17.
+ -->
+<aura:component description="7Summits Uber Theme - Two Bar Search Focused"
+                access="global">
+                
+    <!-- components -->
+    <aura:attribute name="searchComponent" type="Aura.Component[]" access="global"/>
+    <aura:attribute name="featuredTop" type="Aura.Component[]" access="global" />
+    <aura:attribute name="featuredBottom" type="Aura.Component[]" access="global"/>
+
+    <!-- general items  -->
+    <aura:attribute name="showFeaturedTopRegion" type="Boolean" access="global"/>
+    <aura:attribute name="showFeaturedBottomRegion" type="Boolean" access="global"/>
+
+    <!-- styles -->
+    <aura:attribute name="height" type="String" access="global"/>
+    <aura:attribute name="navHeight" type="String" default="80px" access="global"/>
+    <aura:attribute name="bkgColor" type="String" access="global"/>
+    <aura:attribute name="bkgImage" type="String" access="global"/>
+    <aura:attribute name="enableFixedHeader" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="desktopColumns" type="String" default="6" access="global"/>
+    <aura:attribute name="desktopAlign" type="String" default="left" access="global"/>
+
+    <div class="x7s-theme__two-bar-header"
+         style="{!if(v.enableFixedHeader, 'padding-top:' + v.navHeight + ';', '') + 'background-color:' + v.bkgColor + ';background-image:url(' + v.bkgImage + ');'}">
+        <div class="x7s-theme__two-bar-content"
+             style="{!'height:' + v.height + ';'}">
+            <lightning:layout class="x7s-theme__two-bar-content-body slds-container_x-large slds-container_center" verticalAlign="stretch" horizontalAlign="{!if(equals(v.desktopAlign, 'Left'), 'spread', 'center')}" multipleRows="true">
+                <lightning:layoutItem size="12" mediumDeviceSize="{!v.desktopColumns}">
+                    <lightning:layout class="x7s-theme__two-bar-content-body-inner" verticalAlign="center" horizontalAlign="spread" multipleRows="true">
+                        <aura:if isTrue="{!v.showFeaturedTopRegion}">
+                            <lightning:layoutItem class="x7s-theme__two-bar-featured" size="12">{!v.featuredTop}</lightning:layoutItem>
+                        </aura:if>
+                        <lightning:layoutItem class="slds-p-vertical_medium x7s-theme__two-bar-search" size="12">
+                            {!v.searchComponent}
+                        </lightning:layoutItem>
+                        <aura:if isTrue="{!v.showFeaturedBottomRegion}">
+                            <lightning:layoutItem class="x7s-theme__two-bar-featured-bottom" size="12">{!v.featuredBottom}</lightning:layoutItem>
+                        </aura:if>
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </div>
+
+</aura:component>

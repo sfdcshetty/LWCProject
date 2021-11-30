@@ -1,0 +1,12 @@
+<design:component >
+	<design:attribute name="title" label="Grid Title" description="Grid Title" />
+    <design:attribute name="objectName" label="Object API Name" description="API Name of the object" />
+    <design:attribute name="recordTypes" label="Record Type Ids" description="Comma seperated record type Ids" />
+    <design:attribute name="statuses" label="Statuses" description="Comma seperated status filters" />
+    <design:attribute name="fieldSetName" label="Field API Names" description="Comma separated Field API Names" />
+    <design:attribute name="pageSizeLimit" label="Page Record Size" description="Minimum number of records to show in collapsed view" />
+    <design:attribute name="accountType" label="Account Type" description="Household or Individual?" />
+    <design:attribute name="groupBy" label="Group By" description="Enter an API name of field to be used to group the records" />
+    <design:attribute name="sortBy" label="Sort By" description="Enter an API name of field to be used to sort the records with in a group" />
+    <design:attribute name="allInOneTab" label="Disable Edit and Row Actions?" description="Mark this as TRUE if you want to disable grid level Edit and all row level actions."/>
+</design:component>

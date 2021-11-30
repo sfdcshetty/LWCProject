@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>false</isExposed>
+    <masterLabel>7S UniFi Progress Bar</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="percent"  type="Integer"  label="Percent completed"  default="50" />
+            <property name="percentString"  type="String"  label="String to use after number"  default="% Complete" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

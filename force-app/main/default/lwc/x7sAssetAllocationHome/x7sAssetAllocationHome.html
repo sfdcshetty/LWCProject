@@ -1,0 +1,25 @@
+<template>
+    <div class="asset-allocation-header">Asset Overview</div>
+    <div class="pre-button" >Based on recently available data</div>
+    <div class="container">
+        <lightning-card class="lcard">
+                <div class="slds-p-around_small slds-grid slds-grid--vertical-align-center slds-grid--align-center lcardinternal">
+                    <canvas class="doughnutChartHome" lwc:dom="manual"></canvas>
+                    <div if:false={isChartJsInitialized} class="slds-col--padded slds-size--1-of-1">
+                        <lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+                    </div>
+                </div>
+                <div class="slds-text-align_center">
+                    <div class="button" onclick={goToMyAccount}>
+                        <span class="button-text">View Net Worth Details</span> 
+                        <lightning-icon
+                                    class="white"
+                                    size="xx-small"
+                                    icon-name="utility:chevronright"
+                                    alternative-text="View Net Worth Details"
+                                ></lightning-icon>
+                    </div>
+                </div>
+        </lightning-card> 
+    </div>  
+</template>

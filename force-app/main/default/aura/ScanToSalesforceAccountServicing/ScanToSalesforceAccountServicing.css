@@ -1,0 +1,17 @@
+.THIS .slds-fieldSet{
+    border: 1px solid #e8e2e2 !important;
+    border-radius: 4px !important;
+    padding: 1rem !important;
+}
+.THIS .slds-top-padding{
+    padding-top : 0.5rem;
+}
+.THIS .slds-checkbox [type=checkbox][disabled]+.slds-checkbox__label .slds-checkbox_faux {
+    background-color: rgb(129, 102, 174) !important;
+}
+.THIS .slds-modal-cus-height{
+    min-height: 18rem;
+}
+.THIS .slds-theme_success {
+    background-color: #253045 !important;
+}

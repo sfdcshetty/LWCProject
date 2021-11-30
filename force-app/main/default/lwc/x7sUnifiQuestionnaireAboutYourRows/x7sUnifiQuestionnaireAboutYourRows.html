@@ -1,0 +1,34 @@
+<template>
+    <template iterator:it={rowData}>
+        <lightning-layout key={it.value.id} vertical-align="end" multiple-rows class="slds-gutters">
+    
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Description" value={it.value.description} data-row-id={it.value.id}
+                    data-row-index={it.index} onchange={handleChangeDescription}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large">
+                <lightning-input label={labelAmount} type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" value={it.value.income} data-row-id={it.value.id}
+                    data-row-index={it.index} onchange={handleChangeAmount}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" medium-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label="Owner" options={owners} value={it.value.owner} data-row-id={it.value.id}
+                    data-row-index={it.index} onchange={handleChangeOwner}>
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item if:false={it.first} size="6" medium-device-size="4" class="slds-col slds-m-bottom_large slds-m-top_x-large">
+                <lightning-button variant="base" icon-name="utility:close" label="Remove this row" data-row-id={it.value.id}
+                    data-row-index={it.index} onclick={handleClickRemoveRow}>
+                </lightning-button>
+            </lightning-layout-item>
+    
+            <lightning-layout-item if:true={it.last} size="12" class="slds-col slds-m-bottom_large">
+                <lightning-button variant="base" icon-name="utility:new" label="Add Another"
+                    onclick={handleClickAddAnotherRow}></lightning-button>
+            </lightning-layout-item>
+    
+        </lightning-layout>
+    </template>
+</template>

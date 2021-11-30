@@ -1,0 +1,32 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" controller="wv6_NewAndReplyToSMCtrl">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="SecureMessage" type="Secure_Messaging__c"/>
+    <aura:attribute name="disclaimer" type="String" default="Please do NOT include any trading instructions in the secure message, as we are not able to accept trades through the Client Portal. If you wish to make a trade immediately, please call your financial advisory team."/>
+    
+    <div>
+        <div class="header">
+            <h2 id="header99" class="slds-text-heading--medium">Reply</h2>
+        </div>
+        <br/>
+        <div>
+            <lightning:input label="Subject" name="Subject" value="{!v.SecureMessage.Name}"/><br/>
+            <span style="color: #5a5a5a;">Message</span>
+            <lightning:inputRichText value="{!v.SecureMessage.Message__c}" ariaLabel="Message" /><br/>
+            Please Note:
+            <br/>
+            <p><strong>Please do <span style="text-decoration: underline;">NOT</span> include <span style="text-decoration: underline;">any trading</span> instructions in the secure message, as we are not able to accept trades through the Client Portal. If you wish to make a trade immediately, please call your financial advisory team.</strong></p>
+            <br/>
+            
+        </div>
+        <br/>
+        <div class="footer">
+            <button class="slds-button slds-button--brand" onclick="{!c.sendMessage}">Send</button>
+            <button class="slds-button slds-button--neutral" onclick="{!c.closeModal}">Cancel</button>
+        </div>
+    </div>
+    <!--<c:x7sWegSecureMessage
+            myparam = "2222"
+            recordid="{!v.recordId}"
+    />-->
+    
+</aura:component>

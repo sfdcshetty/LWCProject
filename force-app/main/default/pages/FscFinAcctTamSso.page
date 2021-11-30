@@ -1,0 +1,5 @@
+<apex:page standardController="FinServ__FinancialAccount__c" showHeader="false" sidebar="false">
+
+<TamAdvisor:TamaracSso objectId="{!Id}" objectName="FinServ__FinancialAccount__c" tamaracPageName="Account" financialAccountNumber="{!FinServ__FinancialAccount__c.FinServ__FinancialAccountNumber__c}"/>
+
+</apex:page>

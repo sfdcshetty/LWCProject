@@ -1,0 +1,7 @@
+<!--
+ - Created by karolbrennan on 5/25/21.
+ -->
+
+<design:component>
+    <design:attribute name="faqLink" label="Document FAQ link"/>
+</design:component>

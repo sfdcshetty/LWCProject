@@ -1,0 +1,131 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+	<c-x7s-onboarding-slide class="profile"
+	                        title={profileHeader}
+	                        description={profileMessage}
+	                        sub-text={profileAction}
+	                        primary-button-color={buttonColor}
+	                        onprimaryclick={goToNext}
+	                        onbackclick={goBack}
+	                        primary-button-label={nextButtonLabel}
+	                        back-button-label={backButtonLabel}>
+
+		<template if:true={error}>
+			<div class="slds-theme_error">{error}</div>
+		</template>
+		<lightning-layout class="onboarding-profile__layout" multiple-rows="true" pull-to-boundary="small">
+			<lightning-layout-item class="inputWrapper" size="12" padding="around-small">
+				<lightning-layout multiple-rows="true" pull-to-boundary="small">
+					<template if:true={showFirstName}>
+						<lightning-layout-item size="6" padding="horizontal-small">
+							<lightning-input name="fName"
+							                 type="text"
+							                 label={firstNameLabel}
+							                 value={user.FirstName}
+							                 placeholder={user.FirstName}
+							                 oncommit={onFirstNameCommit}
+							                 required>
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+					{temp}
+					<template if:true={showLastName}>
+						<lightning-layout-item size="6" padding="horizontal-small">
+							<lightning-input name="lName"
+							                 label={lastNameLabel}
+							                 value={user.LastName}
+							                 placeholder={user.LastName}
+							                 oncommit={onLastNameCommit}
+							                 required>
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+				</lightning-layout>
+			</lightning-layout-item>
+			<lightning-layout-item class="inputWrapper" size="12" padding="around-small">
+				<lightning-layout multiple-rows="true" pull-to-boundary="small" horizontal-align="spread">
+					<template if:true={showTitle}>
+						<lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+							<lightning-input name="title"
+							                 type="text"
+							                 label={titleLabel}
+							                 value={user.Title}
+							                 placeholder={user.Title}
+							                 oncommit={onTitleCommit}>
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+					<template if:true={showCompany}>
+						<lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+							<lightning-input name="company"
+							                 label={companyLabel}
+							                 value={user.CompanyName}
+							                 placeholder={user.CompanyName}
+							                 oncommit={onCompanyNameCommit}>
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+					<template if:true={showEmail}>
+						<lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+							<lightning-input name="email"
+							                 label={emailLabel}
+							                 value={user.Email}
+							                 placeholder={user.Email}
+							                 type="email"
+							                 oncommit={onEmailCommit}
+							                 required>
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+					<template if:true={showMobile}>
+						<lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+							<lightning-input name="mobile"
+							                 label={mobileLabel}
+							                 value={user.MobilePhone}
+							                 placeholder={user.MobilePhone}
+							                 oncommit={onMobilePhoneCommit}
+							                 type="tel">
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+					<template if:true={showNickname}>
+						<lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+							<lightning-input name="nickname"
+							                 label={nicknameLabel}
+							                 value={user.CommunityNickname}
+							                 oncommit={onCommunityNicknameCommit}
+							                 placeholder={user.CommunityNickname}>
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+					<template if:true={showAboutMe}>
+						<lightning-layout-item size="12" medium-device-size="6" padding="horizontal-small">
+							<lightning-input name="aboutme"
+							                 label={aboutMeLabel}
+							                 value={user.AboutMe}
+							                 oncommit={onAboutMeCommit}
+							                 placeholder={user.AboutMe}>
+							</lightning-input>
+						</lightning-layout-item>
+					</template>
+				</lightning-layout>
+			</lightning-layout-item>
+			<template if:true={avatar}>
+				<lightning-layout-item size="12" class="inputWrapper" padding="around-small">
+					<template if:true={showAvatarUpload}>
+						<lightning-file-upload multiple
+						                       label={dropFileLabel}
+						                       name="avatarUpload"
+						                       accept={acceptableAvatarFileTypes}
+						                       record-id={recordId}
+						                       onuploadfinished={handleUploadFinished}>
+						</lightning-file-upload>
+					</template>
+				</lightning-layout-item>
+			</template>
+		</lightning-layout>
+	</c-x7s-onboarding-slide>
+</template>

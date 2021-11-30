@@ -1,0 +1,35 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.pref-button {
+  float: right;
+  height: 31px;
+  margin: 20px 261px 13px 18px;
+  padding: 10px 14px 9px 17px;
+  border-radius: 20px;
+  border: solid 1px #01777a;
+  background-color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #01777a;
+  width: 220px;
+  cursor: pointer;
+}
+.icon-container {
+  display: inline-block;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  margin-top: -2px;
+}
+.profile-chevron {
+  height: 10px;
+}

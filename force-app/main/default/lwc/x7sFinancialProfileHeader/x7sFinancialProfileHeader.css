@@ -1,0 +1,95 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.x7s-finprofile {
+  position: relative;
+  min-height: 800px;
+  font-family: ProximaNova, sans-serif;
+  background: #f6f8f6;
+}
+@media screen and (max-width: 64em) {
+  .x7s-finprofile {
+    padding-top: 100px;
+  }
+}
+@media screen and (min-width: 64em) {
+  .x7s-finprofile {
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+  .x7s-finprofile .x7s-finprofile_remove-margins {
+    margin-left: -100px;
+    margin-right: -190px;
+  }
+  .x7s-finprofile .x7s-finprofile_total-assets-footer {
+    margin-left: -200px;
+    margin-right: -200px;
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+}
+.x7s-finprofile .x7s-finprofile_total-assets-footer {
+  padding: 10px;
+  background: #ddd;
+}
+.x7s-finprofile .x7s-theme__logo-link {
+  width: 180px;
+  height: 70px;
+}
+.x7s-finprofile .slds-button {
+  border-radius: 1.5rem;
+  font-size: 15px;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.x7s-finprofile .slds-button.slds-button_neutral {
+  background-color: #f6f8f6;
+  border-color: #f6f8f6;
+  color: #000;
+}
+.x7s-finprofile .slds-button.slds-button_neutral:hover {
+  border-color: #000;
+}
+.x7s-finprofile .slds-button.slds-button_brand {
+  background-color: #00777a;
+  border-color: #00777a;
+  color: #fff;
+}
+.x7s-finprofile .slds-button.slds-button_brand:hover {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+}
+.x7s-finprofile .slds-button.slds-button_outline-brand {
+  background-color: #fff;
+  border-color: #00777a;
+  color: #00777a;
+}
+.x7s-finprofile .slds-button.slds-button_outline-brand:hover {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+  color: #fff;
+}
+.x7s-finprofile_header {
+  min-height: 60px;
+  padding-bottom: 5px;
+  border-bottom: 5px solid #3f9c35;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding-left: calc(50vw - 50%);
+  margin-right: calc(50% - 50vw);
+  padding-right: calc(50vw - 50%);
+}
+.x7s-finprofile_header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.36;
+}
+.x7s-finprofile_header .slds-button + .slds-button {
+  margin-left: 10px;
+}

@@ -1,0 +1,81 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.container {
+  position: relative;
+  background-color: #fff;
+  padding: 0px 37px 37px 37px;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.08);
+}
+.asset-allocation-header {
+  color: #01777a;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 10px 0px 10px;
+  line-height: 40px;
+  /*font-size: 22px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;*/
+}
+.slds-card__header-title {
+  display: none !important;
+}
+.button {
+  bottom: 10px;
+  height: 31px;
+  margin: 50px 261px 13px 7px;
+  padding: 10px 14px 24px 17px;
+  border-radius: 20px;
+  border: solid 1px #01777a;
+  background-color: #01777a;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
+  /* width: 260px; */
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+}
+.button-text {
+  display: inline-block;
+  margin-right: 20px;
+  margin-left: 13px;
+}
+.pre-button {
+  font-size: 16px;
+  color: #919396;
+  text-align: center;
+}
+.pre-button-link {
+  color: #7ebc77;
+}
+.white {
+  --sds-c-icon-color-foreground-default: #fff !important;
+  --sds-c-icon-color-foreground: #fff !important;
+  --sds-c-icon-color-background: #01777a !important;
+}
+
+.button .slds-icon_container {
+  top: -1px; /* nudge the icon icon up a bit since it's not square */
+  position: relative;
+}
+
+.container * {
+  border:none;
+}

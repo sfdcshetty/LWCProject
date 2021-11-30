@@ -1,0 +1,3 @@
+<apex:page standardController="Loop__Document_Request__c" recordSetVar="DocGen Queue" extensions="TSS_StickIt_MR1.stickItListViewControllerv2" showHeader="false" standardStylesheets="false">
+   <TSS_StickIt_MR1:StickIt_Dual selectedRecords="{!records}"></TSS_StickIt_MR1:StickIt_Dual>
+</apex:page>

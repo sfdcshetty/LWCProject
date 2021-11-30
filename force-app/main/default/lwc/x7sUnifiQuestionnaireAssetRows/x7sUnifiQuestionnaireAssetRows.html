@@ -1,0 +1,88 @@
+<template>
+    <template iterator:it={rowData}>
+        <lightning-layout key={it.value.id} vertical-align="end" multiple-rows class="slds-gutters">
+
+            <lightning-layout-item if:false={it.first} size="12" class="slds-col slds-border_bottom slds-m-bottom_medium">
+                <!-- no content -->
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label={labelType} options={types} value={it.value.type} 
+                    data-row-id={it.value.id} data-row-index={it.index} 
+                    onchange={handleChangeType}>
+                </lightning-combobox>
+            </lightning-layout-item>
+    
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large">
+                <lightning-input label={labelName} value={it.value.name} 
+                    data-row-id={it.value.id} data-row-index={it.index} 
+                    onchange={handleChangeName}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label="Owner" options={owners} value={it.value.owner} 
+                    data-row-id={it.value.id} data-row-index={it.index} 
+                    onchange={handleChangeOwner}>
+                </lightning-combobox>
+            </lightning-layout-item>
+            
+            <lightning-layout-item size="12" medium-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Current Value" 
+                    type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" value={it.value.amount} 
+                    data-row-id={it.value.id} data-row-index={it.index} 
+                    onchange={handleChangeAmount}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:false={it.first} size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-m-top_x-large">
+                <lightning-button variant="base" icon-name="utility:close" 
+                    label="Remove this row" 
+                    data-row-id={it.value.id} data-row-index={it.index} 
+                    onclick={handleClickRemoveRow}>
+                </lightning-button>
+            </lightning-layout-item>
+
+            <template if:true={isDebt}>
+
+                <lightning-layout-item if:true={it.first} size="12" medium-device-size="3" class="slds-col slds-m-bottom_large">
+                    <!-- empty placeholder -->
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" medium-device-size="2" class="slds-col slds-m-bottom_large">
+                    <lightning-input label="Term" 
+                        type="number" formatter="" step="1"
+                        placeholder="# of months" value={it.value.term} 
+                        data-row-id={it.value.id} data-row-index={it.index} 
+                        onchange={handleChangeTerm}></lightning-input>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large">
+                    <lightning-input label="Interest Rate" 
+                        type="number" formatter="percent" 
+                        placeholder="percent" value={it.value.rate} 
+                        data-row-id={it.value.id} data-row-index={it.index} 
+                        onchange={handleChangeRate}></lightning-input>
+                </lightning-layout-item>
+
+            </template>
+
+            <lightning-layout-item if:true={isRealEstate} size="12" class="slds-col slds-m-bottom_large">
+                <lightning-input type="checkbox" label="Have a mortgage loan" checked={it.value.hasLoan}></lightning-input>
+                <lightning-input type="checkbox" label="Have a home equity line of credit" checked={it.value.hasLineOfCredit}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={isVehicle} size="12" class="slds-col slds-m-bottom_large">
+                <lightning-input type="checkbox" label="Have a loan for this property" checked={it.value.hasLoan}></lightning-input>
+            </lightning-layout-item>
+    
+            <lightning-layout-item if:true={it.last} size="12" class="slds-col slds-m-bottom_large">
+                <lightning-button variant="base" icon-name="utility:new" 
+                    label="Add Another"
+                    onclick={handleClickAddAnotherRow}></lightning-button>
+            </lightning-layout-item>
+   
+        </lightning-layout>
+    </template>
+</template>

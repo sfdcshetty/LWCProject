@@ -1,0 +1,85 @@
+<template>
+    <form class="x7s-unifi_personalinfo">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="8" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="First name" max-length="50" value={firstName} onchange={handleChangeFirstName}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" large-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-input label="M.I." max-length={lenMiddleInitial} title="Middle initial" value={middleInitial} onchange={handleChangeMiddleInitial}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="8" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Last name" max-length="50" value={lastName} onchange={handleChangeLastName}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" large-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-input label="suffix" max-length={lenSuffix} value={suffix} onchange={handleChangeSuffix}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input type="date" label="Date of birth" value={dateOfBirth} onchange={handleChangeDateOfBirth}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="8" class="slds-col slds-m-bottom_large">
+                <!-- nothing goes here -->
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="12" large-device-size="12" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Street Address" value={streetAddress} onchange={handleChangeStreetAddress}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="12" large-device-size="6" class="slds-col slds-m-bottom_large">
+                <lightning-input label="City" value={city} onchange={handleChangeCity}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="3" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label="State" placeholder="Select one" value={state}
+                    options={optionsState} onchange={handleChangeState}
+                ></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6" large-device-size="3" class="slds-col slds-m-bottom_large">
+                <lightning-input label="ZIP Code" value={zipCode} onchange={handleChangeZipCode}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+            
+        <template if:true={emails.length} iterator:it={emails}>
+            <lightning-layout key={it.value.id} multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" medium-device-size="6" large-device-size="6" class="slds-col">
+                    <lightning-input type="email" label="Email address" value={it.value.email} data-index={it.index} onchange={handleChangeEmail}></lightning-input>
+                    <template if:true={allowMultipleEmails}>
+                        <lightning-button if:true={it.last} variant="base" icon-name="utility:new" label="Add Another"
+                            onclick={handleClickAddAnotherEmail}></lightning-button>
+                    </template>
+                </lightning-layout-item>
+                <lightning-layout-item if:true={optionsEmailType.length} size="12" medium-device-size="6" large-device-size="6"
+                    class="slds-col slds-m-bottom_large">
+                    <lightning-radio-group variant="label-hidden" label="Email types" 
+                                            options={optionsEmailType} value={it.value.type}
+                                            data-index={it.index} onchange={handleChangeEmailType}
+                                            class="slds-m-top_medium x7s-radiogroup_inline-inputs"></lightning-radio-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        
+        <template if:true={phones.length} iterator:it={phones}>
+            <lightning-layout key={it.value.id} multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" medium-device-size="6" large-device-size="6" class="slds-col">
+                    <lightning-input type="tel" label="Phone" value={it.value.phone} data-index={it.index} onchange={handleChangePhone}></lightning-input>
+                    <template if:true={allowMultiplePhones}>
+                        <lightning-button if:true={it.last} variant="base" icon-name="utility:new" label="Add Another"
+                            onclick={handleClickAddAnotherPhone}></lightning-button>
+                    </template>
+                </lightning-layout-item>
+                <lightning-layout-item if:true={optionsPhoneType.length} size="12" medium-device-size="6" large-device-size="6"
+                    class="slds-col slds-m-bottom_large">
+                    <lightning-radio-group variant="label-hidden" label="phone types" 
+                                            options={optionsPhoneType} value={it.value.type}
+                                            data-index={it.index} onchange={handleChangePhoneType}
+                                            class="slds-m-top_medium x7s-radiogroup_inline-inputs"></lightning-radio-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+    </form>
+</template>

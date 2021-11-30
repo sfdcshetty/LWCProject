@@ -1,0 +1,162 @@
+<!--******************************************************************************************************************************
+* @component name    : wv6_LightningDataTable
+* @description   	 : This lightning component is used to display list of records for any specified object dynamically based on the provided inputs.
+*
+* @author        	 : Ganesh Ekhande
+* @date          	 : 03/15/2018               
+*                   
+* Modification Log :
+* _________________________________________________________________________________________________________________
+* Developer                   Date(MM/DD/YYYY)       Description
+* _________________________________________________________________________________________________________________
+* Ganesh Ekhande              03/15/2018             Created.
+
+******************************************************************************************************************************-->
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" controller="wv6_LightningDataTableController" >
+    <aura:attribute name="object" type="String" default=""/>
+    <aura:attribute type="LIST" name="latestRecords" />
+    <aura:attribute name="filterCriteria" type="String" default=""/>    
+    <aura:attribute name="orderByClause" type="String" default=""/>    
+    <aura:attribute name="displayLocation" type="String" default=""/>    
+    <aura:attribute name="msg" type="String" default=""/>
+    <aura:attribute name="showMsg" type="boolean" default="FALSE"/>
+    <aura:attribute name="showSpinner" type="boolean" default=""/>
+    <aura:attribute name="tableTitle" type="String" default=""/>
+    <aura:attribute name="isCommunity" type="boolean" default=""/>
+    
+    <aura:attribute name="showGrandTotal" type="boolean" default=""/>
+    <aura:attribute name="grandTotal" type="Decimal" default=""/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    
+    <div >
+        <!--Spinner-->
+        <aura:if isTrue="{!v.showSpinner}" >
+            <div class="demo-only" style="height: 6rem;margin-top:50%;margin-right:75%;">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>
+        
+        <!-- Message -->
+        <aura:if isTrue="{!v.showMsg}" >
+            {!v.msg}
+        </aura:if>
+        <!-- Data Table -->
+        <aura:if isTrue="{!v.latestRecords.length >0}" >
+            <aura:if isTrue="{!v.tableTitle}" >
+                <div class="box slds-theme_shade">
+                    {!v.tableTitle}
+                </div>
+                <aura:set attribute="else">
+                    <BR></BR>
+                </aura:set>
+            </aura:if>
+            <div class="overflowClass">
+                <table class="slds-table slds-table--bordered" >
+                    <thead>
+                        <tr class="slds-text-heading--label">
+                            <aura:iteration items="{!v.latestRecords[0].fieldInfoWrapList}" var="fieldInfo">
+                                <th class="slds-is-sortable" scope="col">
+                                    <aura:if isTrue="{!fieldInfo.fieldAPIName == 'FinServ__Balance__c'}">
+                                        <div class="slds-truncate slds-float_right">{!fieldInfo.fieldLabel}</div>
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!fieldInfo.fieldAPIName == 'WEG_As_of_Date__c'}">
+                                                <div class="slds-truncate centerAligned">{!fieldInfo.fieldLabel}</div>
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!and(fieldInfo.fieldAPIName == 'CreatedDate',v.displayLocation == 'Secure Messages on Portal')}">
+                                                        <div class="slds-truncate" style="padding-left:7px">{!fieldInfo.fieldLabel}</div>    
+                                                        <aura:set attribute="else">
+                                                            <div class="slds-truncate">{!fieldInfo.fieldLabel}</div>    
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                        
+                                    </aura:if>   
+                                </th>
+                            </aura:iteration>
+                        </tr>
+                    </thead>  
+                    <tbody>
+                        <aura:iteration items="{!v.latestRecords}" var="sObj">
+                            <tr class="slds-hint-parent">
+                                <aura:iteration items="{!sObj.fieldInfoWrapList}" var="fieldInfo">
+                                    <aura:if isTrue="{!fieldInfo.fieldType == 'DATE'}">
+                                        <aura:if isTrue="{!fieldInfo.fieldAPIName == 'WEG_As_of_Date__c'}">
+                                            <td class="slds-truncate centerAligned">    
+                                                <ui:outputDate value="{!fieldInfo.fieldValue}" format="MM/DD/YYYY"/>
+                                            </td>
+                                            <aura:set attribute="else">
+                                                <td class="slds-truncate">    
+                                                    <ui:outputDate value="{!fieldInfo.fieldValue}" format="MM/DD/YYYY"/>
+                                                </td>
+                                            </aura:set>   
+                                        </aura:if>    
+                                    </aura:if>
+                                    
+                                    <aura:if isTrue="{!fieldInfo.fieldType == 'CURRENCY'}" >
+                                        <td class="slds-truncate rightAligned">
+                                            <lightning:formattedNumber value="{!fieldInfo.fieldValue}" style="currency" currencyCode="USD" />
+                                        </td>
+                                    </aura:if>
+                                    <aura:if isTrue="{!fieldInfo.fieldType == 'DATETIME'}" >
+                                        <aura:if isTrue="{!and(fieldInfo.fieldAPIName == 'CreatedDate',v.displayLocation == 'Secure Messages on Portal')}">
+                                            <td class="slds-truncate" style="padding-left:15px">
+                                                <ui:outputDateTime value="{!fieldInfo.fieldValue}" format="MM/DD/YYYY hh:mm a"/>
+                                            </td>
+                                            <aura:set attribute="else">
+                                                <td class="slds-truncate">
+                                                    <ui:outputDateTime value="{!fieldInfo.fieldValue}" format="MM/DD/YYYY hh:mm a"/>
+                                                </td> 
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:if>
+                                    <aura:if isTrue="{!fieldInfo.hyperLink }" >
+                                        <td class="slds-truncate ">
+                                            <aura:if isTrue="{!v.isCommunity}" >
+                                                <lightning:button variant="base" 
+                                                                  value="{!sObj.sObjectId}" 
+                                                                  label="{!fieldInfo.fieldValue}" 
+                                                                  title="{!fieldInfo.fieldValue}" 
+                                                                  onclick="{! c.navigate }"/>
+                                                <!--<a href="{!'/' +$Label.c.Community_Name+'/s/detail/'+ sObj.sObjectId }" target="_blank">{!fieldInfo.fieldValue}</a>-->
+                                                <aura:set attribute="else">
+                                                    <lightning:button variant="base" 
+                                                                  value="{!sObj.sObjectId}" 
+                                                                  label="{!fieldInfo.fieldValue}" 
+                                                                  title="{!fieldInfo.fieldValue}" 
+                                                                  onclick="{! c.navigate }"/>
+                                                    <!--<ui:outputURL value="{!'/'+sObj.sObjectId}" label="{!fieldInfo.fieldValue}" target="_blank"/>-->
+                                                </aura:set>
+                                            </aura:if>
+                                        </td>
+                                    </aura:if>
+                                    
+                                    <aura:if isTrue="{!and(and(and(fieldInfo.fieldType != 'CURRENCY',fieldInfo.fieldType != 'DATE'),fieldInfo.fieldType != 'DATETIME'),!fieldInfo.hyperLink)}" >
+                                        <td class="slds-truncate">{!fieldInfo.fieldValue}</td>
+                                    </aura:if> 
+                                    
+                                </aura:iteration>  
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+                <aura:if isTrue="{!v.showGrandTotal}">
+                    <table class="slds-table slds-table--bordered" >
+                        <tr class="slds-hint-parent">
+                            <td class="slds-truncate slds-float_right" style="font-weight:bold;">
+                                TOTAL: <lightning:formattedNumber value="{!v.grandTotal}" style="currency" currencyCode="USD" />
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </aura:if>
+            </div> 
+        </aura:if>
+    </div>    
+</aura:component>

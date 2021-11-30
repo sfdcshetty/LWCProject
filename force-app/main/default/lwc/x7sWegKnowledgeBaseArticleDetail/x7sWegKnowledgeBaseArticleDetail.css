@@ -1,0 +1,71 @@
+.supportHeader,.supportArticleHeader {
+    font-weight: 900;
+    line-height: 1.36;
+    text-align: left;
+}
+.supportHeader{
+    font-size: 40px;
+    color: #000000;
+}
+
+.supportArticleHeader{
+    color: #696969;
+    font-size: 30px;
+    margin-bottom: 1em;
+}
+.supportButton{
+    padding: 5px;
+    color: #000000;
+    border:none;
+    background-color: white;
+}
+
+.completeLine{
+    width: 17%;
+    margin-top: 15px;
+    margin-bottom: 2em;
+    border: 2px solid #3f9c35;
+}
+
+.searchBar{
+    margin-bottom: 3em;
+    width: 60%;
+}
+
+.buttonPrevNext {
+    padding: 5px;
+    font-weight: bold;
+    border-color:#20B2AA;
+    color: #20B2AA;
+    background-color: white;
+    border-radius: 20px;
+}
+.iconContainer {
+    width: 0.875rem;
+    display: inline-block;
+}
+
+.buttonPrevNextIcon {
+    fill: #20B2AA;
+}
+
+.questionList{
+    font-size: 18px;
+    font-weight: 700;
+    text-align: left;
+    color: #000;
+}
+.border{
+    border-bottom: 1px solid #D3D3D3;
+}
+.paginationContainer {
+    width:100%;
+    text-align:center;
+}
+
+.paginationCenter {
+    display: inline-block;
+    font-size: 16px;
+    color: gray;
+    margin-top: inherit;
+}

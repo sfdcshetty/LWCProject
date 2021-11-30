@@ -1,0 +1,8 @@
+<template>
+    <lightning-button label={labelButton} variant="brand" disabled={isCompleted}
+        onclick={dispatchData}></lightning-button>
+        
+    <div if:true={completedDate} class="slds-m-vertical_medium slds-text-body_regular">
+        Marked completed on <lightning-formatted-date-time value={completedDate}></lightning-formatted-date-time>
+    </div>
+</template>

@@ -1,0 +1,16 @@
+<apex:page controller="ProcessDdpsExt" lightningStylesheets="true" showheader="false">
+    <apex:slds />
+    <style>
+    	body .bPageBlock, .slds-scope .bPageBlock {
+        	background: #253045 !important;
+            border: 1px solid #253045 !important;
+        	margin-bottom : 0px !important;
+        }
+    </style>
+    <apex:messages />
+    <apex:pageBlock >
+        <apex:repeat value="{!Infos}" var="a">
+            <Loop:processDDP parameters="{!a.Parameters}" />
+        </apex:repeat>
+    </apex:pageBlock>
+</apex:page>

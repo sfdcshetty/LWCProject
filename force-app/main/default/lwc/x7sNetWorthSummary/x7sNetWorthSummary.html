@@ -1,0 +1,62 @@
+<template>
+    <div class="container">
+        <div class="NetWorthSummaryHeader">
+            {title}
+        </div>
+
+        <template for:each={assets} for:item="asset">
+            <ul key={asset.label}>
+                <li>
+                    <div class="dot-div"></div>
+                    <div class="text-div">
+                        <span class="text-span">{asset.label}</span>
+                        
+                        <span class="text-span pull-right">
+                            <template if:true={asset.isNegativeValue}>(</template>$
+                            <lightning-formatted-number value={asset.amount} format-style="decimal" maximum-fraction-digits="0" 
+                                currency-code="USD">
+                            </lightning-formatted-number>
+                            <template if:true={asset.isNegativeValue}>)</template>
+                        </span>
+                    </div>
+                </li>  
+            </ul>
+        </template>
+
+        <template if:true={loadLiability}>
+            <template if:true={liability}>
+                <ul key={liability.label}>
+                    <li>
+                        <div class="dot-div"></div>
+                        <div class="text-div">
+                            <span class="text-span">{liability.label}</span>
+                            <span class="text-span pull-right">($
+                                <lightning-formatted-number value={liabilityAmount} format-style="decimal" maximum-fraction-digits="0" 
+                                    currency-code="USD">
+                                </lightning-formatted-number>)
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </template>
+        </template>  
+
+        <template if:true={loadGrandTotal}>
+            <lightning-layout-item size="12" padding="horizontal-medium">
+                <div class="slds-grid slds-wrap slds-size_12-of-12  slds-grid_vertical-align-center slds-m-bottom_small net-worth-container">
+                    <div class="slds-col slds-size_6-of-12">
+                        <div class="slds-text-heading--small estimated-title">{labelTotal}</div>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 page-section page-right ">
+                        <div class="slds-text-heading--small slds-text-align--right" style="font-size:18px;">
+                            $<lightning-formatted-number value={myGrandTotal} format-style="decimal" maximum-fraction-digits="0" 
+                                currency-code="USD">
+                            </lightning-formatted-number>
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </template>
+    </div>
+        
+</template>

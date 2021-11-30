@@ -1,0 +1,21 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes"
+                access="global" controller="WEG_TamaracSsoController">
+    
+    <!-- handler -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <!-- attributes -->
+    <aura:attribute name="userHasSignOnAccess" type="boolean" default="false" />
+	
+    <aura:if isTrue="{!v.userHasSignOnAccess}">
+        <div class="slds-clearfix">
+            <div class="slds-float_left slds-p-top_medium">
+                <lightning:button variant="brand"
+                                  label="Financial Account Details"
+                                  title="View Performance Detail"
+                                  onclick="{!c.handleClick}" />
+            </div>
+        </div>
+    </aura:if>
+    
+</aura:component>

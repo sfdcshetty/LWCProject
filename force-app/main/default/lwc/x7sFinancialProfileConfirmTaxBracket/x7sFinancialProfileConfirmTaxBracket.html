@@ -1,0 +1,32 @@
+<template>
+    <div class="x7s-finprofile_confirm-tax-bracket">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+                <template iterator:it={paragraphs}>
+                    <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-body_regular">
+                        <lightning-formatted-rich-text value={it.value}></lightning-formatted-rich-text>
+                    </p>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Income" type="number" formatter="currency" step="1" 
+                    value={incomeCombined} autocomplete="off"
+                    placeholder="Round to the nearest dollar"
+                    onchange={handleChangeIncome}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label="Filing Status" 
+                    options={optionsFilingStatus} value={filingStatus} 
+                    onchange={handleChangeFilingStatus}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large slds-grid slds-grid_vertical-align-end">
+                <lightning-combobox label="Tax Bracket" 
+                    options={optionsTaxBrackets} value={taxBracketRate} 
+                    onchange={handleChangeRate}></lightning-combobox>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </div>
+</template>

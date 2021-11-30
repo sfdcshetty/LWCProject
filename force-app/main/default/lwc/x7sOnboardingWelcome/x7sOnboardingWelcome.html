@@ -1,0 +1,32 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <c-x7s-onboarding-slide class-name="welcome"
+                            title={welcomeHeader}
+                            description={welcomeMessage}
+                            primary-button-label={beginButtonLabel}
+                            primary-button-color={buttonColor}
+                            onprimaryclick={goToNext}
+                            back-button-label=""
+                            primary-button-disabled={primaryButtonSetting}
+                            >
+                            
+                            
+
+                            <template if:true={showTermsAndConditions}>
+                                <lightning-layout multiple-rows="true" class="slds-text-align--left">
+                                    <lightning-layout-item size="12" padding="around-small" class="slds-border_bottom">
+                                        <div class="tagColorToDisplay"><b>{termsAndConditionsPrompt}</b></div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" padding="around-small" class="slds-align_absolute-center">
+                                        <div class="tagColorToDisplay termsAndConditions">{termsAndConditions}</div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" padding="around-small" class="slds-border_top agreeToTermsLabel">
+                                        <lightning-input type="checkbox" label={agreeToTermsAndConditionsLabel} onchange={handleAgreedCheck} ></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+    </c-x7s-onboarding-slide>
+</template>

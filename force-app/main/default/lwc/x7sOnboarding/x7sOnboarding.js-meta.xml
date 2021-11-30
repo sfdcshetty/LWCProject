@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>7S Onboarding</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage, lightning__AppPage, lightning__RecordPage, lightningCommunity__Default">
+
+            <property name="recordId" type="String" label="record Id" description="The value should be {!recordId}."/>
+            <property name="displayMode" type="String" label="Component Display Mode" datasource="Show Progress On Page, Hide Progress On Page, Always Show Onboarding" default="Show Progress On Page"/>
+            <property name="usedOnProfilePage" type="Boolean" label="Used On Profile Page" default="false" description="When checked, will check the record ID of the profile and compare it to the User ID of the logged in user, displaying it only on their profile page." />
+            <property name="linearNavigationOnly" type="Boolean" label="Onboarding - Use Linear Navigation Only" description="If selected, the user will have to proceed through each step of the onboarding without clicking around. Does not effect the progress component."/>
+            <property name="showProgressWhenComplete" type="Boolean" label="Progress - Keep on page after onboarding is complete" default="false" description="When Display Mode is set to 'Progress On Page', checking this will keep it on screen once onboarding is complete." />
+            <property name="progressHeading" type="String" label="Progress - Header Text" default="Getting Started with the Community" />
+            <property name="progressMessage" type="String" label="Progress - Message" default="With this guide, you can tailor your experience to take full advantage of everything the community has to offer. Just a few quick steps and you will be on your way." />
+        
+            <!-- Step 0 Attributes -->
+            <property name="headerText" type="String" label="Global - Header Text" default="Community Getting Started Guide" description="Text to be displayed at the top of the Onboarding panel."/>
+            <property name="buttonColor" type="String" label="Global - Button Color" default="#ff8201" description="Color of the button on every slide."/>
+            <property name="nextButtonLabel" type="String" label="Global - Next Button Label" default="Save &amp; Next" description="Label for the Next button on each slide."/>
+            <property name="backButtonLabel" type="String" label="Global - Back Button Label" default="Go Back" description="Label for the Back button on each slide."/>
+            <property name="byeForNowHeader" type="String" label="Bye for Now Slide Header" default="Bye For Now!!" description="Header text that displays on the Welcome slide"/>
+            <property name="byeForNowMessage" type="String" label="Bye For Now Message" description="Text that displays on the Bye slide that displays when the User Xs out of the Onboarding flow."/>
+            <property name="hideOnboardingModal" type="String" label="Bye For Now - Hide Modal Label" description="Label for the Hide Modal Display checkbox.If empty, checkbox will not display." default="Do not display onboarding again."/>
+            <property name="closeButtonLabel" type="String" label="Bye For Now - Close Button Label" default="Close" description="Label for the Close button."/>
+        
+            <!-- Step 1 Attributes -->
+            <property name="showStep1" type="Boolean" label="Show Welcome Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="step1Label" type="String" label="Welcome - Progress Label" default="Welcome" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="welcomeHeader" type="String" label="Welcome - Slide Header" default="Welcome to the Community!" description="Header text that displays on the Welcome slide"/>
+            <property name="welcomeMessage" type="String" label="Welcome - Message" description="Text that displays on the Welcome slide."/>
+            <property name="showTermsAndConditions" type="Boolean" label="Welcome - Show Terms and Conditions Agreement" default="false" description="Display Terms and Conditions. Requires user to agree before they can continue onboarding."/>
+            <property name="termsAndConditionsPrompt" type="String" label="Welcome - Terms and Conditions Prompt" default="Please accept the terms and conditions to continue" description="Label for the prompt to read and agree to terms and conditions"/>
+            <property name="agreeToTermsAndConditionsLabel" type="String" label="Welcome - Agree to Terms and Conditions Label" default="I agree to the terms and conditions" description="Label for agree to terms and conditions checkbox."/>
+            <property name="useCustomMetadataForTOC" type="Boolean" label="Use Custom Metadata Terms and Conditions" default="false" description="Display Terms and Conditions from the 7S Onboarding custom metadata record.  If unchecked, Terms and Conditions from the component property will be used."/>
+            <property name="termsAndConditionsText" type="String" label="Terms and Conditions Text" description="Content to be displayed in the terms and conditions on the welcome slide."/>
+            <property name="beginButtonLabel" type="String" label="Welcome - Begin Button Label" default="Let's Go!" description="Label for the Begin button."/>
+            <!-- <property name="showWelcomeVideo" type="Boolean" label="Show Welcome Video" default="false" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="WelcomeVideoType1" type="String" label="Welcome Video Tour - Video Source" datasource="YouTube, Vimeo" default="YouTube"  description="Video source. Select YouTube or Vimeo."/>
+            <property name="WelcomeVideoUrl1" type="String" label="Welcome Video Tour - Video ID" description="Identifier for the video. The YouTube ID can be found in the URL of the video. It is usually 11 characters. (e.g. https://www.youtube.com/watch?v=[VIDEO_ID] OR https://youtu.be/[VIDEO_ID]) | The Vimeo ID can be found in the URL of the video. It is usually 9 characters. (e.g. https://vimeo.com/[VIDEO_ID])"/>
+            <property name="WelcomeVideoTitle1" type="String" label="Welcome Video Tour - Title" default="First Video" description="Title for the video."/>
+            <property name="WelcomeVideoIframeTitleForAria" type="String" label="ACCESSIBILITY: Video IFrame Title for ARIA Screen Reader " default="First Video" description="Ignored if Video Tour - Title is populated. If Video Tour - Title is empty, required for screen reader support."/>
+            <property name="WelcomeVideoDescription1" type="String" label="Welcome Video Tour - Description" default="Some great first content!" description="Description of Video 1."/>
+            <property name="WelcomeVideoAlign" type="String" label="Welcome Video Alignment" datasource="Vertical,Horizontal" default="Vertical" description="Alignment of the video and text on the slide.  Options are Vertical or Horizontal.  Horizontal is optimized for a large amount of descriptive text."/> -->
+
+            <!-- Step 2 Attributes -->
+            <property name="showStep2" type="Boolean" label="Show Profile Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="step2Label" type="String" label="Profile - Progress Label" default="Profile" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="profileHeader" type="String" label="Profile - Slide Header" default="Name Change &amp; Profile Visibility" description="Header text that displays on the Profile slide"/>
+            <property name="profileMessage" type="String" label="Profile - Message" description="Text that displays on the Profile slide"/>
+            <property name="profileAction" type="String" label="Profile - Action" default="Display my name as:" description="Action text that displays on the Profile slide."/>
+            <property name="showFirstName" type="Boolean" label="Profile - Show First Name" default="false" description="Show the First Name field on the profile slide."/>
+            <property name="firstNameLabel" type="String" label="Profile - First Name Label" default="First Name" description="Label for the First Name field."/>
+            <property name="showLastName" type="Boolean" label="Profile - Show Last Name" default="false" description="Show the Last Name field on the profile slide."/>
+            <property name="lastNameLabel" type="String" label="Profile - Last Name Label" default="Last Name" description="Label for the Last Name field."/>
+            <property name="showTitle" type="Boolean" label="Profile - Show Title" default="false" description="Show the user's title on the Profile slide."/>
+            <property name="titleLabel" type="String" label="Profile - Title Label" default="Title" description="Label for the Title field."/>
+            <property name="showCompany" type="Boolean" label="Profile - Show Company" default="false" description="Show the user's company on the Profile slide."/>
+            <property name="companyLabel" type="String" label="Profile - Company Label" default="Company" description="Label for the Company field."/>
+            <property name="showEmail" type="Boolean" label="Profile - Show Email" default="false" description="Show the user's email address on the Profile slide."/>
+            <property name="emailLabel" type="String" label="Profile - Email Label" default="Email" description="Label for the Email field."/>
+            <property name="showMobile" type="Boolean" label="Profile - Show Mobile" default="false" description="Show the user's mobile phone on the Profile slide."/>
+            <property name="mobileLabel" type="String" label="Profile - Mobile Label" default="Mobile" description="Label for the Mobile field."/>
+            <property name="showNickname" type="Boolean" label="Profile - Show Nickname" default="false" description="Show the user's nickname on the Profile slide."/>
+            <property name="nicknameLabel" type="String" label="Profile - Nickname Label" default="Nickname" description="Label for the Nickname field."/>
+            <!--
+            TODO: Dynamic query builder for custom fields
+            <property name="showRegion" label="Profile - Show Region" description="Show the user's region on the Profile slide."/>
+            <property name="showIndustry" label="Profile - Show Industry" description="Show the user's industry on the Profile slide."/>
+        -->
+            <property name="showAboutMe" type="Boolean" label="Profile - Show About Me" default="false" description="Show the user's About Me field on the Profile slide."/>
+            <property name="aboutMeLabel" type="String" label="Profile - About Me Label" default="Abount Me" description="Label for the About Me field."/>
+            <property name="showAvatarUpload" type="Boolean" label="Profile - Show Avatar Upload" default="false" description="Show the user's profile image on the Profile slide."/>
+            <property name="dropFileLabel" type="String" label="Profile - Photo Drop File Region Label" default="Profile Picture Upload" description="Label for the Drop File region."/>
+            <property name="acceptableAvatarFileTypes" type="String" label="Profile - acceptable Avatar File Types" default=".jpg,.png" description="What file types are accepted for the user's profile image. Recommend: .jpg,.png"/>
+        
+            <!-- Step 3 Attributes -->
+            <property name="showStep3" type="Boolean" label="Show Additional Info Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="step3Label" type="String" label="Additional Info - Progress Label" default="Additional Information" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="additionalSlideHeader" type="String" label="Additional Info - Slide Header" description="Header text that displays on the Additional Info slide"/>
+            <property name="additionalSlideMessage" type="String" label="Additional Info - Message" description="Text that displays on the Additional Info slide"/>
+            <property name="additionalSlideLabel" type="String" label="Additional Info - Action" description="Action text that displays on the Additional Info slide."/>
+            <property name="additionalSlideUserFieldName1" type="String" label="Additional Info - User Field Name 1" description="API name of User field 1 that will be updated"/>
+            <property name="additionalSlideUserFieldLabel1" type="String" label="Additional Info - User Field Label 1" description="Label of Field 1"/>
+            <property name="additionalSlideUserFieldTooltip1" type="String" label="Additional Info - User Field 1 Tooltip" description="Enter a tooltip to provide additional instructions to the user for the field."/>
+            <property name="additionalSlideUserFieldName2" type="String" label="Additional Info - User Field Name 2" description="API name of User field 2 that will be updated"/>
+            <property name="additionalSlideUserFieldLabel2" type="String" label="Additional Info - User Field Label 2" description="Label of Field 2"/>
+            <property name="additionalSlideUserFieldTooltip2" type="String" label="Additional Info - User Field 2 Tooltip" description="Enter a tooltip to provide additional instructions to the user for the field."/>
+        
+            <!-- Step 4 Attributes -->
+            <property name="showStep4" type="Boolean" label="Show Topics Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="useTopicMetadata" type="Boolean" label="Use Custom Topic Metadata" default="false" description="Choosing this option uses 7S Onboarding Topic Settings ONLY for your topic slide(s)."/>
+            <property name="step4Label" type="String" label="Topics - Progress Label" default="Topics" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="topicsHeader" type="String" label="Topics - Slide Header" default="TOPICS" description="Header text that displays on the Topics slide."/>
+            <property name="topicsMessage" type="String" label="Topics - Message" description="Text that displays on the Topics slide"/>
+            <property name="topicsAction" type="String" label="Topics - Action" default="Select any of the topics below:" description="Action text that displays on the Topics slide."/>
+            <property name="group1TopicLabel" type="String" label="Topics - Category 1 Topic Label" default="Category" />
+            <property name="topics" type="String" label="Topics - Category 1 Topic IDs" description="List of comma delimited group 1 topics to display for the user to follow."/>
+            <property name="group2TopicLabel" type="String" label="Topics - Category 2 Topic Label" default="Products" />
+            <property name="topicsProduct" type="String" label="Topics - Category 2 Topic IDs" description="List of comma delimited group 2 topics to display for the user to follow"/>
+        
+            <!-- Step 5 Attributes -->
+            <property name="showStep5" type="Boolean" label="Show Groups Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <!--
+            TODO: Dynamic query builder for custom fields
+            <property name="showUserSpecificGroups" label="Show User-Specific Groups" default="false" description="Shows the user specific Group"/>
+            -->
+            <property name="step5Label" type="String" label="Groups - Progress Label" default="Groups" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="groupsHeader" type="String" label="Groups - Slide Header" default="Collaborate Groups" description="Header text that displays on the Groups slide."/>
+            <property name="groupsMessage" type="String" label="Groups - Message" description="Text that displays on the Groups slide."/>
+            <property name="groupsAction" type="String" label="Groups - Action" default="Select one or more groups to join:" description="Action text that displays on the Groups slide."/>
+            <property name="showGroupDescription" type="Boolean" label="Groups - Show Group Description" default="true" description="Unchecking removes the group description from the card." />
+            <property name="groupIDs" type="String" label="Groups - Group IDs" description="List of comma delimited groups to display that the user may join."/>
+        
+            <!-- Step 6 Attributes -->
+            <property name="showStep6" type="Boolean" label="Show Notifications Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="step6Label" type="String" label="Notifications - Progress Label" default="Notifications" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="notificationHeader" type="String" label="Notifications - Slide Header" default="Email Notification Opt-in" description="Header text that displays on the Notification slide."/>
+            <property name="notificationMessage" type="String" label="Notifications - Message" default="Select the checkbox to receive email notifications for community activity you're interested in, such as mentions, joined groups, or topics you follow." description="Text that displays on the Notification slide."/>
+            <property name="notificationAction" type="String" label="Notifications - Action" description="Action text that displays on the Notification slide."/>
+            <property name="notificationInfoUrl" type="String" label="Notifications - Info Link URL" description="Link to an additional information source."/>
+            <property name="notificationLinkLabel" type="String" label="Notifications - Info Link Label" description="Label for the information Link. If empty, link does not display."/>
+            <property name="notificationUser" type="String" label="Notifications - Confirmation Field Label" description="Label for the confirmation checkbox. If empty, checkbox will not display."/>
+            <property name="notificationText" type="String" label="Notification - Email Preference" description="Notification text that displays on the Notification slide."/>
+        
+            <!-- Step 7 Attributes -->
+            <property name="showStep7" type="Boolean" label="Show Video Tour Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="videoAlign" type="String" label="Video Alignment" datasource="Vertical,Horizontal" default="Vertical" description="Alignment of the video and text on the slide.  Options are Vertical or Horizontal.  Horizontal is optimized for a large amount of descriptive text."/>
+            <property name="step7Label" type="String" label="Video Tour - Progress Label" default="Tour" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="toursHeader" type="String" label="Video Tour - Slide Header" default="Video Tour" description="Header text that displays on the Tours slide."/>
+            <property name="toursMessage" type="String" label="Video Tour - Message" description="Text that displays on the Tours slide."/>
+            <property name="videoType1" type="String" label="Video Tour - Video Source" datasource="YouTube, Vimeo, Wistia" default="YouTube"  description="Video source. Select YouTube, Vimeo or Wistia."/>
+            <property name="videoUrl1" type="String" label="Video Tour - Video ID" description="Identifier for the video. The YouTube ID can be found in the URL of the video. It is usually 11 characters. (e.g. https://www.youtube.com/watch?v=[VIDEO_ID] OR https://youtu.be/[VIDEO_ID]) | The Vimeo ID can be found in the URL of the video. It is usually 9 characters. (e.g. https://vimeo.com/[VIDEO_ID]) | The Wistia ID can be found at the end of the URL. (e.g. https://wealthenhancement.wistia.com/medias/[VIDEO_ID])"/>
+            <property name="videoTitle1" type="String" label="Video Tour - Title" default="First Video" description="Title for the video."/>
+            <property name="videoIframeTitleForAria" type="String" label="ACCESSIBILITY: Video IFrame Title for ARIA Screen Reader " default="First Video" description="Ignored if Video Tour - Title is populated. If Video Tour - Title is empty, required for screen reader support."/>
+            <property name="videoDescription1" type="String" label="Video Tour - Description" default="Some great first content!" description="Description of Video 1."/>
+            <property name="tourEndButtonLabel" type="String" label="Video Tour - End Button Label" default="Got it!" description="Label for the End button."/>
+        
+            <!-- Step 8 Attributes -->
+            <property name="showStep8" type="Boolean" label="Show Completion Slide" default="true" description="Visibility for each step displayed in the flow at the top of the Onboarding component. Enable all steps you would like users to complete."/>
+            <property name="newTabLink" type="Boolean" label="Completion - Open Links in a New Tab" default="false" description="If enabled, all links will open in a new browser tab."/>
+            <property name="step8Label" type="String" label="Completion - Progress Label" default="Completed" description="Label for each step displayed in the flow at the top of the Onboarding component."/>
+            <property name="doneHeader" type="String" label="Completion - Slide Header" default="Done!" description="Header text that displays on the Completion slide."/>
+            <property name="doneMessage" type="String" label="Completion - Message" description="Text that displays on the Completion slide."/>
+            <property name="doneAction" type="String" label="Completion - Action" default="What's next?" description="Action text that displays on the Completion slide."/>
+            <property name="action1Icon" type="String" label="Completion - Action 1 Icon" default="utility:identity" description="Icon that displays on the Completion slide."/>
+            <property name="action1Text" type="String" label="Completion - Action 1 Text" default="View my profile" description="Text that displays on the Completion slide."/>
+            <property name="action1Description" type="String" label="Completion - Action 1 Description" description="Text that displays on the Completion slide."/>
+            <property name="action1Url" type="String" label="Completion - Action 1 Url" default="/s/profile/" description="Action 1 Url that displays on the Done slide. Be sure to include the org identifier (last letters of url after final /. If you enable ‘Append User ID,’ include a forward slash at the end of the URL. For example, /ob/s/profile/."/>
+            <property name="action1UseUserId" type="Boolean" label="Action 1 Append User ID" default="true" description="Append the logged in user's user ID to the end of the URL. Useful for profile and settings URLs."/>
+            <property name="action2Icon" type="String" label="Completion - Action 2 Icon" default="utility:settings" description="Icon that displays on the Completion slide."/>
+            <property name="action2Text" type="String" label="Completion - Action 2 Text" default="Update my settings" description="Text that displays on the Completion slide."/>
+            <property name="action2Description" type="String" label="Completion - Action 2 Description" description="Text that displays on the Completion slide."/>
+            <property name="action2Url" type="String" label="Completion - Action 2 Url" default="/s/settings/" description="Action 2 Url that displays on the Done slide. Be sure to include the org identifier (last letters of url after final /. If you enable ‘Append User ID,’ include a forward slash at the end of the URL. For example, /ob/s/profile/."/>
+            <property name="action2UseUserId" type="Boolean" label="Action 2 Append User ID" default="true" description="Append the logged in user's user ID to the end of the URL. Useful for profile and settings URLs."/>
+            <property name="action3Icon" type="String" label="Completion - Action 3 Icon" default="utility:comments" description="Icon that displays on the Completion slide."/>
+            <property name="action3Text" type="String" label="Completion - Action 3 Text" default="View Q&#38;A forums" description="Text that displays on the Completion slide."/>
+            <property name="action3Description" type="String" label="Completion - Action 3 Description" description="Text that displays on the Completion slide."/>
+            <property name="action3Url" type="String" label="Completion - Action 3 Url" default="/s/topiccatalog" description="Action 3 Url that displays on the Done slide. Be sure to include the org identifier (last letters of url after final /. If you enable ‘Append User ID,’ include a forward slash at the end of the URL. For example, /ob/s/profile/."/>
+            <property name="action3UseUserId" type="Boolean" label="Action 3 Append User ID" description="Append the logged in user's user ID to the end of the URL. Useful for profile and settings URLs."/>
+            <property name="action4Icon" type="String" label="Completion - Action 4 Icon" default="utility:groups" description="Icon that displays on the Completion slide."/>
+            <property name="action4Text" type="String" label="Completion - Action 4 Text" default="Collaborate with others" description="Text that displays on the Completion slide."/>
+            <property name="action4Description" type="String" label="Completion - Action 4 Description" description="Text that displays on the Completion slide."/>
+            <property name="action4Url" type="String" label="Completion - Action 4 Url" default="/s/groups" description="Action 4 Url that displays on the Done slide. Be sure to include the org identifier (last letters of url after final /. If you enable ‘Append User ID,’ include a forward slash at the end of the URL. For example, /ob/s/profile/."/>
+            <property name="action4UseUserId" type="Boolean" label="Action 4 Append User ID" description="Append the logged in user's user ID to the end of the URL. Useful for profile and settings URLs."/>
+            <property name="completeButtonLabel" type="String" label="Completion - Complete Button Text" default="Complete" description="Text for the “Complete” button."/>
+
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,22 @@
+.THIS .highlightPanel{
+    margin: .75rem -1.5rem -1rem;
+    padding: .75rem 1.5rem;
+}
+.THIS .fieldCustomStyle {
+    margin-top: -8px !important;
+}
+.THIS .slds-col {    
+    padding-left:0px !important;
+}
+.THIS .fieldDiv{
+    margin: 0px 15px; 
+}
+
+.THIS .boldFont{
+    font-weight: bold;
+}
+
+.THIS .s1FixedFullWidth{
+    left: 12px !important;
+    right: 12px !important;
+}

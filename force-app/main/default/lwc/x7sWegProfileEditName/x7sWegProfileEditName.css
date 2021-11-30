@@ -1,0 +1,27 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.c-container {
+  text-align: left;
+  width: 100%;
+}
+.finish-header {
+  font-size: 20px !important;
+  font-weight: bold;
+}
+.x7s-radiogroup_inline .slds-form-element__control {
+  display: flex;
+  flex-flow: row wrap;
+}
+.x7s-radiogroup_inline .slds-form-element__control > .slds-radio {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.slds-text-heading_small {
+  font-size: 18px;
+  font-weight: 600;
+}

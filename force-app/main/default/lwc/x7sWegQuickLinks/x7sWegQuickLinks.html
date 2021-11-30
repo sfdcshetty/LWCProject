@@ -1,0 +1,65 @@
+<template>
+  <div class="c-container">
+    <div class="slds-col slds-size_1-of-3 left-links" onclick={openLinks}>Quick Links</div>
+    <div class="slds-col slds-size_2-of-3 right-links" onclick={openLinks}>
+      What would you like to do today?
+      <div class="chev-container">
+        <lightning-icon
+          class="white"
+          size="xx-small"
+          icon-name="utility:chevronright"
+          alternative-text="Launch Quick Links"
+        ></lightning-icon>
+        <!-- <lightning-icon size="x-small" icon-name="utility:chevronright"
+            class="slds-col_bump-right list-open"
+            variant="border-filled"
+            alternative-text="Launch Quick Links"
+            onclick={openLinks}></lightning-icon> -->
+      </div>
+    </div>
+    <div class="drop-menu">
+      <div class="slds_col">
+        <ul class="slds-m-around_medium quick-links">
+          <template for:each={linksToPresent1} for:item="link">
+            <li key={link.Id}>
+              <c-x7s-weg-quick-link-item
+                recordid={recordId}
+                title={link.Title__c}
+                url={link.URL__c}
+                intorext={link.Is_External__c}
+              ></c-x7s-weg-quick-link-item>
+            </li>
+          </template>
+        </ul>
+        <template if:true={linksToPresentShowSecondRow}>
+          <ul class="slds-m-around_medium quick-links">
+            <template for:each={linksToPresent2} for:item="link">
+              <li key={link.Id}>
+                <c-x7s-weg-quick-link-item
+                  recordid={recordId}
+                  title={link.Title__c}
+                  url={link.URL__c}
+                  intorext={link.Is_External__c}
+                ></c-x7s-weg-quick-link-item>
+              </li>
+            </template>
+          </ul>
+        </template>
+        <template if:true={linksToPresentShowThirdRow}>
+          <ul class="slds-m-around_medium quick-links">
+            <template for:each={linksToPresent3} for:item="link">
+              <li key={link.Id}>
+                <c-x7s-weg-quick-link-item
+                  recordid={recordId}
+                  title={link.Title__c}
+                  url={link.URL__c}
+                  intorext={link.Is_External__c}
+                ></c-x7s-weg-quick-link-item>
+              </li>
+            </template>
+          </ul>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

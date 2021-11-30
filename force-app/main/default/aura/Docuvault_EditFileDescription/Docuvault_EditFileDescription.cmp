@@ -1,0 +1,32 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="CloudFileId" type="string" access="global" default=""/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    
+    <force:recordData aura:id="recordHandler"
+                      recordId="{!v.CloudFileId}"
+                      layoutType="FULL"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      targetError="{!v.recordError}"
+                      mode="EDIT"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            <ui:message title="Error" severity="error" closable="true">
+                {!v.recordError}
+            </ui:message>
+        </div>
+    </aura:if>
+    
+    <!-- Display an editing form -->
+    <lightning:textarea aura:id="Portal Folder" name="Short Description" label="Short Description"
+                        value="{!v.simpleRecord.Short_Description__c}" required="true"/>
+    
+    <lightning:button label="Save" onclick="{!c.handleSaveRecord}"
+                      variant="brand" class="slds-m-top_medium slds-float--right"/>
+</aura:component>

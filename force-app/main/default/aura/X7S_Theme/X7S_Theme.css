@@ -1,0 +1,557 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+ .THIS {
+  --lwc-colorBorder: #3f9c35;
+  --lwc-colorBorderInput: #888;
+  --lwc-formLabelFontSize: 0.875rem;
+  --lwc-fontSize3: 0.9375rem;
+  --lwc-lineHeightButton: 1.3;
+  background-color: #fff;
+  /*.x7s-button_icon-large {
+    &.slds-button.slds-button_neutral:not([disabled]):not(.slds-button_icon) {
+      // override these styles (in theme)
+      border-radius: 8px;
+      padding: 20px;
+      width: 160px;
+      height: 120px;
+      margin: 10px;
+      border-width: 0;
+      border-radius: 8px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+      lightning-icon {
+        display: block;
+        margin-bottom: 8px;
+      }
+      &[data-selected="true"] {
+        background: @mediumgreen;
+        color: @white;
+      }
+      &:hover {
+        background: @bluegreen;
+        color: @white;
+      }
+    }
+  }*/
+  /* Search Bar */
+}
+.THIS .x7s-search-input {
+  background-color: #fff;
+}
+.THIS .x7s-search-icon svg {
+  fill: #63656a !important;
+  margin-right: 20px;
+}
+.THIS .x7s-pre-wrap {
+  white-space: pre-wrap;
+}
+.THIS .slds-text-title_bold {
+  font-size: initial;
+}
+@media (prefers-reduced-motion) {
+  .THIS * {
+    transition: none !important;
+  }
+}
+.THIS html,
+.THIS body {
+  font-family: ProximaNova, sans-serif;
+}
+.THIS input::placeholder {
+  font-style: italic;
+}
+.THIS .comm-content-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  background: white;
+}
+.THIS .x7s-search-input {
+  background-color: #fff;
+}
+.THIS .x7s-search-icon svg {
+  fill: #63656a !important;
+  margin-right: 20px;
+}
+.THIS lightning-datatable table th[aria-label="Death Benefit"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Benefit Amount"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Premium"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Coverage Amount"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Amount"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Cash Value"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Value"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Balance"] .slds-th__action,
+.THIS lightning-datatable table th[aria-label="Death Benefit"] a,
+.THIS lightning-datatable table th[aria-label="Benefit Amount"] a,
+.THIS lightning-datatable table th[aria-label="Premium"] a,
+.THIS lightning-datatable table th[aria-label="Coverage Amount"] a,
+.THIS lightning-datatable table th[aria-label="Amount"] a,
+.THIS lightning-datatable table th[aria-label="Cash Value"] a,
+.THIS lightning-datatable table th[aria-label="Value"] a,
+.THIS lightning-datatable table th[aria-label="Balance"] a {
+  justify-content: flex-end;
+}
+.THIS .slds-accordion__list-item {
+  padding: 1rem 0;
+}
+.THIS .x7s-assistive-text {
+  position: absolute !important;
+  margin: -1px !important;
+  border: 0px !important;
+  padding: 0px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0px, 0px, 0px, 0px) !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+.THIS .x7s-text-heading_large {
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 1.3;
+  position: relative;
+}
+@media screen and (min-width: 64em) {
+  .THIS .x7s-text-heading_large {
+    font-size: 38px;
+    margin-bottom: 8px;
+  }
+}
+.THIS .x7s-text-heading_large:after {
+  content: "";
+  height: 3px;
+  width: 100px;
+  background-color: #3f9c35;
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control .slds-checkbox {
+  flex: calc(50% - 20px);
+  max-width: 200px;
+  min-height: 120px;
+  margin: 10px;
+  border-width: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  display: inline-block;
+  text-align: center;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control .slds-checkbox .slds-checkbox__label {
+  padding: 10px 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control .slds-checkbox .slds-checkbox__label svg {
+  fill: currentColor;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control .slds-checkbox .slds-checkbox__label .slds-checkbox_faux {
+  display: none;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+  font-weight: bold;
+  color: inherit;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control .slds-checkbox .slds-checkbox__label:hover {
+  background: #00777a;
+  color: #fff;
+}
+.THIS .x7s-finprofile_checkbox-buttons .slds-form-element__control .slds-checkbox [type="checkbox"]:checked ~ .slds-checkbox__label {
+  background: #3f9c35;
+  color: #fff;
+}
+.THIS .x7s-finprofile .slds-checkbox .slds-checkbox__label .slds-checkbox_faux,
+.THIS .x7s-finprofile .slds-radio .slds-radio__label .slds-radio_faux {
+  transform: scale(1.5);
+  transform-origin: center center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-right: 1rem;
+}
+.THIS .x7s-finprofile_total-assets-footer {
+  padding: 10px;
+  background: #ddd;
+}
+@media screen and (min-width: 64em) {
+  .THIS .x7s-finprofile_total-assets-footer {
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+}
+.THIS .x7s-finprofile_footer {
+  background: #fff;
+}
+.THIS .x7s-finprofile_footer .slds-button {
+  white-space: nowrap;
+}
+.THIS .x7s-finprofile_currently-employed .slds-checkbox .slds-checkbox__label {
+  display: flex;
+}
+.THIS .x7s-finprofile_currently-employed .slds-checkbox .slds-checkbox__label .slds-checkbox_faux {
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+}
+.THIS .x7s-checkbox-table_header,
+.THIS .x7s-radio-table_header {
+  display: none;
+}
+@media screen and (min-width: 48em) {
+  .THIS .x7s-checkbox-table_header,
+  .THIS .x7s-radio-table_header {
+    display: block;
+  }
+  .THIS .slds-form-element_horizontal-with-labels .slds-form-element__control {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  .THIS .slds-form-element_horizontal-with-labels .slds-form-element__control .slds-radio {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element__legend.slds-form-element__label {
+    min-width: 66%;
+    float: left;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element {
+    flex: 0 0 80px;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element__control {
+    display: flex;
+    text-align: center;
+    padding-left: 0;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element__control .slds-checkbox {
+    flex: 0 0 80px;
+    padding: 0 0.5rem;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element__control .slds-radio {
+    flex: 0 0 60px;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element__control .slds-checkbox .slds-checkbox_faux,
+  .THIS .slds-form-element_horizontal .slds-form-element__control .slds-radio .slds-radio_faux {
+    margin: 0;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element__control .slds-form-element__label {
+    padding: 0;
+    font-size: 0.8125rem;
+  }
+  .THIS .slds-form-element_horizontal .slds-form-element__control .slds-form-element__label:not(.x7s-visible) {
+    position: absolute !important;
+    margin: -1px !important;
+    border: 0px !important;
+    padding: 0px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0px, 0px, 0px, 0px) !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+  }
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container {
+  width: calc(100vw - 2rem);
+  min-width: 1030px;
+  max-width: 64rem;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .slds-modal__content,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .slds-modal__content {
+  flex-grow: 1;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .slds-modal__content .x7s-finprofile,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .slds-modal__content .x7s-finprofile {
+  min-height: 100%;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container lightning-card,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container lightning-card,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .x7s-card_wrapper,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .x7s-card_wrapper {
+  height: 100%;
+  display: block;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container lightning-card .slds-card,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container lightning-card .slds-card,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__body,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__body,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__body,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__body {
+  overflow-y: scroll;
+  flex: 1 1 auto;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__header,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__header,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__header,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__header {
+  min-height: 60px;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__header h1,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__header h1,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__header h1,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__header h1,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__header h2,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__header h2,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__header h2,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__header h2 {
+  white-space: normal;
+}
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__footer,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container lightning-card .slds-card .slds-card__footer,
+.THIS c-x7s-weg-unifi-button .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__footer,
+.THIS c-x7s-weg-complete-questionnaire .slds-modal .slds-modal__container .x7s-card_wrapper .slds-card .slds-card__footer {
+  min-height: 84px;
+}
+.THIS .slds-radio_button-group {
+  border-width: 0;
+}
+.THIS .slds-radio_button-group .slds-radio_button {
+  border-width: 0;
+}
+.THIS .slds-radio_button-group .slds-radio_button + .slds-radio_button {
+  margin-left: 0.75rem;
+}
+.THIS .slds-radio_button-group .slds-radio_button .slds-radio_button__label {
+  color: inherit;
+  background-color: inherit;
+}
+.THIS .slds-button.slds-radio_button,
+.THIS .slds-button[class*="slds-button_"]:not([class*="slds-button_icon"]) {
+  border: 1px solid #3f9c35;
+  border-radius: 1.5rem;
+  font-size: 15px;
+  line-height: 1.3;
+  padding: 8px 16px;
+  font-weight: bold;
+  display: inline-block;
+}
+.THIS .slds-button.slds-radio_button svg *,
+.THIS .slds-button[class*="slds-button_"]:not([class*="slds-button_icon"]) svg * {
+  fill: currentColor;
+}
+.THIS .slds-button.slds-radio_button {
+  padding: 0;
+  overflow: hidden;
+}
+.THIS .slds-button.slds-radio_button .slds-radio_button__label {
+  padding: 8px 16px;
+  display: inline-block;
+}
+.THIS .slds-button.slds-radio_button input[type="radio"]:checked + .slds-radio_button__label {
+  color: #fff;
+  background-color: #3f9c35;
+}
+.THIS .slds-button.slds-radio_button input[type="radio"]:checked + .slds-radio_button__label:hover {
+  background-color: #00777a;
+}
+.THIS .slds-button.slds-button_neutral:not([disabled]) {
+  background-color: #f6f8f6;
+  border-color: #f6f8f6;
+  color: #000;
+}
+.THIS .slds-button.slds-button_neutral:not([disabled]):hover,
+.THIS .slds-button.slds-button_neutral:not([disabled]):focus {
+  border-color: #000;
+}
+.THIS .x7s-finprofile_radio-button-brand .slds-button.slds-radio_button,
+.THIS .slds-button.slds-button_brand:not([disabled]) {
+  background-color: #00777a;
+  border-color: #00777a;
+  color: #fff;
+}
+.THIS .x7s-finprofile_radio-button-brand .slds-button.slds-radio_button:hover,
+.THIS .slds-button.slds-button_brand:not([disabled]):hover,
+.THIS .x7s-finprofile_radio-button-brand .slds-button.slds-radio_button:focus,
+.THIS .slds-button.slds-button_brand:not([disabled]):focus {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+}
+.THIS .slds-button.slds-button_outline-brand:not([disabled]) {
+  background-color: #fff;
+  border-color: #00777a;
+  color: #00777a;
+}
+.THIS .slds-button.slds-button_outline-brand:not([disabled]):hover,
+.THIS .slds-button.slds-button_outline-brand:not([disabled]):focus {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+  color: #fff;
+}
+.THIS .slds-button.slds-button_reset:not([disabled]) {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  text-align: inherit;
+}
+.THIS .x7s-radiogroup_inline-inputs .slds-form-element__control {
+  display: flex;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.THIS .x7s-radiogroup_inline-inputs .slds-form-element__control > * + * {
+  margin-left: 0.5rem;
+}
+.THIS .forceCommunityTopArticleList a.topicHeaderLink {
+  pointer-events: none;
+}
+.THIS .x7s-layout__full,
+.THIS .x7s-layout__full.siteforceContentArea {
+  max-width: 100%;
+}
+.THIS .x7s-header__content {
+  background-position: 50% 50%;
+  border: 5px solid #3f9c35;
+  border-width: 0px 0px 5px 0px;
+}
+.THIS .x7s-header_fixed .x7s-theme__single-bar-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--lwc-zIndexDropdown, 7000);
+}
+.THIS .x7s-header_shadow-xs,
+.THIS .x7s-header_scrolled .x7s-header_shadow-scrolled-xs {
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.THIS .x7s-header_shadow-small,
+.THIS .x7s-header_scrolled .x7s-header_shadow-scrolled-small {
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.15);
+}
+.THIS .x7s-header_shadow-medium,
+.THIS .x7s-header_scrolled .x7s-header_shadow-scrolled-medium {
+  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.2);
+}
+.THIS .x7s-header_shadow-large,
+.THIS .x7s-header_scrolled .x7s-header_shadow-scrolled-large {
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.25);
+}
+.THIS .x7s-header_shadow-xl,
+.THIS .x7s-header_scrolled .x7s-header_shadow-scrolled-xl {
+  box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.3);
+}
+.THIS .x7s_Theme .x7s-layout_shaded,
+.THIS .x7s_Theme .x7s-layout__lead {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+.THIS .x7s-theme__body {
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+.THIS .x7s-layout__lead {
+  height: 1px !important;
+}
+.THIS .x7s-theme__footer {
+  margin-top: t(spacingXxLarge);
+}
+.THIS .x7s-theme__logo-link {
+  position: relative;
+  display: block;
+  height: 70px;
+  width: 180px;
+  background-image: t('url(' + brandLogoImage + ')');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.THIS.x7s-theme_narrow-banners .x7s-layout__lead-content {
+  max-width: 100%;
+  padding: 2rem 0;
+}
+@media screen and (min-width: 48em) {
+  .THIS .x7s-search-input_small .big-search-container.forceCommunitySearchBox .result-container {
+    width: 200%;
+    right: 0;
+  }
+  .THIS .big-search-container.forceCommunitySearchBox .body-search {
+    max-width: 100%;
+  }
+  .THIS .big-search-container.forceCommunitySearchBox .search-field {
+    border-radius: 6px;
+    height: 36px;
+    min-height: 36px;
+  }
+  .THIS .big-search-container.forceCommunitySearchBox .search-button {
+    border-radius: 4px;
+    height: 32px;
+    width: auto;
+    margin: 2px;
+    line-height: 1;
+  }
+  .THIS .x7s-search-input_small .big-search-container.forceCommunitySearchBox .search-field {
+    height: 30px;
+    min-height: 30px;
+  }
+  .THIS .x7s-search-input_small .big-search-container.forceCommunitySearchBox .search-button {
+    height: 26px;
+  }
+}
+.THIS .elementProxyContainer {
+  width: 0px;
+  height: 0px;
+}
+.THIS .slick-dots {
+  bottom: -45px;
+}
+.THIS .slick-dots li button:before {
+  height: 5px;
+  content: "";
+  background-color: #cccccc;
+  opacity: 1;
+}
+.THIS .slick-dots li.slick-active button:before {
+  background-color: #3f9c35;
+  opacity: 1;
+}
+.THIS lightning-combobox.account-type-dropdown .slds-listbox.slds-dropdown {
+  height: 200px !important;
+}
+
+.THIS lightning-combobox.custodian-dropdown .slds-listbox.slds-dropdown{
+  height: 250px !important;
+}
+
+.THIS .c-container .slds-form-element__row label {
+  font-size: 14px;
+}
+
+.THIS .c-container lightning-input-name .slds-form-element__row {
+  margin-top: 3px; 
+  margin-bottom: 3px;
+}
+
+.THIS .c-container lightning-input-name .slds-form-element__row:nth-child(1), .THIS .c-container lightning-input-name .slds-form-element__row:nth-child(5) {
+  width: 170px !important;
+}
+
+.THIS .c-container lightning-input-name .slds-form-element__row:nth-child(2), .THIS .c-container lightning-input-name .slds-form-element__row:nth-child(3), .THIS .c-container lightning-input-name .slds-form-element__row:nth-child(4), .THIS .c-container lightning-input-name .slds-form-element__row:nth-child(6) {
+  width: 400px !important;
+}

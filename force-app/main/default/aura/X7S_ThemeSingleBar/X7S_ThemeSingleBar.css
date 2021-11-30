@@ -1,0 +1,139 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.THIS {
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: height 0.25s linear, background-color 0.25s linear;
+  /* Nav active state */
+}
+.THIS .x7s-theme__navigation-bar-container,
+.THIS .x7s-theme__navigation-bar {
+  height: 100%;
+}
+.THIS .forceCommunityGlobalNavigation {
+  background: transparent none;
+}
+.THIS .slds-list_horizontal > .slds-list__item > .comm-navigation__item > a:hover,
+.THIS .slds-list_horizontal > .slds-list__item > .comm-navigation__item > a.slds-is-active:not([data-type="home"]),
+.THIS .slds-list_horizontal > .slds-list__item > .comm-navigation__item > button:hover,
+.THIS .slds-list_horizontal > .slds-list__item > .comm-navigation__item > button.slds-is-active:not([data-type="home"]),
+.THIS .slds-list__item a:hover,
+.THIS .slds-list__item a.slds-is-active:not([data-type="home"]),
+.THIS .slds-list__item button:not([disabled]):hover,
+.THIS .slds-list__item button:not([disabled]).slds-is-active:not([data-type="home"]) {
+  background-color: rgba(0, 0, 0, 0);
+  font-weight: bold;
+}
+.THIS .comm-navigation__list li a,
+.THIS .slds-list__item button {
+  color: #333;
+}
+.THIS .comm-navigation__list li a:hover,
+.THIS .slds-list__item button:hover,
+.THIS .comm-navigation__list li a:focus,
+.THIS .slds-list__item button:focus {
+  color: #333;
+  background-color: transparent;
+  box-shadow: none;
+}
+.THIS .slds-list_horizontal > .slds-list__item > .comm-navigation__list li a,
+.THIS .slds-list_horizontal > .slds-list__item > .slds-list__item button {
+  border-radius: 6px;
+}
+.THIS .x7s-theme__logo {
+  display: flex;
+}
+@media screen and (max-width: 48em) {
+  .THIS .x7s-theme__logo {
+    max-width: 30%;
+  }
+}
+.THIS .x7s-theme__logo-link {
+  max-width: 100%;
+}
+.THIS .x7s-search .slds-icon-utility-search svg {
+  fill: #333;
+}
+.THIS .x7s-theme__notifications button {
+  margin: 0;
+}
+.THIS .x7s-theme__notifications button svg {
+  fill: #333;
+}
+.THIS .x7s-theme__navbar {
+  flex-grow: 1;
+  flex-basis: 0;
+  min-width: 0;
+}
+.THIS .selfServiceProfileMenu,
+.THIS .selfServiceUserProfileMenu {
+  position: relative;
+  margin-top: 0;
+}
+@media only screen and (min-aspect-ratio: 1.33333333) and (min-width: 48em), only screen and (min-width: 64.0625em) {
+  .THIS {
+    /* Properly aligns the menu to the right of the nav */
+  }
+  .THIS .selfServiceUserProfileMenu .uiMenuList.visible {
+    left: auto;
+    transform: none;
+  }
+}
+.THIS .uiPopupTrigger {
+  padding: 0;
+}
+.THIS .selfServiceProfileMenuTrigger {
+  position: static;
+  top: 0;
+  height: 54px;
+  padding: 12px 0;
+}
+.THIS .selfServiceProfileMenuTrigger .trigger-link {
+  padding: 0;
+  color: #333;
+  white-space: nowrap;
+}
+.THIS .selfServiceProfileMenuTrigger .trigger-link > img {
+  min-width: 30px;
+}
+.THIS .selfServiceProfileMenuTrigger .trigger-link:hover {
+  color: #333;
+}
+.THIS .selfServiceProfileMenuTrigger .trigger-link:focus {
+  color: #333;
+  box-shadow: none;
+}
+.THIS .selfServiceProfileMenuTrigger .trigger-link .profileName {
+  display: none;
+}
+.THIS .x7s-theme__actions {
+  display: flex;
+}
+.THIS .x7s-search {
+  transition: background-color 0.25s linear;
+  position: absolute;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  display: none;
+  width: 100%;
+  margin-top: 1px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+}
+.THIS.x7s-theme_search-active .x7s-search {
+  display: block;
+}
+.THIS .x7s-search__container {
+  height: 100%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+.THIS .x7s-search-input {
+  padding-left: 2rem;
+}

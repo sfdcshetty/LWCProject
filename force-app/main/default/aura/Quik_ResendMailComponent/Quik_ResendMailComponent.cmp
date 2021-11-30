@@ -1,0 +1,26 @@
+<!--
+Created By: Bigworks
+Created Date: 30/09/2020
+Controller: Quik_ResendMail
+Description: By clicking on "Resend Envelope" quick action, the document will be resent to signer, 
+if the status is "Sent"
+-->
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" 
+                access="global" controller="Quik_ResendMail">
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="spinner" type="boolean" default="true" />
+    
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    
+</aura:component>

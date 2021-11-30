@@ -1,0 +1,70 @@
+footer.slds-modal__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.investmentHeader {
+  margin-top: 1em;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.36;
+  text-align: left;
+  color: #000000;
+}
+
+.investmentListContainer {
+  font-size: 16px;
+}
+
+.inv-held-away-content {
+  height: 37rem;
+}
+
+.slds-form-element__control {
+  height: 50px !important;
+}
+
+.custodianColor {
+  color: #20b2aa;
+  background-color: #20b2aa;
+}
+
+.totalAmount {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #000000;
+}
+
+.addHeldAway {
+  display: inline-block;
+  height: 31px;
+  margin: 0; /* 0.1px 261px 13px 7px; */
+  padding: 10px 14px 24px 17px;
+  border-radius: 20px;
+  border: solid 1px #01777a;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 0.9;
+  text-align: center;
+  color: #01777a;
+  width: 160px;
+  cursor: pointer;
+}
+
+.iconContainer {
+  width: 0.875rem;
+  display: inline-block;
+}
+
+.heldAwayIcon {
+  fill: #01777a;
+}
+
+.inputField {
+  width: 20em;
+}
+
+.cancelButton {
+  min-width: 130px;
+}

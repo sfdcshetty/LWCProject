@@ -1,0 +1,23 @@
+<template>
+    <div>
+        <div class="header">
+            <h2 id="header99" class="slds-text-heading--medium">Reply: {userId}</h2>
+        </div>
+        <br/>
+        <div>
+            <lightning-input type="text" label="Subject" name="Subject" value="SecureMessage.Name"></lightning-input><br/>
+            <span style="color: #5a5a5a;">Message</span>
+            <lightning-input-rich-text value="SecureMessage.Message__c">
+            </lightning-input-rich-text>
+            Please Note:
+            <br/>
+            <p><strong>Please do <span style="text-decoration: underline;">NOT</span> include <span style="text-decoration: underline;">any trading</span> instructions in the secure message, as we are not able to accept trades through the Client Portal. If you wish to make a trade immediately, please call your financial advisory team.</strong></p>
+            <br/>
+        </div>
+        <br/>
+        <div class="footer">
+            <button class="slds-button slds-button--brand" onclick={sendMessage}>Send</button>
+            <button class="slds-button slds-button--neutral" onclick={closeModal}>Cancel</button>
+        </div>
+    </div>
+</template>

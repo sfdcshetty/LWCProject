@@ -1,0 +1,63 @@
+.insuranceTable .slds-table_header-fixed tbody tr th,
+.insuranceTable .slds-table--header-fixed tbody tr th {	
+	padding-top: 10px;
+}
+.insuranceTable.slds-max-medium-table_stacked-horizontal tr > td:last-child .slds-truncate,
+.insuranceTable.slds-max-medium-table_stacked-horizontal tr > td:nth-last-child(2) .slds-truncate {
+	margin-left: 0px;
+}
+				.slds-button_icon-bare { color: #696969	 !important; } 				
+                .slds-table_header-fixed thead th { color: #696969	 !important; }                  
+                .slds-resizable__handle { position: fixed;}
+                @media (max-width: 768px) {
+                    .insuranceTable .slds-table_header-fixed_container {
+                        padding-top: 0;
+                    }
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal td, 
+                    .insuranceTable.slds-max-medium-table--stacked-horizontal td {
+                        text-align: left;
+                    }                   
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal td .slds-truncate,
+                    .insuranceTable.slds-max-medium-table--stacked-horizontal td .slds-truncate {
+                        margin-left: 5px;
+                    }                    
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal th, 
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal td, 
+                    .insuranceTable.slds-max-medium-table--stacked-horizontal th, 
+                    .insuranceTable.slds-max-medium-table--stacked-horizontal td {
+                        padding: 0;
+                    }
+                    .insuranceTable .slds-table th, 
+                    .insuranceTable .slds-table td {
+                        padding-left: 0.75rem;
+                        padding-right: 0.75rem;
+                    }
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal tr > td:last-child {
+                        padding-top: 5px;
+                        padding-left: 0.75rem;
+                        padding-right: 0.75rem;
+                        padding-bottom: 0.5rem;
+                    }
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal th::before, 
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal td::before, 
+                    .insuranceTable.slds-max-medium-table--stacked-horizontal th::before, 
+                    .insuranceTable.slds-max-medium-table--stacked-horizontal td::before {
+                        text-transform: capitalize;
+                        line-height: 1.17;
+                        letter-spacing: 0.28px;
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #696969;
+                    }
+                    .insuranceTable .slds-table_bordered tbody td, 
+                    .insuranceTable .slds-table_bordered tbody th, 
+                    .insuranceTable .slds-table--bordered tbody td, 
+                    .insuranceTable .slds-table--bordered tbody th,
+                    .insuranceTable.slds-max-medium-table_stacked-horizontal tr, 
+                    .insuranceTable.slds-max-medium-table--stacked-horizontal tr {
+                        border-top: 0;
+                    }
+                    .insuranceTable .slds-table tr:nth-of-type(odd) { 
+                        background: #f5f4f4; 
+                      }
+                }

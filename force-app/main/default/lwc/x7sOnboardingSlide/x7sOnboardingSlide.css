@@ -1,0 +1,72 @@
+/*
+ * Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+ */
+
+
+:host {
+    max-width: 860px;
+    margin: 0 auto;
+}
+.onboarding-slide__header {
+    text-align: center;
+}
+.onboarding-slide__title {
+    color: var(--lwc-colorBrand);
+}
+.onboarding-slide__body {
+    padding-top: 1rem;
+}
+.onboarding-slide__button {
+    border: none;
+    border-radius: 10px;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 500;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 2em;
+}
+
+.slds-checkbox__label {
+    padding: 1rem 1.5rem;
+    border-radius: var(--lwc-borderRadiusMedium);
+    background: #f9f9f9;
+    display: block;
+    color: token(textColor);
+}
+
+
+
+@media (min-width: 48rem) {
+    .onboarding-slide_horizontal .onboarding-slide__header {
+        text-align: left
+    }
+    .onboarding-slide_horizontal .onboarding-slide__body {
+        padding-top: 0;
+    }
+}
+
+.primaryButtonLabelClass{
+    background: white;
+}
+
+@media (max-width: 47.9375em) {
+    .onboarding-slide__button {
+        display: block;
+        font-size: 1rem;
+        width: 100%;
+        margin: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .onboarding-slide__button + .onboarding-slide__button {
+        margin-top: .5rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .onboarding-video {
+        margin: 0 auto;
+        width: 640px;
+    }
+}

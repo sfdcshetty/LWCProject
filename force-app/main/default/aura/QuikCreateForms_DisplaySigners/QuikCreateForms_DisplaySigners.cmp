@@ -1,0 +1,39 @@
+<aura:component>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="receipientDetails" type="Recipients__c" default="{'sobjectType':'Recipients__c'}"/>
+    <aura:attribute name="rowIndex" type="String"/>
+    <aura:attribute name="formName" type="String"/>
+    <aura:attribute name="recipientsLength" type="Integer"/>
+    <aura:registerEvent name="DeleteRowEvt" type="c:DeleteRowEvt"/>
+    
+    <aura:attribute name="iconDisplay" type="Boolean" />
+    
+    <tr class="slds-hint-parent">
+        <th scope="row">
+            {!v.receipientDetails.Order__c}&nbsp;&nbsp;
+            <aura:if isTrue="{!v.iconDisplay}">
+                <lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{!c.removeRow}" />
+            </aura:if>
+            <!--<aura:if isTrue="{!and(v.rowIndex + 1 == v.recipientsLength , v.rowIndex+1 > 1 )}">
+                <lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{!c.removeRow}"/>
+            </aura:if>-->
+        </th>
+        <td style="width: 120px !important;">
+            {!v.receipientDetails.Signer_Type__c}
+        </td>
+        <td >
+            <lightning:input aura:id="{!v.rowIndex + 1}" name="{!v.receipientDetails.Name__c}" value="{!v.receipientDetails.Name__c}" required="true" variant="label-hidden"/>
+        </td>
+        <td>
+            <lightning:input aura:id="{!v.rowIndex + 1}" type="email" name="{!v.receipientDetails.Email__c}" value="{!v.receipientDetails.Email__c}" required="true" variant="label-hidden" />
+        </td>
+        
+        <td>
+            <div style="display:flex">
+                <lightning:input  variant="label-hidden" name="{!v.receipientDetails.Phone_Number__c}" required="true" value="{!v.receipientDetails.Phone_Number__c}"  aura:id="{!v.rowIndex + 1}"/>
+                <lightning:helptext content="Must include +## for the country code for non-U.S. phone numbers. Example: For a number in India, a valid entry would be +917123456780"/>
+            </div>
+        </td>
+    </tr>
+</aura:component>

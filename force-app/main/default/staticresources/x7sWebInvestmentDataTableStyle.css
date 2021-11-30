@@ -1,0 +1,63 @@
+.investmentTable .slds-table_header-fixed tbody tr th,
+.investmentTable .slds-table--header-fixed tbody tr th {	
+	padding-top: 10px;
+}
+.investmentTable.slds-max-medium-table_stacked-horizontal tr > td:last-child .slds-truncate,
+.investmentTable.slds-max-medium-table_stacked-horizontal tr > td:nth-last-child(2) .slds-truncate {
+	margin-left: 0px;
+}
+				.slds-button_icon-bare { color: #696969	 !important; } 				
+                .slds-table_header-fixed thead th { color: #696969	 !important; }                  
+                .slds-resizable__handle { position: fixed;}
+                @media (max-width: 768px) {
+                    .investmentTable .slds-table_header-fixed_container {
+                        padding-top: 0;
+                    }
+                    .investmentTable.slds-max-medium-table_stacked-horizontal td, 
+                    .investmentTable.slds-max-medium-table--stacked-horizontal td {
+                        text-align: left;
+                    }                   
+                    .investmentTable.slds-max-medium-table_stacked-horizontal td .slds-truncate,
+                    .investmentTable.slds-max-medium-table--stacked-horizontal td .slds-truncate {
+                        margin-left: 5px;
+                    }                    
+                    .investmentTable.slds-max-medium-table_stacked-horizontal th, 
+                    .investmentTable.slds-max-medium-table_stacked-horizontal td, 
+                    .investmentTable.slds-max-medium-table--stacked-horizontal th, 
+                    .investmentTable.slds-max-medium-table--stacked-horizontal td {
+                        padding: 0;
+                    }
+                    .investmentTable .slds-table th, 
+                    .investmentTable .slds-table td {
+                        padding-left: 0.75rem;
+                        padding-right: 0.75rem;
+                    }
+                    .investmentTable.slds-max-medium-table_stacked-horizontal tr > td:last-child {
+                        padding-top: 5px;
+                        padding-left: 0.75rem;
+                        padding-right: 0.75rem;
+                        padding-bottom: 0.5rem;
+                    }
+                    .investmentTable.slds-max-medium-table_stacked-horizontal th::before, 
+                    .investmentTable.slds-max-medium-table_stacked-horizontal td::before, 
+                    .investmentTable.slds-max-medium-table--stacked-horizontal th::before, 
+                    .investmentTable.slds-max-medium-table--stacked-horizontal td::before {
+                        text-transform: capitalize;
+                        line-height: 1.17;
+                        letter-spacing: 0.28px;
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #696969;
+                    }
+                    .investmentTable .slds-table_bordered tbody td, 
+                    .investmentTable .slds-table_bordered tbody th, 
+                    .investmentTable .slds-table--bordered tbody td, 
+                    .investmentTable .slds-table--bordered tbody th,
+                    .investmentTable.slds-max-medium-table_stacked-horizontal tr, 
+                    .investmentTable.slds-max-medium-table--stacked-horizontal tr {
+                        border-top: 0;
+                    }
+                    .investmentTable .slds-table tr:nth-of-type(odd) { 
+                        background: #f5f4f4; 
+                      }
+                }

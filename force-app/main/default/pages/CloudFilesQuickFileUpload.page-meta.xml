@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>40.0</apiVersion>
+    <availableInTouch>true</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>Quick Upload page allows Salesforce users to directly upload files from a Salesforce parent record. This will reduce the number of clicks to upload multiple files.</description>
+    <label>CloudFilesQuickFileUpload</label>
+</ApexPage>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>7S Explore Our Services</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property label="Title" name="title" type="String"/>
+            <property label="Button Text" name="buttonText" type="String"/>
+            <property label="Rows Grouped In" name="rowsDividedBy" type="String"/>
+            <property label="Link 1 Title" name="link1Title" type="String"/>
+            <property label="Link 1 Url" name="link1Url" type="String"/>
+            <property label="External Page?" name="link1External" type="Boolean"/>
+            <property label="Link 2 Title" name="link2Title" type="String"/>
+            <property label="Link 2 Url" name="link2Url" type="String"/>
+            <property label="External Page?" name="link2External" type="Boolean"/>
+            <property label="Link 3 Title" name="link3Title" type="String"/>
+            <property label="Link 3 Url" name="link3Url" type="String"/>
+            <property label="External Page?" name="link3External" type="Boolean"/>
+            <property label="Link 4 Title" name="link4Title" type="String"/>
+            <property label="Link 4 Url" name="link4Url" type="String"/>
+            <property label="External Page?" name="link4External" type="Boolean"/>
+            <property label="Link 5 Title" name="link5Title" type="String"/>
+            <property label="Link 5 Url" name="link5Url" type="String"/>
+            <property label="External Page?" name="link5External" type="Boolean"/>
+            <property label="Link 6 Title" name="link6Title" type="String"/>
+            <property label="Link 6 Url" name="link6Url" type="String"/>
+            <property label="External Page?" name="link6External" type="Boolean"/>
+            <property label="Link 7 Title" name="link7Title" type="String"/>
+            <property label="Link 7 Url" name="link7Url" type="String"/>
+            <property label="External Page?" name="link7External" type="Boolean"/>
+            <property label="Link 8 Title" name="link8Title" type="String"/>
+            <property label="Link 8 Url" name="link8Url" type="String"/>
+            <property label="External Page?" name="link8External" type="Boolean"/>
+            <property label="Link 9 Title" name="link9Title" type="String"/>
+            <property label="Link 9 Url" name="link9Url" type="String"/>
+            <property label="External Page?" name="link9External" type="Boolean"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

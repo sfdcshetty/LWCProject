@@ -1,0 +1,95 @@
+<template>
+    <form class="x7s-unifi_add-dependents">
+
+        <template if:false={dependents.length}>
+            <lightning-layout multiple-rows class="slds-gutters">
+
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">{header}</h1>
+                </lightning-layout-item>
+
+
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <lightning-radio-group name="addDependents" class="x7s-unifi_radio-button-brand"
+                                label={header} variant="label-hidden" type="button"
+                                options={optionsYesNo} 
+                                onchange={handleChangeYesNo}></lightning-radio-group>
+                </lightning-layout-item>
+
+            </lightning-layout>
+        </template>
+
+
+        <template if:true={dependents.length}>
+
+            <lightning-layout multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">{formHeader}</h1>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <template iterator:it={dependents}>
+                <lightning-layout key={it.value.Id} multiple-rows class="slds-gutters">
+
+                    <lightning-layout-item size="12" medium-device-size="8" large-device-size="4" class="slds-col slds-m-bottom_large">
+                        <lightning-input label="First name" value={it.value.First_Name__c} 
+                            data-index={it.index} 
+                            onchange={handleChangeFirstName}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="4" large-device-size="2" class="slds-col slds-m-bottom_large">
+                        <lightning-input label="Middle initial" value={it.value.Middle_Initial__c}
+                            data-index={it.index} 
+                            onchange={handleChangeMiddleInitial}></lightning-input>
+                    </lightning-layout-item>
+                
+                    <lightning-layout-item size="12" medium-device-size="8" large-device-size="4" class="slds-col slds-m-bottom_large">
+                        <lightning-input label="Last name" value={it.value.Last_Name__c}
+                            data-index={it.index} 
+                            onchange={handleChangeLastName}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="4" large-device-size="2" class="slds-col slds-m-bottom_large">
+                        <lightning-input label="Suffix" value={it.value.Suffix__c}
+                            data-index={it.index} 
+                            onchange={handleChangeSuffix}></lightning-input>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="4" class="slds-col slds-m-bottom_large">
+                        <lightning-input type="date" label="Date of birth" value={it.value.Date_of_Birth__c}
+                            data-index={it.index} 
+                            onchange={handleChangeDateOfBirth}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="8" class="slds-col slds-m-bottom_large">
+                        <!-- nothing goes here -->
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="3" class="slds-col slds-m-bottom_large">
+                        <lightning-combobox label="State" options={optionsState} value={it.value.State__c}
+                            data-index={it.index} 
+                            onchange={handleChangeState}></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="9" class="slds-col slds-m-bottom_large">
+                        <!-- nothing goes here -->
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="3" class="slds-col slds-m-bottom_large">
+                        <lightning-combobox label="Relationship" options={optionsRelationship} value={it.value.Relationship__c}
+                            data-index={it.index} 
+                            onchange={handleChangeRelationship}></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="9" class="slds-col slds-m-bottom_large slds-m-top_x-large slds-text-align_right">
+                        <lightning-button variant="base" icon-name="utility:close" label="Remove this row" data-row-id={it.value.Id}
+                            data-row-index={it.index} onclick={handleClickRemoveRow}></lightning-button>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                        <lightning-button if:true={it.last} variant="base" icon-name="utility:new" label="Add Another"
+                                            onclick={handleClickAddAnotherDependent}></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+            </template>
+        </template>
+
+    </form>
+
+</template>

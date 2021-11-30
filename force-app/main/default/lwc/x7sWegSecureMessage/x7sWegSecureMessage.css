@@ -1,0 +1,152 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.button {
+  bottom: 10px;
+  height: 31px;
+  /*margin: 50px 261px 13px 7px;*/
+  padding: 10px 14px 24px 17px;
+  border-radius: 20px;
+  border: solid 1px #01777a;
+  background-color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #01777a;
+  width: 170px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+.button-text {
+  display: inline-block;
+}
+.new-message-icon {
+  margin-right: 20px;
+}
+.new-message {
+  border-color: #01777a !important;
+  color: #01777a !important;
+  --sds-c-icon-color-foreground-default: #01777a !important;
+  --sds-c-icon-color-foreground: #01777a !important;
+  --sds-c-icon-color-background: #fff !important;
+}
+.messages-main {
+  margin-bottom: 14.5px;
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: -0.36px;
+  text-align: left;
+  color: #000000;
+  text-transform: uppercase;
+}
+.message-dropdown {
+  height: 53px;
+  border-radius: 5px;
+  border: solid 1px #707070;
+  background-color: #ffffff;
+}
+
+h1 {
+  font-size: 38px !important;
+  font-weight: 700;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.68;
+  text-align: left;
+  color: #000;
+  position: relative;
+  margin-bottom: 30px;
+}
+h1:after {
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  height: 3px;
+  background-color: #3f9c35;
+}
+
+.separator {
+  height:1px;
+  border:solid 1px #e4e4e4;
+  border-width:0px 0px 1px 0px;
+  margin:10px 0px 20px 0px;
+}
+
+.secure-message {
+  border:solid 1px #e4e4e4;
+  border-width:0px 0px 1px 0px;
+  margin-bottom: 27px;
+}
+
+.secure-message a {
+  height: 20px;
+  margin-bottom: 1px;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #01777a;
+}
+
+.message-upper, .secure-message a {
+  padding-left:50px
+}
+
+.message-upper{
+  height: 16px;
+  margin-bottom: 17px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}
+
+.message-date {
+  float:right;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #a0a0a0;
+}
+
+.info-icon {
+  display: inline-block;
+  height: 14px;
+  margin-bottom: 5px;
+}
+
+.trash-icon {
+  float: right;
+  height: 18px;
+  margin-bottom: 15px;
+}
+
+.message-body {
+  padding-left: 50px;
+  margin-top:5px;
+}

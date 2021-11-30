@@ -1,0 +1,5 @@
+<design:component >
+	<design:attribute name="buttonLabel" label="Button Label"/>	
+    <design:attribute name="objectAPIName" label="Object API Name"/>	
+    <design:attribute name="buttonAlignment" label="Button Alignment" Description="Valid values are left, right"/>	    
+</design:component>

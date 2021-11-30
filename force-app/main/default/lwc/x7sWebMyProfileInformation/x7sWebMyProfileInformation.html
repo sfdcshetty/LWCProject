@@ -1,0 +1,229 @@
+<template>
+
+    <div class="slds-text-color_default slds-p-top-xx_large slds-p-bottom-xx_small slds-text-title_caps slds-text-heading_medium">
+        {header}
+    </div>
+    <div class="slds-p-bottom-x_small slds-text-title_bold slds-text-heading_large primaryIndividualName">
+        {headerName}
+    </div>
+
+    <div class="slds-grid slds-wrap slds-gutters_large">
+
+        <template if:true={isClientAndCoClient}>
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Name</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {clientOrCoClientName}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Date of Birth</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <lightning-formatted-date-time value={clientOrCoClientBirthDate}>
+                        </lightning-formatted-date-time>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Address(Home)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <template if:true={clientOrCoClientHomeAddress}>
+                            <lightning-formatted-address street={clientOrCoClientHomeAddress.street}
+                                city={clientOrCoClientHomeAddress.city} province={clientOrCoClientHomeAddress.state}
+                                postal-code={clientOrCoClientHomeAddress.postalCode}></lightning-formatted-address>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Address(Work)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <template if:true={clientOrCoClientWorkAddress}>
+                            <lightning-formatted-address street={clientOrCoClientWorkAddress.street}
+                                city={clientOrCoClientWorkAddress.city} province={clientOrCoClientWorkAddress.state}
+                                postal-code={clientOrCoClientWorkAddress.postalCode}></lightning-formatted-address>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Address(Other)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <lightning-formatted-address street={clientOrCoClientOtherStreet}
+                            city={clientOrCoClientOtherCity} province={clientOrCoClientOtherState}
+                            postal-code={clientOrCoClientOtherPostalCode}></lightning-formatted-address>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12">
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Phone(Mobile)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <lightning-formatted-text value={clientOrCoClientPhone} data-id="phone">
+                        </lightning-formatted-text>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Phone(Home)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <lightning-formatted-text value={clientOrCoClientHomePhone} data-id="homePhone">
+                        </lightning-formatted-text>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <!-- <span class="slds-form-element__label">Phone(Other)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <lightning-formatted-text value={clientOrCoClientOtherPhone} data-id="otherPhone">
+                        </lightning-formatted-text>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">-->
+                <span class="slds-form-element__label">Phone(Work)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <lightning-formatted-text value={clientOrCoClientWorkPhone} data-id="workPhone">
+                        </lightning-formatted-text>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Email(Personal)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {clientOrCoClientPersonalEmail}</div>
+                </div>
+            </div>
+
+            <div
+                class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Email(Work)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {clientOrCoClientWorkEmail}</div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Email(Other)</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {clientOrCoClientOtherEmail}</div>
+                </div>
+            </div>
+        </template>
+
+
+        <template if:true={beneficiaryId}>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Name</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {beneficiaryName}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Date of Birth</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        <lightning-formatted-date-time value={beneficiaryDateOfBirth}>
+                        </lightning-formatted-date-time>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Relationship</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {relationship}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">State</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        State
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+
+        <template if:true={trusteeId}>
+            
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Name</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {trusteeName}
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Phone</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {trusteePhone}
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Email</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        {trusteeEmail}
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_5-of-12 slds-form-element slds-form-element_readonly slds-m-top_small">
+                <span class="slds-form-element__label">Relationship</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static slds-text-heading_small">
+                        trusteeRelationship
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+    </div>
+</template>

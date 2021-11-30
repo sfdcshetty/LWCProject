@@ -1,0 +1,54 @@
+<template>
+    <form class="x7s-unifi_planning-objectives">
+
+        <lightning-layout multiple-rows class="slds-gutters">
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <!-- mimic the lighting-radio-group structure so it inherits the same styles, but don't add the radio buttons -->
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_small x7s-radio-table_header">
+                <div class="slds-form-element_horizontal slds-form-element">
+                    <fieldset>
+                        <legend class="slds-form-element__legend slds-form-element__label"></legend>
+                        <div class="slds-form-element__control">
+                            <span class="slds-radio">
+                                <label class="slds-radio__label">
+                                    <span class="slds-form-element__label x7s-visible">Very important</span>
+                                </label>
+                            </span>
+                            <span class="slds-radio">
+                                <label class="slds-radio__label">
+                                    <span class="slds-form-element__label x7s-visible">Somewhat important</span>
+                                </label>
+                            </span>
+                            <span class="slds-radio">
+                                <label class="slds-radio__label">
+                                    <span class="slds-form-element__label x7s-visible">Not important</span>
+                                </label>
+                            </span>
+                        </div>
+                    </fieldset>
+                </div>
+            </lightning-layout-item>
+
+            <template iterator:it={questionsAndAnswers}>
+                <lightning-layout-item key={it.value.label} size="12" class="slds-col slds-m-bottom_small">
+                    <lightning-radio-group variant="label-inline"
+                                            label={it.value.label}
+                                            data-question-index={it.index}
+                                            value={it.value.value}
+                                            options={optionsQuestions}
+                                            onchange={handleChangeAnswers}
+                    ></lightning-radio-group>
+                </lightning-layout-item>
+            </template>
+
+        </lightning-layout>
+
+    </form>
+
+</template>

@@ -1,0 +1,137 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" controller="SKBlotFundDetails" access="global" >
+	<aura:attribute name="recordId" type="Id" access="global"/>
+    <aura:attribute name="selectedRecordId" type="Id" access="global"/>
+    <aura:attribute name="valError" type="String" />
+    
+    <aura:attribute name="blot" type="Blot__c" default="{ 'sobjectType': 'Blot__c' }"/>
+    
+    <aura:attribute name="fundDetails" type="List"/>
+    <aura:attribute name="fundDetail" type="Fund_Detail__c" default="{ 'sobjectType': 'Fund_Detail__c' }"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <div class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="custom:custom16" size="small"/>
+                </div>
+                <div class="slds-media__body slds-truncate">
+                    <span class="slds-text-heading--small">Fund Details</span>
+                </div>
+            </div>
+            <div class="slds-no-flex">
+                <ui:button label="Add Fund Detail" class="slds-button slds-button--neutral slds-col--bump-left" 
+                           press="{!c.doNewFD}"/>
+            </div>
+        </div>
+    
+        <div class="slds-card__body">
+            <table class="slds-table slds-table--bordered slds-no-row-hover slds-table--cell-buffer">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        <th scope="col">Name</th>
+                        <th scope="col">Source of Funds</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.fundDetails}" var="fundDetail">
+                        <tr class="slds-hint-parent">
+                            <td>
+                                {!fundDetail.Name}
+                            </td>
+                            <td>
+                                {!fundDetail.WEGP1_SourceofFunds__c}
+                            </td>
+                            <td>
+                                <ui:outputCurrency value="{!fundDetail.WEGP1_Amount__c}"/>
+                            </td>
+                            <td>
+                                <div class="slds-button-group" role="group">
+                                    <button class="slds-button slds-button_neutral" onclick="{!c.doEditFD}" data-recordId="{!fundDetail.Id}">
+                                        Edit
+                                    </button>
+                                    <button class="slds-button slds-button_neutral" onclick="{!c.doDeleteFD}" data-recordId="{!fundDetail.Id}">
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  <!-- Fund Detail Popup -->
+    <div aura:id="modalFD" class="slds-modal slds-fade-in-open hideDiv" aria-hidden="true" role="dialog">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 class="slds-text-heading--medium">Fund Detail</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+                <div class="modalContent">
+                    <div class="slds-form slds-form_compound">
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row">
+                               
+                                <div class="slds-form-element slds-size_1-of-2">
+                                    <label class="slds-form-element__label">Source of Funds</label>
+                                    <ui:inputSelect aura:id="selectSrcFund" 
+                                                    class="slds-select" labelClass="assistiveText" value="{!v.fundDetail.WEGP1_SourceofFunds__c}">
+                                        <ui:inputSelectOption label="Checking/Savings" text="Checking/Savings"/>
+                                        <ui:inputSelectOption label="401k/Pension" text="401k/Pension"/>
+                                        <ui:inputSelectOption label="403b/TSA" text="403b/TSA"/>
+                                        <ui:inputSelectOption label="Inheritance" text="Inheritance"/>
+                                        <ui:inputSelectOption label="Existing WEG Account" text="Existing WEG Account"/>
+                                        <ui:inputSelectOption label="Outside firm" text="Outside firm"/>
+                                        <ui:inputSelectOption label="Other (note required)" text="Other (note required)"/>
+                                    </ui:inputSelect>
+                                </div>
+                                <div class="slds-form-element slds-size_1-of-2">
+                                    <label class="slds-form-element__label">Amount</label>
+                                    <ui:inputCurrency aura:id="AccountValue" value="{!v.fundDetail.WEGP1_Amount__c}"/>
+                                </div>
+                            </div>
+                                                        
+                            <aura:if isTrue="{!v.valError != null}">
+                                <div class="slds-form-element__row">
+                                    <ui:inputDefaultError value="{!v.valError}" />
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button--neutral slds-button--brand" onclick="{!c.doSaveFD}">Save</button>
+                <button class="slds-button slds-button--neutral slds-button--brand" onclick="{!c.doHideModalFD}">Cancel</button>
+            </div>
+        </div>
+    </div> 
+    
+    <div aura:id="modalDelete" class="slds-modal slds-fade-in-open hideDiv" aria-hidden="true" role="dialog">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 class="slds-text-heading--medium">Delete Fund Detail</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+                Are you sure?
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button--neutral" onclick="{!c.doConfirmDeleteFD}">Yes</button>
+                <button class="slds-button slds-button--neutral" onclick="{!c.doHideModalDelete}">No</button>
+            </div>
+        </div>
+    </div> 
+    
+    <div aura:id="backgroundSection" class="slds-backdrop slds-backdrop--open hideDiv" aria-hidden="true"></div>
+    <div aura:id="spinner" class="busy-backdrop busy-backdrop--open hideDiv">
+        <div class="slds-spinner_container">
+            <div class="slds-spinner--brand slds-spinner slds-spinner--large" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+</aura:component>

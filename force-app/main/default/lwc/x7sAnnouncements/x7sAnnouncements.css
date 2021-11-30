@@ -1,0 +1,154 @@
+/*
+ * Copyright (c) 2020. 7Summits Inc.
+ */
+
+/**
+ * 7s-announcements - Front-end assets used for the 7Summits Announcements
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+h3 {
+  color: white !important;
+  margin-bottom: 10px;
+}
+.x7s-announcements {
+  position: relative;
+}
+.x7s-announcements.x7s-announcements__show-dots {
+  margin-bottom: 28px;
+}
+.x7s-announcements-loading {
+  position: relative;
+  min-height: 100px;
+}
+.slds-notification-container {
+  position: relative;
+  z-index: inherit;
+  top: auto;
+  right: auto;
+  width: auto;
+  padding: 0;
+}
+.slds-notification {
+  width: 100%;
+  box-shadow: none;
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 0;
+  border: none !important;
+}
+.slds-notification__target {
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+}
+.slds-notification .slds-media__body h1 {
+  font-weight: 600;
+  font-size: 16px;
+}
+.slds-notification .slds-media__body {
+  padding: 14px;
+}
+.slds-media__figure {
+  color: #ffffff;
+  background-color: #3f9c35;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  padding: 14px 16px;
+}
+.slds-media__figure svg,
+.slds-media__figure i {
+  color: white;
+  fill: white;
+}
+.slds-media__action {
+  color: #5a5a5a;
+  padding: 14px 16px;
+}
+.slds-media__action,
+.slds-media__figure {
+  align-items: center;
+  display: flex;
+}
+.slds-media__action a {
+  padding: 3px;
+  margin-left: 6px;
+}
+.slds-media__action .complete-todo,
+.slds-media__action .upload-doc {
+  width: 26px;
+  height: auto;
+}
+  /*.slds-notification.error {*/
+/*  border-color: #f2a199;*/
+/*  background-color: #fdedea;*/
+/*}*/
+/*.slds-notification.error .slds-media__figure svg {*/
+/*  fill: #f2a199;*/
+/*}*/
+/*.slds-notification.error .slds-media__figure i {*/
+/*  color: #f2a199;*/
+/*}*/
+/*.slds-notification.warning {*/
+/*  border-color: #f8e38e;*/
+/*  background-color: #ffffdc;*/
+/*}*/
+/*.slds-notification.warning .slds-media__figure svg {*/
+/*  fill: #f8e38e;*/
+/*}*/
+/*.slds-notification.warning .slds-media__figure i {*/
+/*  color: #f8e38e;*/
+/*}*/
+/*.slds-notification.info {*/
+/*  border-color: #bee6ff;*/
+/*  background-color: #f5fcff;*/
+/*}*/
+/*.slds-notification.info .slds-media__figure svg {*/
+/*  fill: #bee6ff;*/
+/*}*/
+/*.slds-notification.info .slds-media__figure i {*/
+/*  color: #bee6ff;*/
+/*}*/
+.slds-notification__close {
+  top: 0.5rem;
+  right: 0.5rem;
+}
+.slds-media__body h4 {
+  line-height: normal;
+}
+.slds-media__body p .slds-button {
+  line-height: initial;
+  border: 0;
+}
+.slick-prev,
+.slick-next {
+  font-size: inherit;
+  color: var(--lwc-colorTextLink);
+  width: 18px;
+  height: 18px;
+}
+.slick-prev .icon,
+.slick-next .icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.slick-prev:hover,
+.slick-next:hover,
+.slick-prev:focus,
+.slick-next:focus {
+  color: var(--lwc-colorTextLinkHover);
+}
+.slick-prev {
+  left: 0;
+}
+.slick-next {
+  right: 0;
+}
+.slick-dotted.slick-slider {
+  margin-bottom: 0;
+}
+div.slds-grid {
+  margin-top: -0.75rem;
+}

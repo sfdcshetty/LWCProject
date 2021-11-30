@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 2020. 7Summits Inc.
+  -->
+
+<!-- 7S Announcements -->
+<template>
+	<section class={componentClass} aria-hidden="false">
+		<h3>Announcements &amp; To Dos ({totalCount})</h3>
+		<div if:true={loading} class="x7s-announcements-loading">
+			<lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+		</div>
+		<div class={carouselClass} lwc:dom="manual" role="main"></div>
+		<div if:true={showDots} class="slds-grid slds-align-content-center" role="contentinfo"></div>
+		<div class="slds-hide">{toDosLoaded}</div>
+	</section>
+</template>

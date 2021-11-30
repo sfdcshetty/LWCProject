@@ -1,0 +1,34 @@
+.THIS.slds-card__body{
+    height:450px !important;
+}
+
+.THIS.parentCard {
+    border: 1px solid rgba(128, 128, 128, 0.45098039215686275) !important;
+    padding: 10px !important;
+    padding-top: 5px !important;
+    border-radius: 5px !important;
+}
+
+.THIS .slds-p-around--custom {
+    padding-top: 20px !important;
+}
+
+.THIS .slds-truncate {
+    max-width: 300px !important;
+    overflow: hidden  !important;
+    text-overflow: ellipsis  !important;
+    white-space: normal  !important;
+}
+
+.THIS .disableCls {
+    pointer-events: none; 
+}
+
+.THIS .container {
+    width: 80%;
+    margin: auto;
+}
+
+.THIS .one {
+    float: left;
+}

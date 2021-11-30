@@ -1,0 +1,5 @@
+({
+	myMethod : function(component) {
+		
+	}
+})

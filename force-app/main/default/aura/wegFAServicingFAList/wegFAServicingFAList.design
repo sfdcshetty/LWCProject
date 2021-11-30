@@ -1,0 +1,4 @@
+<design:component>
+    <design:attribute name="accountRecordId" label="Account Record Id" />
+    <design:attribute name="financialAccountList" label="Selected Financial Accounts" />
+</design:component>

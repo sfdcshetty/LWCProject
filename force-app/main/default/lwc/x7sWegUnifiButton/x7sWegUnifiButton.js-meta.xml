@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>7S WEG Financial Profile Button</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="title" label="Title" type="String" default="Assets Overview" />
+            <property name="notice" label="Notice" type="String" default="This information is only available to Wealth Enhancement Group clients." />
+            <property name="buttonLabel" label="Button label" type="String" default="Complete Financial Profile" />
+            <property type="String" name="documentVaultPageApi" label="Document Vault page API name" default="Docuvault_Test__c" 
+                        description="Enter the text string from the 'API Name' under the Properties of the page to link to." />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

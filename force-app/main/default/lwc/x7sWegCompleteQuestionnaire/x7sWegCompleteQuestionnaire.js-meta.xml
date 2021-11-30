@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>7S Complete Questionnaire</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="title" type="String" label="Title" default="Complete Financial Profile" />
+            <property name="lastUpdated" type="String" label="Last Updated text" default="Last updated" />
+            <property name="buttonLabel" type="String" label="Button label" default="Launch Financial Profile" />
+            <property type="String" name="documentVaultPageApi" label="Document Vault page API name" default="Docuvault_Test__c" 
+                        description="Enter the text string from the 'API Name' under the Properties of the page to link to." />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

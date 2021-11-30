@@ -1,0 +1,127 @@
+<!--
+ - Created by 7Summits on 4/14/21.
+ -->
+<!-- X7S Weg Profile Edit Email -->
+<template>
+    <template if:true={onStep1}>
+                <lightning-layout>
+                    <lightning-layout-item style="width:100%;" padding="around-small">
+                        <div style="width:100%; text-align:left">
+                            <div class="slds-grid slds-gutters">
+                                
+                                <lightning-radio-group name="radioGroup"
+                                                    label="For whom would you like to edit an email address?"
+                                                    options={nameSelectOptions}
+                                                    value={value}
+                                                    onchange={changeSelectedUser}
+                                                    type="radio"></lightning-radio-group>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+
+                </lightning-layout>
+                <div style="clear: both; margin: 40px 0px 0px;">
+                    <lightning-layout-item padding="around-small">
+                        <lightning-button variant="neutral" label="Cancel" title="Cancel action" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+                        <lightning-button variant="brand" label="Continue" title="Continue action" onclick={handleUserSelectContinue} class="slds-m-left_x-small" disabled={isContinueDisabled}></lightning-button>
+                    </lightning-layout-item>
+                </div>
+    </template>
+    <template if:true={onStep2}>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2" if:true={onStep2} style="box-shadow:none">
+                <div class="loadingSpinner" if:true={isSaving}>
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-6">
+                        <span>Type</span>
+                    </div>
+                    <div class="slds-col slds-size_4-of-6 left-align">
+                        <span>Email Address</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 right-align">
+                        <span>Primary</span>
+                    </div>
+
+
+
+                    <div class="slds-col slds-size_1-of-6 email-header">
+                        <span class="field-title">Personal</span>
+                    </div>
+                    <div class="slds-col slds-size_4-of-6">
+                        <lightning-input type="email" label="" data-id="email_Personal" name="WEGP1_PersonalEmail__c" onchange={handleFieldUpdated} value={selectedUser.WEGP1_PersonalEmail__c}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 email-header right-align">
+                        <lightning-input type="Checkbox" label="" onchange={selectPrimary} checked={isPersonalEmailPrimary} data-id="Personal" value="Personal"></lightning-input>
+                    </div>
+
+
+
+                    <div class="slds-col slds-size_1-of-6 email-header">
+                        <span class="field-title">Work</span>
+                    </div>
+                    <div class="slds-col slds-size_4-of-6">
+                        <lightning-input type="email" label="" data-id="email_Work" name="WEG_Business_Email__c" onchange={handleFieldUpdated} value={selectedUser.WEG_Business_Email__c}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 email-header right-align">
+                        <lightning-input type="Checkbox" label="" onchange={selectPrimary} checked={isWorkEmailPrimary} data-id="Work" value="Work"></lightning-input>
+                    </div>
+
+
+
+                    <div class="slds-col slds-size_1-of-6 email-header">
+                        <span class="field-title">Other</span>
+                    </div>
+                    <div class="slds-col slds-size_4-of-6">
+                        <lightning-input type="email" label="" data-id="email_Other" name="WEGP1_OtherEmail__c" onchange={handleFieldUpdated} value={selectedUser.WEGP1_OtherEmail__c}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 email-header right-align">
+                        <lightning-input type="Checkbox" label="" onchange={selectPrimary} checked={isOtherEmailPrimary} data-id="Other" value="Other"></lightning-input>
+                    </div>
+
+
+                    <div class="email-header">
+                        <span>NOTE: Your primary email address is your username. Changing it will take up to 7 business days.</span>
+                    </div>
+                </div>
+                <div class="email-header">
+                    <lightning-layout-item padding="around-small">
+                        <lightning-button variant="neutral" label="Cancel" title="Cancel action" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+                        <lightning-button variant="brand" label="Save Email" title="Save Email action" onclick={handleSaveEmailClick} class="slds-m-left_x-small"></lightning-button>
+                    </lightning-layout-item>
+                </div>
+            </div>
+    </template>
+<template if:true={onStep3}>
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3" style="box-shadow: none;">
+        <lightning-layout if:true={primaryEmailWasChanged}>
+            <div class="slds-col slds-size_3-of-3" style="width:100%; text-align:center">
+                <h3 class="finish-header"><img src={checkmarkImage} alt="" class="checkmark" /> Change is Pending</h3>
+                <div class="slds-col slds-size_1-of-6"></div>
+                <div class="slds-col slds-size_4-of-6" style="width:70%; margin:30px auto; color:#666">
+                    <span>You've changed your primary email address. This change is pending and may take up to one (1) week.</span>
+                    <span>You will be notified when it has been updated in our systems. Please continue to use your previous email as your username </span>{priorPrimaryEmail}<span> when logging in.</span>
+                    <br/>
+                    <span>If you have questions or would like to cancel, please contact your advisor team.</span>
+                </div>
+                <div class="slds-col slds-size_1-of-6"></div>
+            </div>
+        </lightning-layout>
+        <lightning-layout if:false={primaryEmailWasChanged}>
+            <div class="slds-col slds-size_3-of-3" style="width:100%; text-align:center">
+                <h3 class="finish-header"><img src={checkmarkImage} alt="" class="checkmark" /> Got it, Thanks!</h3>
+                <div class="slds-col slds-size_1-of-6"></div>
+                <div class="slds-col slds-size_4-of-6" style="width:70%; margin:30px auto; color:#666">
+                    <span>Changes to your email address have been saved.</span>
+                </div>
+                <div class="slds-col slds-size_1-of-6"></div>
+            </div>
+        </lightning-layout>
+        <div>
+            <lightning-layout-item padding="around-small">
+                <lightning-button variant="brand" label="Close" title="Close action" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+            </lightning-layout-item>
+        </div>
+    </div>
+</template>
+</template>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>7S Estate Planning Selection </masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+        name="debounceTime"
+        label="Time to wait before saving (in milliseconds)"
+        type="Integer"
+        default="2500"
+      />
+            <property
+        name="customHeader"
+        label="Custom header"
+        type="String"
+        default="Estate Planning"
+      />
+            <property
+        name="altQuestion1"
+        label="Alternate question label 1"
+        type="String"
+        default=""
+      />
+            <property
+        name="altQuestion2"
+        label="Alternate question label 2"
+        type="String"
+        default=""
+      />
+            <property
+        name="altQuestion3"
+        label="Alternate question label 3"
+        type="String"
+        default=""
+      />
+            <property
+        name="altQuestion4"
+        label="Alternate question label 4"
+        type="String"
+        default=""
+      />
+            <property
+        name="altQuestion5"
+        label="Alternate question label 5"
+        type="String"
+        default=""
+      />
+            <property
+        name="altQuestion6"
+        label="Alternate question label 6"
+        type="String"
+        default=""
+      />
+            <property
+        name="altQuestion7"
+        label="Alternate question label 7"
+        type="String"
+        default=""
+      />
+            <property
+        name="altQuestion8"
+        label="Alternate question label 8"
+        type="String"
+        default=""
+      />
+            <property
+      name="editEstatePlanningChecklist"
+      type="String"
+      label="Save"
+      default="Save"
+    />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

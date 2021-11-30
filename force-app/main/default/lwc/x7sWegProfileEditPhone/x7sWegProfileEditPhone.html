@@ -1,0 +1,131 @@
+<template>
+    <div class="c-container">
+        <lightning-layout>
+            <template if:true={page_1}>
+                <div class="radio-container">
+                    <div class="slds-grid slds-gutters radio-inner">
+                    <lightning-spinner if:false={options.length}></lightning-spinner>
+                    <lightning-radio-group label="For whom would you like to edit a phone number?" 
+                        name="radioButtonGroup" 
+                        onchange={selectUser} 
+                        options={options}
+                        value={selectedValue}
+                        type="radio"
+                        class="select-user"></lightning-radio-group>
+                    </div>
+                </div>
+            </template>
+            <template if:true={page_2}>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2" if:true={page_2} style="box-shadow:none">
+                    <div class="loadingSpinner" if:true={isSaving}>
+                        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                    </div>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-6">
+                            <span>Type</span>
+                        </div>
+                        <div class="slds-col slds-size_4-of-6">
+                            <span>Number</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-6 right-align">
+                            <span>Primary</span>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-6 phone-header">
+                            <span class="field-title">Mobile</span>
+                        </div>
+                        <div class="slds-col slds-size_3-of-6">
+                            <lightning-input type="tel" data-id="cellField" label="" value={cellPhone}  pattern="^\(\d{3}\)\s\d{3}-\d{4}$" onchange={handlePhoneNumberChange}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_2-of-6 phone-header-checkbox right-align">
+                            <lightning-input class="primary-checkbox" type="checkbox" data-id="Cell" label="" name="Cell" value="Cell" onchange={selectPrimary} checked={isCellPrimary}></lightning-input>
+                        </div>
+
+                        
+                        <div class="slds-col slds-size_1-of-6 phone-header">
+                            <span class="field-title">Home</span>
+                        </div>
+                        <div class="slds-col slds-size_3-of-6">
+                            <lightning-input type="tel" data-id="homeField" label="" value={homePhone} pattern="^\(\d{3}\)\s\d{3}-\d{4}$" onchange={handlePhoneNumberChange}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_2-of-6 phone-header-checkbox right-align">
+                            <lightning-input class="primary-checkbox" type="checkbox" data-id="Home" label="" name="Home" value="Home" onchange={selectPrimary} checked={isHomePrimary}></lightning-input>
+                        </div>
+
+
+                        <div class="slds-col slds-size_1-of-6 phone-header">
+                            <span class="field-title">Office</span>
+                        </div>
+                        <div class="slds-col slds-size_3-of-6">
+                            <lightning-input type="tel" data-id="workField" label=""  value={workPhone} pattern="^\(\d{3}\)\s\d{3}-\d{4}$" onchange={handlePhoneNumberChange}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_2-of-6 phone-header-checkbox right-align">
+                            <lightning-input class="primary-checkbox" type="checkbox" data-id="Work" label="" name="Work" value="Work" onchange={selectPrimary} checked={isWorkPrimary}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-p-top_large slds-size_6-of-6">
+                            Your primary phone number is the first number that our advisors will try when attempting to reach you via phone. 
+                        </div>
+                        <!--<div class="slds-col slds-size_1-of-6 phone-header">
+                            <span class="field-title">Home</span>
+                        </div>
+                        <div class="slds-col slds-size_3-of-6">
+                            <lightning-input type="tel" data-id="homeField" label="" value={homePhone}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_2-of-6 phone-header-checkbox right-align">
+                            <lightning-input class="primary-checkbox" type="checkbox" data-id="Home" label="" name="Home" value="Home" onchange={selectPrimary} checked={isHomePrimary}></lightning-input>
+                        </div>-->
+                    </div>
+                </div>
+            </template>
+            <template if:true={page_3}>
+                <div class="slds-col slds-size_3-of-3 radio-container">
+                    <h3 class="finish-header"><img src={checkmarkImage} alt="" class="checkmark" /> Got it, Thanks!</h3>
+                    <div class="slds-col slds-size_1-of-3"></div>
+                    <div class="slds-col slds-size_1-of-3" style="width:70%; margin:30px auto; color:#666">
+                        Changes to your phone number have been saved.
+                        <template if:true={hasPrimaryChanged}> You've changed your primary phone number. </template> 
+                        Please allow 24 hours for this change to take effect in our systems.</div>
+                    <div class="slds-col slds-size_1-of-3"></div>
+                </div>
+            </template>
+
+    </lightning-layout>
+    </div>
+    <div style='clear:both; margin:40px 0px 0px 0px'>
+        <template if:true={page_1}>
+            <lightning-layout-item padding="around-small">
+                <lightning-button 
+                    variant="brand"
+                    label="Cancel" title="Cancel and close this modal"
+                    onclick={handleCancel}
+                ></lightning-button>
+                <lightning-button variant="brand" 
+                    label="Continue" 
+                    title="Continue" 
+                    onclick={handleContinue} 
+                    class="slds-m-left_x-small continue" 
+                    disabled={isContinueDisabled}
+                ></lightning-button>
+            </lightning-layout-item>
+        </template>
+        <template if:true={page_2}>
+            <lightning-layout-item padding="around-small">
+                <lightning-button variant="brand-outline" label="Cancel" title="Cancel" onclick={handleCancel} class="slds-m-left_x-small"></lightning-button> <lightning-button variant="brand" label="Save Phone Number" title="Save Phone Number" onclick={handleSave} class="slds-m-left_x-small continue" disabled={isContinueDisabled}></lightning-button>
+            </lightning-layout-item>
+        </template>
+        <template if:true={page_3}>
+            <lightning-layout-item padding="around-small">
+                <div style="text-align:center">
+                    <lightning-button 
+                        variant="brand" 
+                        label="Close" 
+                        title="Close" 
+                        onclick={handleCancel} 
+                        class="slds-m-left_x-small continue">
+                    </lightning-button>
+                </div>
+            </lightning-layout-item>
+        </template>
+    </div>
+</template>

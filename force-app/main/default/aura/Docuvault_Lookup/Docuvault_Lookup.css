@@ -1,0 +1,18 @@
+.THIS .slds-p-left_x-large {
+    color: #54698d;
+}
+.THIS .slds-pill__edit {
+    left: 125px;
+}
+.THIS .slds-disable{
+    pointer-events: none;
+    background: #ecebea;
+    width: 100%;
+}
+.THIS .slds-result{
+    max-height:10rem; 
+    overflow:auto;    
+    z-index: 99999999;
+    position: fixed;
+    width : 88%;
+}

@@ -1,0 +1,236 @@
+<apex:component selfClosing="true" 
+    access="global" 
+    allowDML="true" 
+    layout="block" 
+    id="lookup_comp" 
+    controller="Docuvault_LookupController">
+    
+    <!-- Required Attribute -->
+    <apex:attribute access="global" 
+        description="Object API Name for lookup." 
+        id="objectApiName" 
+        name="objectApiName" 
+        required="true" 
+        type="String"/>
+        
+     <apex:attribute access="global" 
+        description="Placeholder label1." 
+        id="placeholderLookupLabel1" 
+        name="placeholderLookupLabel1" 
+        required="true" 
+        type="String"/>
+        
+    <apex:attribute access="global" 
+        description="Record Type Name" 
+        id="recordTypeName" 
+        name="recordTypeName" 
+        required="false" 
+        type="String"/>
+        
+    <apex:attribute access="global" 
+        description="Searchable Field to query the record" 
+        id="searchableFieldName" 
+        name="searchableFieldName" 
+        required="true" 
+        type="String"/>
+    
+    <apex:attribute access="global" 
+        description="Label lookup." 
+        id="lookupLabel" 
+        name="lookupLabel" 
+        required="true" 
+        type="String"/>
+        
+    <apex:attribute access="global" 
+        description="Placeholder label." 
+        id="placeholderLookupLabel" 
+        name="placeholderLookupLabel" 
+        required="true" 
+        type="String"/>
+        
+    <apex:attribute access="global" 
+        description="Id for Lookup." 
+        id="lookupId" 
+        name="lookupId" 
+        required="true" 
+        type="String"/>
+        
+    <apex:attribute access="global" 
+        description="apexField" 
+        id="apexField" 
+        name="apexField" 
+        required="true" 
+        type="String"/>
+        
+    <apex:attribute access="global" 
+        description="apexHiddenField" 
+        id="apexHiddenField" 
+        name="apexHiddenField" 
+        required="true" 
+        type="String"/>
+
+    <apex:attribute access="global" 
+        description="Object Type" 
+        id="objectType" 
+        name="objectType" 
+        required="true" 
+        type="Boolean"/>
+        
+    <apex:attribute access="global" 
+        description="LightningIcon" 
+        id="LightningIcon" 
+        name="LightningIcon" 
+        required="true" 
+        type="String"/>
+    
+    <!-- Global Lightning Helper Js -->
+    <apex:includeScript id="lightningJs" value="{! URLFOR ($Resource.Docuvault_LookupJs, '')}"/>
+    
+    <body class="lightning_panel"  onclick="closeLookupList ();">
+    
+    <!-- Lookup Component Section Code -->
+    <div class="slds-form-element">
+        <label class="slds-form-element__label" for="{!lookupId}">{!lookupLabel}</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container slds-has-inline-listbox">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-combobox-lookup" 
+                    aria-expanded="false" aria-haspopup="listbox" role="combobox" 
+                    id="{!lookupId}_combobox">
+                    <div id="{!lookupId}_iconClass" 
+                        class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <span id="{!lookupId}_selected" 
+                            class="slds-hide slds-icon_container slds-combobox__input-entity-icon" >
+                            
+                            <span class="slds-assistive-text"></span>
+                        </span>
+                        <input type="text" class="slds-input slds-combobox__input" 
+                                id="{!lookupId}" aria-autocomplete="list" 
+                                aria-controls="{!lookupId}_combobox_List" autocomplete="off" 
+                                role="textbox" readonly="" 
+                                placeholder="Search {!placeholderLookupLabel}" 
+                                value=""
+                                onkeyup="lookup_data (this);"
+                                data-lookupRecord="0" 
+                                data-objectName="{!objectApiName}"
+                                data-resultLabel="{!lookupLabel}" 
+                                data-objectType="{!objectType}"
+                                data-recordType="{!recordTypeName}"
+                                data-searchField="{!searchableFieldName}"
+                                data-apexField="{!apexField}"
+                                data-apexHiddenField="{!apexHiddenField}"
+                                data-staticResourceURL="{!LightningIcon}"/>
+                        <button id="{!lookupId}_removeBtn" 
+                                class="slds-hide slds-button slds-button_icon slds-input__icon slds-input__icon_right" 
+                                title="Remove selected option" 
+                                onclick="removeLookUpRecord ('{!apexField}', '{!lookupId}'); return false;">
+                            <svg class="slds-button__icon" aria-hidden="true">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                    xlink:href="{!URLFOR($Asset.slds, '/assets/icons/utility-sprite/svg/symbols.svg#close')}" />
+                            </svg>
+                            <span class="slds-assistive-text">Remove selected option</span>
+                        </button>
+                        <span id="{!lookupId}_searchIcon" data-comboboxid="{!lookupId}" class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" onclick=" advanceSearch (this)">
+                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                    xlink:href="{!URLFOR($Asset.slds, '/assets/icons/utility-sprite/svg/symbols.svg#search')}" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div id="{!lookupId}_combobox_List" 
+                        role="listbox" class="slds-hide">
+                        <ul id="{!lookupId}_lookupList" 
+                            class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid" 
+                            role="presentation"></ul>
+                        </div>
+                    </div>
+                    <div id ="{!objectApiName}_modalId" class="slds-hide" >
+                      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="" style="width: 180% !important;padding: 3%;margin-left: -40%;">
+                          <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                              <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                              </svg>
+                              <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!objectApiName} Name</h2>
+                          </header>
+                          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" >
+                            <iframe  style="border: 0;width:60%;position: fixed;z-index: 2;margin-top:2%;min-height:100px;" src="/apex/AdvancedLookup" id="{!objectApiName}_frameId" class="autoFit"  /> 
+                              <div class="slds-page-header" style="margin-top:10%;">
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-has-flexi-truncate">
+                                        <div class="slds-media slds-no-space slds-grow">
+                                           
+                                            <div class="slds-media__body">
+                                            <h1 class="slds-page-header__title slds-p-right_x-small">
+                                                        <span class="slds-grid slds-has-flexi-truncate slds-grid_vertical-align-center">
+                                                        
+                                                        <span class="slds-icon_container slds-icon-utility-down" title="Description of icon when needed">
+                                                         <span style="color: black;">{!objectApiName}</span>
+                                                        <span class="slds-assistive-text">Description of icon</span>
+                                                        </span>
+                                                        </span>
+                                                </h1>
+                                                <nav>
+                                                    <ol class="slds-breadcrumb slds-line-height_reset">
+                                                        <li class="slds-breadcrumb__item">
+                                                        <span class="slds-truncate" >
+                                                        
+                                                        </span>
+                                                           
+                                                        </li>
+                                                    </ol>
+                                                </nav>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-bottom_xx-small">
+                                        <div class="slds-button-group" role="group">
+                            
+                                            <div class="slds-button_last">
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-align-middle">
+                                        <p class="slds-text-body_small" style="color: black;" title="{!objectApiName}_details" id="{!objectApiName}_details">
+                                        
+                                        </p>
+                                    </div>
+                                    <div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-m-left_x-small" aria-expanded="false">
+                            
+                                        </div>
+                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-m-left_xx-small">
+                            
+                                        </div>
+                            
+                                        <div class="slds-button-group" role="group">
+                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div id ="{!objectApiName}_table" style="overflow:auto;height: 150px;"></div>
+                          </div>
+                          <footer class="slds-modal__footer">
+                            <button Class="slds-button  slds-button--neutral" onclick="$ ('#{!objectApiName}_modalId').addClass ('slds-hide');return false;">Cancel </button>
+                          </footer>
+                        </div>
+                      </section>
+                      <div class="slds-backdrop slds-backdrop_open"></div>
+                    
+                    </div>
+                    <script>
+                        setLookupData ('{!apexHiddenField}', '{!lookupId}');
+                    </script>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+</apex:component>

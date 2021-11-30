@@ -1,0 +1,7 @@
+.THIS .uiMenuList--default.uiMenuList {
+    min-width:200px;
+}
+.THIS .userMenuItem {
+    min-width: 150px;
+    /*border: 1px solid black;*/
+}

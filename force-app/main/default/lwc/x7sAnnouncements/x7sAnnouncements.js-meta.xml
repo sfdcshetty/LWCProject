@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <description>Community announcements carousel</description>
+    <isExposed>true</isExposed>
+    <masterLabel>7S Announcements</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="numberOfResults" label="Number of announcements" type="Integer" description="Maximum amount of community announcements to show. Default is 5."/>
+            <property name="useCarousel" label="Use carousel?" type="Boolean" description="Display announcements in a carousel"/>
+            <property name="showArrows" label="Use carousel arrows?" type="Boolean" description="Carousel only: use next/previous arrows"/>
+            <property name="showDots" label="Use carousel dots?" type="Boolean" description="Carousel only: use dot navigation"/>
+            <property name="autoplay" label="Carousel autoplay?" type="Boolean" description="Automatically scroll carousel slides"/>
+            <property name="autoplaySpeed" label="Carousel autoplay duration" type="Integer" description="Carousel autoplay duration. The default is 5 seconds, after that the next slide is displayed."/>
+            <property name="showTitle" label="Display title?" type="Boolean" description="Display the announcement title"/>
+            <property name="showAuthor" label="Display author?" type="Boolean"/>
+            <property name="showDate" label="Display posted date?" type="Boolean"/>
+            <property name="showIcon" label="Display icon?" type="Boolean" description="Display the announcement type icon"/>
+            <property name="displayChannel" label="Announcement channel:" type="String" datasource="apex://x7sAnnouncementsChannels" description="The channel to pull announcements from. Announcements marked as global will display in all channels."/>
+            <property name="displayType" label="What announcement type should display?" type="String" datasource="All, Notification, Alert, Critical"/>
+            <property name="uploadPageLink" label="Upload Page Url" type="String" default="/documents" />
+            <property name="toDoPageLink" label="To Do Page Url" type="String" default="/to-dos" />
+            <property name="customClass" label="CSS Class" type="String" description="Apply additional SLDS or custom CSS class"/>
+            <property name="debug" label="Debug?" type="Boolean" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

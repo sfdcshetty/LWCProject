@@ -1,0 +1,52 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <lightning-layout-item size="12" medium-device-size="6" class="slds-p-around_medium">
+        <lightning-layout class="slds-card onboarding-group-card" multiple-rows="true">
+            <lightning-layout-item class="onboarding-group-card__info" size="12">
+                <template if:true={name}>
+                    <h2 class="slds-text-heading_medium">{name}</h2>
+                </template>
+                <template if:true={showDescription}>
+                    <p>{description}</p>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item class="onboarding-group-card__actions" size="12">
+                <div class="slds-text-align_center">
+                    <template if:true={notOwner}>
+                        <template if:true={joined}>
+                            <lightning-button   class="onboarding__button block follow"
+                                                variant="brand"
+                                                name={groupId}
+                                                label="Joined"
+                                                icon-name="utility:check"
+                                                onclick={handleRemove} >
+                            </lightning-button>
+                        </template>
+                        <template if:false={joined}>
+                            <lightning-button   class="onboarding__button block following"
+                                                variant="neutral"
+                                                name={groupId}
+                                                label="Join"
+                                                icon-name="utility:add"
+                                                onclick={handleJoin} >
+                            </lightning-button>
+                        </template>
+                    </template>
+                </div>
+                <template if:true={joined}>
+                    <lightning-combobox data-id="groupsNotification"
+                                        name="groupNotification"
+                                        label="Email Notification Frequency"
+                                        class="slds-m-horizontal_small slds-p-top_small"
+                                        value={notificationSetting}
+                                        options={options}
+                                        onchange={handleNotificationSettingChange}
+                    ></lightning-combobox>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-layout-item>
+</template>

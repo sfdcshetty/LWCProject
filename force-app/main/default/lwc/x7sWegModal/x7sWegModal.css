@@ -1,0 +1,70 @@
+/**
+ * salesforce-app - Salesforce App
+ * @version 1.0.0
+ * @author 
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.profile-button {
+  height: 31px;
+  margin: 0.1px 261px 13px 18px;
+  padding: 10px 14px 9px 17px;
+  border-radius: 20px;
+  border: solid 1px #01777a;
+  background-color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #01777a;
+  width: 200px;
+  cursor: pointer;
+}
+.no-border {
+  border-style: none;
+}
+.change-contact-info {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 50px 0px 60px 10px;
+}
+.change-contact-text {
+  margin: 40px 7px 1.9px 9px;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.75;
+  letter-spacing: normal;
+  text-align: left;
+  color: #8b8c90;
+}
+.icon-container {
+  display: inline-block;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  margin-top: -2px;
+}
+.profile-chevron {
+  height: 10px;
+}
+.modal-header {
+  margin: 0 82px 17px 0;
+  font-size: 22px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+.modal-lower-edit-border {
+  width: 100px;
+  height: 3px;
+  margin: 17px 106px 41px 0;
+  background-color: #3f9c35;
+}

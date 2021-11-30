@@ -1,0 +1,45 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.radio-container {
+  width: 100%;
+  text-align: left;
+}
+.radio-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.select-user {
+  display: inline-block;
+}
+.phone-header {
+  padding-top: 20px;
+}
+.phone-header-checkbox {
+  padding-top: 25px;
+}
+.slds-form-element__control .slds-radio,
+.slds-form-element__control .slds-checkbox {
+  display: inline-block !important;
+}
+.select-user .slds-form-element__control .slds-radio {
+  display: inline-block !important;
+}
+.finish-header {
+  font-size: 20px !important;
+  font-weight: bold;
+}
+.checkmark {
+  width: 30px;
+}
+.right-align {
+  text-align: right;
+}
+.field-title {
+  font-weight: bold;
+}

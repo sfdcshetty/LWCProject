@@ -1,0 +1,14 @@
+<aura:component implements="forceCommunity:profileMenuInterface,forceCommunity:availableForAllPageTypes"
+                access="global" controller="WEG_CommunityUtility" >
+
+    <aura:attribute name="userInfo" type="user" default="{'sobjectType' : 'User'}" />
+    <aura:attribute name="options" type="String[]" default="My Profile,Secure Messaging,To Do List,Preferences,Sign Out" />
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    
+    <lightning:avatar variant="circle" src="{!v.userInfo.SmallPhotoUrl}" fallbackIconName="utility:user" size="x-small"/>
+    <lightning:buttonMenu alternativeText="Profile Menu" onselect="{!c.handleClick}" iconName="utility:down">
+        <aura:iteration items="{!v.options}" var="itemLabel">
+            <lightning:menuItem value="{!itemLabel}" label="{!itemLabel}" class="userMenuItem" />
+        </aura:iteration>        
+    </lightning:buttonMenu>
+</aura:component>

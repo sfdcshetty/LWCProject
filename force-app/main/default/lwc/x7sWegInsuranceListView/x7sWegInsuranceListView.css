@@ -1,0 +1,78 @@
+.insuranceHeader {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.36;
+    text-align: left;
+    color: #000000;
+}
+
+.inputField{
+    width: 20em;
+}
+
+.addinsurance {
+    /* padding: 10px;
+    font-weight: bold;
+    border-color:#20B2AA;
+    color: #20B2AA;
+    background-color: white;
+    border-radius: 25px; */
+
+    display: inline-block;
+    height: 31px;
+    margin: 0.1px 261px 13px 7px;
+    padding: 10px 14px 24px 17px;
+    border-radius: 20px;
+    border: solid 1px #01777a;
+    background-color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 0.9;
+    text-align: left;
+    color: #01777a;
+    width: 180px;
+    cursor: pointer;
+}
+.cancelButton{
+    width: 150px !important;
+    margin: 0px 261px 0px 0px !important;
+}
+
+.iconContainer {
+    width: 0.875rem;
+    display: inline-block;
+}
+
+.insuranceIcon {
+    fill: #01777a;
+}
+
+.completeLine{
+    width: 20%;
+    margin-top: 10px;
+    border: solid 1px #3f9c35;
+}
+
+.insuranceListContainer{
+    font-size: 16px;
+}
+
+.totalAmount{
+    font-size: 20px;
+    margin-top: 10px;
+    /* float: right; */
+    display: block;
+    text-align: right;
+    color: #000000;
+}
+
+.no-border {
+    border-style: none;
+  }
+
+.record-type-combobox{
+    margin-bottom: 180px;
+}
+.record-type-combobox-1{
+    margin-bottom: 20px;
+}

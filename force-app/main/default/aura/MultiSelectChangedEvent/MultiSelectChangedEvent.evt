@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Despatched when the multi-select value has changed" >
+  <aura:attribute name="multiSelectValues" type="String[]" description="Selected values" access="global" />
+</aura:event>

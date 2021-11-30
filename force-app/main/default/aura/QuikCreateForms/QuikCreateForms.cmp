@@ -1,0 +1,418 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="QuikFormHandler">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="records" type="List" />
+    <aura:attribute name="categories" type="List" />
+    <aura:attribute name="selectedCategory" type="String" default="" />
+    <aura:attribute name="selectedDealer" type="String" default="" />
+    <aura:attribute name="dealers" type="List" />
+    <aura:attribute name="bundleGroups" type="List" />
+    <aura:attribute name="selectedBundleGroup" type="String" default="" />
+    <aura:attribute name="selectedStep" type="string" default="step1" />
+    <aura:attribute name="selectedRecord" type="string" default="" />
+    <aura:attribute name="formNameKeyword" type="string" default="" />
+    <aura:attribute name="pageNumber" type="Integer" default="0" />
+    <aura:attribute name="searchFormResults" type="Object" />
+    <aura:attribute name="bundleFormResults" type="Object" />
+    <aura:attribute name="loadedForms" type="Object" />
+    <aura:attribute name="showSpinner" type="boolean" default="false" />
+    <aura:attribute name="htmlURLs" type="String" default="" />
+    <aura:attribute name="asQuikFormId" type="String" default="" />
+    <aura:attribute name="formNumber" type="Integer" default="1" />
+    <aura:attribute name="totalForms" type="Integer" default="0" />
+    <aura:attribute name="custodians" type="Object" default= "{}" />
+    <aura:attribute name="currentCustodianName" type="String" default= "" />
+    <aura:attribute name="uniqueIds" type="Object" />
+    <aura:attribute name="selectedForms" type="Object" />
+    <aura:attribute name="selectedCustodianRecords" type="Object[]" default="[]" />
+    <aura:attribute name="bundlePageNumber" type="integer" default="1" />
+    <aura:attribute name="bundleTotalPages" type="integer" default="0" />
+    <aura:attribute name="bundleTotalRecords" type="integer" default="0" />
+    <aura:attribute name="bundleRecordStart" type="integer" default="0" />
+    <aura:attribute name="bundleRecordEnd" type="integer" default="0" />
+    <aura:attribute name="bundlePageSize" type="Integer" default="10" />
+    <aura:attribute name="selectedStep2" type="Boolean" default="false" />
+    <aura:attribute name="searchSubFormResults" type="Object" />
+    <!--for pagination-->
+    <aura:attribute name="pageNumberForFormResult" type="Integer" default="1" />
+    <aura:attribute name="pageSize" type="Integer" default="10" />
+    <aura:attribute name="totalRecords" type="Integer" />
+    <aura:attribute name="totalPageCount" type="Integer" />
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+    </aura:if>
+    
+    <aura:if isTrue="{!v.selectedStep != 'step3'}">
+        <div class="slds-text-align--center slds-text-title_caps">
+            <h1 class="slds-p-around--x-small slds-text-heading--medium">Create Forms</h1>            
+        </div>
+    </aura:if>
+    
+    <lightning:progressIndicator currentStep="{!v.selectedStep}" type="path">
+        <lightning:progressStep aura:id="step1Id" label="Selection" value="step1" onclick="{!c.selectStep1}"/>
+        <lightning:progressStep aura:id="step2Id" label="Review" value="step2" onclick="{!c.selectStep2}"/>
+        <lightning:progressStep aura:id="step3Id" label="Fill" value="step3" onclick="{!c.selectStep3}"/>
+    </lightning:progressIndicator>
+    
+    <aura:if isTrue="{!v.selectedStep == 'step1'}"><br/>
+        <lightning:card class="parentCard">
+            <lightning:select label="Select Type" name="record_type" aura:id="record_type" onchange="{!c.typeChangeHandler}" 
+                              value="{!v.selectedRecord}" required="true">
+                <option value="">--None--</option>
+                <aura:iteration items="{!v.records}" var="rec">
+                    <option value="{!rec.value}">{!rec.label}</option>
+                </aura:iteration>
+            </lightning:select>
+            <lightning:tabset selectedTabId="bundle">
+                <lightning:tab label="Bundles" id="bundle">
+                    <lightning:select label="Bundle Groups" name="bundleGroups" aura:id="dealer" value="{!v.selectedBundleGroup}" 
+                                      onchange="{!c.fetchBundles}">
+                        <option value="">--None--</option>
+                        <option value="All">All</option>
+                        <aura:iteration items="{!v.bundleGroups}" var="rec">
+                            <option value="{!rec.value}">{!rec.label}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                    
+                    <lightning:card class="parentCard">
+                        <aura:if isTrue="{!v.bundleFormResults.length > 0}">
+                            <div style="max-height:200px; overflow-y:auto;">
+                                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th>
+                                            </th>	
+                                            <th class="" scope="col">
+                                                <div title="Form ID">Form ID</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Form Name">Form Name</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Description">Description</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Custodian">Custodian Name</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.bundleFormResults}" var="form">
+                                            <tr>
+                                                <td>
+                                                    <a onclick="{!c.formSelectionHandler}" data-index="{!form.formId}">
+                                                        <lightning:buttonIcon iconName="{!form.iconName}" variant="bare" 
+                                                                              alternativeText="Select" aura:id="{!form.formId}" />
+                                                    </a>
+                                                </td>
+                                                <td>{!form.formId}</td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.formShortName}">{!form.formShortName}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.formDesc}">{!form.formDesc}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.dealerName}">{!form.dealerName}</div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br/>
+                            <div style="text-align:right">
+                                <aura:if isTrue="{!v.bundlePageNumber > 1}">
+                                    <button disabled="{!v.bundlePageNumber != 0 ? '' : 'disabled'}" class="slds-button slds-button--neutral" 
+                                            onclick="{!c.handleBundlePrev}">Previous</button>  
+                                </aura:if>
+                                
+                                <aura:if isTrue="{!and(lessthan(v.bundlePageNumber, v.bundleTotalPages), v.bundleTotalPages != 1)}">
+                                    <button class="slds-button slds-button--brand" onclick="{!c.handleBundleNext}">Next</button>
+                                </aura:if>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.bundleFormResults.length == 0}">
+                            <h1 class="slds-text-align--center slds-text-color--error slds-text-heading_label">
+                                There are no bundles with this search
+                            </h1>
+                        </aura:if>
+                    </lightning:card>
+                </lightning:tab>
+                <lightning:tab label="Search" id="search">
+                    <fieldset class="slds-form-element slds-form-element_compound">
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__row">
+                                <div class="slds-size_1-of-4">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <lightning:input value="{!v.formNameKeyword}" aura:id="formNameSearch" name="formNameSearch" 
+                                                             label="Form Keyword" type="search" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-size_1-of-4">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <lightning:select label="Custodian" name="dealer" 
+                                                              aura:id="dealer" 
+                                                              value="{!v.selectedDealer}">
+                                                <option value="">--None--</option>
+                                                <aura:iteration items="{!v.dealers}" var="rec">
+                                                    <option value="{!rec.label}">{!rec.label}</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-size_1-of-4">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control slds-p-around--custom">
+                                            <lightning:button variant="brand" label="Search" title="Search" 
+                                                              onclick="{! c.searchFormsHandler }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <lightning:card class="parentCard">
+                        <aura:if isTrue="{!v.searchSubFormResults.length > 0}">
+                            <div style="max-height:200px; overflow-y:auto;">
+                                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div title="Form ID">Form ID</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Form Name">Form Name</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Description">Description</div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Custodian">Custodian Name</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.searchSubFormResults}" var="form">
+                                            <tr style="height: 2px !important;">
+                                                <td style="width: 37px !important;">
+                                                    <aura:iteration items="{!v.searchFormResults}" var="fullList">
+                                                        <aura:if isTrue="{!form.formId == fullList.formId}">
+                                                            <a onclick="{!c.formSelectionHandler}" data-index="{!form.formId}" 
+                                                               data-name="{!form.fileCount}" data-key="{!form.iconName}">
+                                                                <lightning:icon iconName="{!fullList.iconName}" alternativeText="Select" 
+                                                                                aura:id="{!form.formId}" size="xx-small" />
+                                                            </a>
+                                                        </aura:if>
+                                                    </aura:iteration>
+                                                </td>
+                                                <td>{!form.formId}</td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.formShortName}">{!form.formShortName}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.formDesc}">{!form.formDesc}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.dealerName}">{!form.dealerName}</div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br/>
+                            <div style="text-align:right">
+                                <aura:if isTrue="{!v.pageNumberForFormResult != 1}">
+                                    <button  class="slds-button slds-button--neutral" onclick="{!c.Prev}">Previous</button> 
+                                </aura:if>
+                                <aura:if isTrue="{!lessthan(v.pageNumberForFormResult,v.totalPageCount)}">
+                                    <button class="slds-button slds-button--brand" onclick="{!c.Next}">Next</button>
+                                </aura:if>							
+                            </div>
+                        </aura:if>
+                    </lightning:card>
+                </lightning:tab>
+            </lightning:tabset>
+        </lightning:card>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.selectedStep == 'step2'}"><br/>
+        <aura:if isTrue="{!v.selectedCustodianRecords.length > 0}">
+            <aura:iteration items="{!v.selectedCustodianRecords}" var="cus" indexVar="i">
+                <aura:if isTrue="{!cus.name != 'AS'}">
+                    <fieldset class="slds-box">
+                        <legend class="slds-truncate"><h3 class="slds-accordion__summary-heading">{!cus.name}</h3></legend>
+                        <aura:iteration items="{!cus.records}" var="rec" indexVar="k">
+                            <section id="{!i+'-'+k}" class="slds-accordion__section slds-p-top--none slds-is-open">
+                                <div class="slds-accordion__summary">
+                                    <h3 class="slds-accordion__summary-heading">
+                                        <button name="{!i+'-'+k}" aria-controls="accordion-details" aria-expanded="false" 
+                                                class="slds-button slds-button_reset slds-accordion__summary-action" 
+                                                onclick="{!c.closeOpenSection}" style="text-decoration: none !important;">
+                                            <div id="{!'down'+i+'-'+k}" style="">
+                                                <lightning:icon iconName="utility:chevrondown" size="x-small"/>
+                                            </div>
+                                            <div id="{!'right'+i+'-'+k}" style="display: none;">
+                                                <lightning:icon iconName="utility:chevronright" size="x-small"/>
+                                            </div>
+                                            <a class="slds-p-left--x-small" style="text-decoration: none !important;">{!rec.key}</a>
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="slds-accordion__content" id="accordion-details">
+                                    <div style="max-height:150px; overflow-y:auto;">
+                                        <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th class="slds-large-size--1-of-10" style="width: 7%;">
+                                                    </th>	
+                                                    <th class="slds-large-size--2-of-10" scope="col" style="width: 9%;">
+                                                        <div title="Form ID">Form ID</div>
+                                                    </th>
+                                                    <th class="slds-large-size--3-of-9" scope="col" style="width: 30%;">
+                                                        <div class="slds-truncate" title="Form Name">Form Name</div>
+                                                    </th>
+                                                    <th class="slds-large-size--4-of-10" scope="col" style="width: 35%;">
+                                                        <div class="slds-truncate" title="Description">Description</div>
+                                                    </th>
+                                                    <th class="slds-large-size--5-of-10" scope="col" style="width: 21%;">
+                                                        <div class="slds-truncate" title="Custodian">Custodian Name</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <aura:iteration items="{!rec.records}" var="form">
+                                                    <tr>
+                                                        <td>
+                                                            <a onclick="{!c.removeForm}" data-index="{!form.formId}" data-key="{!rec.id}">
+                                                                <lightning:buttonIcon iconName="utility:delete" variant="bare" 
+                                                                                      alternativeText="Select" aura:id="{!form.formId}" />
+                                                            </a>
+                                                        </td>
+                                                        <td>{!form.formId}</td>
+                                                        <td>
+                                                            <div class="slds-truncate" title="{!form.formShortName}">{!form.formShortName}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="slds-truncate" title="{!form.formDesc}">{!form.formDesc}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="slds-truncate" title="{!form.dealerName}">{!form.dealerName}</div>
+                                                        </td>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                        </aura:iteration>
+                    </fieldset><br/>
+                </aura:if>
+                <aura:if isTrue="{!cus.name == 'AS'}">
+                    <aura:iteration items="{!cus.records}" var="rec">
+                        <fieldset class="slds-box">
+                            <legend class="slds-truncate"><h3 class="slds-accordion__summary-heading">{!rec.key}</h3></legend>
+                            <div style="max-height:150px; overflow-y:auto;">
+                                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th class="slds-large-size--1-of-10" style="width: 7%;">
+                                            </th>	
+                                            <th class="slds-large-size--2-of-10" scope="col" style="width: 9%;">
+                                                <div title="Form ID">Form ID</div>
+                                            </th>
+                                            <th class="slds-large-size--3-of-9" scope="col" style="width: 30%;">
+                                                <div class="slds-truncate" title="Form Name">Form Name</div>
+                                            </th>
+                                            <th class="slds-large-size--4-of-10" scope="col" style="width: 35%;">
+                                                <div class="slds-truncate" title="Description">Description</div>
+                                            </th>
+                                            <th class="slds-large-size--5-of-10" scope="col" style="width: 21%;">
+                                                <div class="slds-truncate" title="Custodian">Custodian Name</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!rec.records}" var="form">
+                                            <tr>
+                                                <td>
+                                                    <a onclick="{!c.removeForm}" data-index="{!form.formId}" data-key="{!rec.id}">
+                                                        <lightning:buttonIcon iconName="utility:delete" variant="bare" 
+                                                                              alternativeText="Select" aura:id="{!form.formId}"/>
+                                                    </a>
+                                                </td>
+                                                <td>{!form.formId}</td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.formShortName}">{!form.formShortName}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.formDesc}">{!form.formDesc}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!form.dealerName}">{!form.dealerName}</div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset><br/>
+                    </aura:iteration>
+                </aura:if>
+            </aura:iteration>
+        </aura:if>
+        <aura:if isTrue="{!v.selectedCustodianRecords.length == 0}">
+            <h1 class="slds-text-align--center slds-text-color--error slds-text-heading_label">Please choose the forms to review.</h1>
+        </aura:if>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.selectedStep == 'step3'}">
+        <aura:if isTrue="{!v.currentCustodianName == 'AS'}">
+            <ui:message title="Household / Business" severity="info" closable="false">
+                <section class="container" >
+                    <aura:if isTrue="{!v.formNumber != 1}">
+                        <div class="one" align="right" style="margin-left: 58rem;">
+                            <lightning:button label="Previous" variant="neutral" title="Previous" onclick="{!c.generatePreviousForm}" />
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!lessthan(v.formNumber+1, v.totalForms)}">
+                        <div class="two" align="right" style="margin-right: -7rem;">
+                            <lightning:button label="Next" variant="brand" title="Next" onclick="{!c.generateNextForm}" />
+                        </div>
+                    </aura:if>
+                </section>
+            </ui:message>
+            <aura:set attribute="else">
+                <ui:message title="{!v.currentCustodianName}" severity="info" closable="false">
+                    <section class="container">
+                        <div>
+                            <aura:if isTrue="{!v.formNumber != 1}">                        
+                                <div class="one" align="right" style="margin-left: 58rem;">
+                                    <lightning:button label="Previous" variant="neutral" title="Previous" onclick="{!c.generatePreviousForm}" />
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!lessthan(v.formNumber+1, v.totalForms)}">
+                                <div class="two" align="right" style="margin-right: -7rem;">
+                                    <lightning:button label="Next" variant="brand" title="Next" onclick="{!c.generateNextForm}" />
+                                </div>                        
+                            </aura:if>
+                        </div>
+                    </section>
+                </ui:message>
+            </aura:set>
+        </aura:if>
+        <aura:if isTrue="{!v.asQuikFormId != ''}">
+            <iframe src="{!'/apex/QuikHTMLView_Print?id='+v.asQuikFormId}" style="height:90%; width:100%; border:none" scrolling="no" />
+        </aura:if>
+    </aura:if>
+</aura:component>

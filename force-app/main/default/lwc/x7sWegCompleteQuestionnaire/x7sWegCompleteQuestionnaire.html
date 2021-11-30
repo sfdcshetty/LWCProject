@@ -1,0 +1,64 @@
+<template>
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header no-border">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class='modal-lower-edit-border'></div>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- added the header and footer inside a slds-card, so custom styles have been added in the X7S_Theme - martin.blase -->
+                    <div class="x7s-card_wrapper">
+                        <div class="slds-card">
+                            <div class="slds-card__header">
+                                <c-x7s-financial-profile-header slot="title" onclose={closeModal}></c-x7s-financial-profile-header>
+                            </div>
+                            <div class="slds-card__body">
+                                <c-x7s-financial-profile document-vault-page-api={documentVaultPageApi} onclose={closeModal}></c-x7s-financial-profile>
+                            </div>
+                            <div class="slds-card__footer">
+                                <c-x7s-financial-profile-footer slot="footer"></c-x7s-financial-profile-footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+               <footer class="slds-modal__footer no-border">
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <lightning-layout>
+            <lightning-layout-item>
+                    <div class="c-container">
+                        <img src={iconPath} class="complete-icon">
+                        <h3 class="complete-header">{title}</h3>
+                        <div class="complete-text">
+                            <span>{lastUpdated} </span>
+                            <lightning-formatted-date-time value={updatedDate} time-zone="UTC"></lightning-formatted-date-time>
+                        </div>
+                        <div class="launch-button" onclick={openModal}>
+                            <div class="launch-button-label">{buttonLabel}</div>
+                                <lightning-icon
+                                    class="white"
+                                    size="xx-small"
+                                    icon-name="utility:chevronright"
+                                    alternative-text={buttonLabel}
+                                ></lightning-icon>
+                        </div>
+                    </div>
+            </lightning-layout-item>
+    </lightning-layout>
+</template>

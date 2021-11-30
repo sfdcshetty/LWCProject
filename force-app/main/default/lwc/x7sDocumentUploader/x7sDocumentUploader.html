@@ -1,0 +1,258 @@
+<!--
+ - Created by karolbrennan on 4/14/21.
+ -->
+
+<!-- X7S Document Uploader -->
+<template>
+  <lightning-layout
+          class={primaryClasses}
+          multiple-rows>
+    <lightning-layout-item
+            if:false={inModal}
+            size="12"
+            medium-device-size={masterColumnsMedSizes.left}
+            class="slds-p-right_large slds-is-relative">
+      <h2>Document Center</h2>
+      <h3>Upload Documents</h3>
+      <p><strong>When uploading documents:</strong></p>
+      <ul>
+        <li>PDF preferred (doc, docx, xls, xlsx, ppt, pptx, pdf, txt, csv, jpg, gif, epub are acceptable.)</li>
+        <li>When taking pictures, make sure small text is legible.</li>
+        <li>Compile pages into one document when possible.</li>
+        <li>ZIP files are not allowed at this time.</li>
+        <li>Make sure your docs are not password protected.</li>
+        <li>When renaming a document, DO NOT remove the file extension (e.g. docx, pdf). Removing this will cause the upload to fail.</li>
+      </ul>
+      <p if:true={faqLink}>
+        <a class="faq-link" href={faqLink}>
+          See Documents FAQ
+          <lightning-icon icon-name="utility:chevronright" size="x-small">
+          </lightning-icon>
+        </a>
+      </p>
+    </lightning-layout-item>
+    <lightning-layout-item size="12" medium-device-size={masterColumnsMedSizes.right}>
+      <lightning-layout
+              class="slds-card x7s-file-uploader slds-p-around_large"
+              multiple-rows
+              vertical-align="end">
+        <!-- Spinner -->
+        <lightning-spinner
+                if:true={isLoading}
+                size="medium"
+                alternative-text="Loading..."></lightning-spinner>
+
+        <!-- Success Message -->
+        <template if:true={showSuccessMessage}>
+          <lightning-layout-item
+                  size="12"
+                  class="slds-align_absolute-center slds-text-align_center">
+            <div>
+              <lightning-layout vertical-align="start" multiple-rows class="slds-p-vertical_large">
+                <lightning-layout-item class="slds-p-right_large">
+                  <div if:true={allFilesFailed}>
+                    <img if:true={allFilesFailed} src={failIcon} alt="Failed upload" />
+                  </div>
+                  <div if:false={allFilesFailed}>
+                    <img if:false={hasFailedFiles} src={successIcon} alt="Successful upload" />
+                    <img if:true={hasFailedFiles} src={warningIcon} alt="Partially successful upload" />
+                  </div>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                  <div if:true={allFilesFailed}>
+                    <h4>Your documents failed to upload</h4>
+                    <p class="help-text">This could be due to corrupted files, incorrect file types, or files that are too large.<br/>Please check your files and try again.</p>
+                    <p>Please check your files and try again.</p>
+                    <p class="slds-p-top_large">
+                      <a class="upload-more slds-button slds-button_brand"
+                         href="javascript:void(0);"
+                         onclick={handleUploadMore}>
+                        <span>Try Again</span>
+                        <span>
+                          <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                        </span>
+                      </a>
+                    </p>
+                  </div>
+                  <div if:false={allFilesFailed}>
+                    <!-- If all successful files -->
+                    <div if:false={hasFailedFiles}>
+                      <h4>Your documents have been uploaded</h4>
+                      <p class="upload-time">{currentDateTime}</p>
+                      <p>
+                        <a class="upload-more slds-button slds-button_brand"
+                           href="javascript:void(0);"
+                           onclick={handleUploadMore}>
+                          <span>Upload More</span>
+                          <span>
+                          <lightning-icon icon-name="utility:chevronright" size="x-small">
+                          </lightning-icon>
+                        </span>
+                        </a>
+                      </p>
+                    </div>
+
+                    <!-- If failed files -->
+                    <div if:true={hasFailedFiles} class="slds-text-align_left">
+                      <h4>Some of documents failed to upload</h4>
+                      <p class="upload-time">{currentDateTime}</p>
+                      <h5 class="error">The following file(s) failed to upload:</h5>
+                      <ul>
+                        <template for:each={failedFiles} for:item="file">
+                          <li key={file.id}>
+                            {file.name}
+                          </li>
+                        </template>
+                      </ul>
+                      <p class="help-text">This could be due to corrupted files, incorrect file types, or files that are too large.<br/>Please check your files and try again.</p>
+                      <p class="slds-p-top_large">
+                        <a class="upload-more slds-button slds-button_brand"
+                           href="javascript:void(0);"
+                           onclick={handleUploadMore}>
+                          <span>Try Again</span>
+                          <span>
+                          <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                        </span>
+                        </a>
+                      </p>
+                    </div>
+                    <!-- End failed files -->
+                  </div>
+                </lightning-layout-item>
+              </lightning-layout>
+            </div>
+          </lightning-layout-item>
+        </template>
+
+        <!-- Uploader -->
+        <template if:false={showSuccessMessage}>
+          <lightning-layout-item
+                  size="12"
+                  medium-device-size="9"
+                  class="slds-p-bottom_large">
+            <lightning-input
+                    label="Upload"
+                    class={fileInputClasses}
+                    multiple
+                    type="file"
+                    accept=".doc, .docx, .xls, .xlsx, .ppt, .pptx, .pdf, .txt, .csv, image/jpg, image/jpeg, image/gif, .epub"
+                    message-when-type-mismatch="Please only upload doc, docx, xls, xlsx, ppt, pptx, pdf, txt, csv, jpg, gif, and epub files."
+                    onchange={handleFilesChange}>
+            </lightning-input>
+            <p if:true={hasError} class="slds-p-top_small small-error slds-text-color_error">
+              {errorMessage}
+            </p>
+          </lightning-layout-item>
+
+          <!-- Pending File List -->
+          <lightning-layout-item
+                  if:true={showPendingFiles}
+                  size="12"
+                  class="slds-p-bottom_large">
+            <table class="file-list">
+              <tr>
+                <th style="width: 37.5%">Document Name <abbr title="required" class="slds-required">*</abbr></th>
+                <th style="width: 37.5%">Document Type <abbr title="required" class="slds-required">*</abbr></th>
+                <th style="width: 25%"></th>
+              </tr>
+              <template for:each={pendingFilesToDisplay} for:item="file">
+                <tr key={file.id}>
+                  <td>
+                    <div class="file-info">
+                      <div class="file-col">
+                        <div class="docType-icon">
+                          <lightning-icon
+                                  icon-name={file.icon}
+                                  size="small"
+                                  alternative-text={file.file.type}
+                          ></lightning-icon>
+                        </div>
+                      </div>
+                      <div class="file-col">
+                        <span if:false={file.editing} class={file.nameClassList}>{file.name}</span>
+                        <lightning-input
+                                if:true={file.editing}
+                                value={file.name}
+                                label="fileName"
+                                variant="label-hidden"
+                                required
+                                max-length="200"
+                                data-id={file.id}
+                                class={file.nameClassList}
+                                onblur={handleFinalizeNameChange}
+                                onchange={handleFileNameChange}>
+                        </lightning-input>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <lightning-combobox
+                            label="File Types"
+                            variant="label-hidden"
+                            options={documentTypes}
+                            required
+                            value={file.type}
+                            class={file.typeClassList}
+                            data-id={file.id}
+                            onchange={handleFileTypeChange}>
+                    </lightning-combobox>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0);"
+                       data-id={file.id}
+                       onclick={handleMakeEditable}>rename</a>
+                    <span class="slds-p-horizontal_small">|</span>
+                    <a href="javascript:void(0);"
+                       data-id={file.id}
+                       onclick={handleRemoveFile}>remove</a>
+                  </td>
+                </tr>
+              </template>
+            </table>
+            <template if:true={uploadStatus.uploading}>
+              <lightning-layout vertical-align="center" class="slds-p-vertical_medium">
+                <lightning-layout-item size="1" class="slds-is-relative">
+                  <!-- Spinner -->
+                  <lightning-spinner
+                          if:true={uploadStatus.uploading}
+                          size="small"
+                          variant="brand"
+                          alternative-text="Uploading..."></lightning-spinner>
+                </lightning-layout-item>
+                <lightning-layout-item size="8">
+                  <p if:true={uploadStatus.message}>{uploadStatus.message}</p>
+                  <lightning-progress-bar value={uploadStatus.progress}></lightning-progress-bar>
+                </lightning-layout-item>
+              </lightning-layout>
+            </template>
+          </lightning-layout-item>
+
+          <!-- Message Block and Upload Button -->
+          <lightning-layout-item size="12" medium-device-size="9">
+            <lightning-textarea label="Message (optional)" value={messageValue} onchange={handleMessageChange}>
+            </lightning-textarea>
+          </lightning-layout-item>
+          <lightning-layout-item
+                  size="12"
+                  medium-device-size="3"
+                  class="slds-p-left_medium slds-p-vertical_small slds-text-align_center">
+            <lightning-button
+                    if:true={uploadDisabled}
+                    variant="brand"
+                    disabled
+                    label="Upload">
+            </lightning-button>
+            <lightning-button
+                    if:false={uploadDisabled}
+                    variant="brand"
+                    label="Upload"
+                    onclick={handleFileUpload}>
+            </lightning-button>
+          </lightning-layout-item>
+        </template>
+      </lightning-layout>
+    </lightning-layout-item>
+  </lightning-layout>
+  <!-- trick component into re-render -->
+  <div class="slds-hide">{trigger}</div>
+</template>

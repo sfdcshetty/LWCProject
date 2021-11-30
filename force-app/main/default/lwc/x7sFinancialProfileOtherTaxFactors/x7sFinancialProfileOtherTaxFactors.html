@@ -1,0 +1,93 @@
+<template>
+    <div class="x7s-finprofile_other-tax-factors">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">
+                    {header}
+                </h1>
+            </lightning-layout-item>
+
+        </lightning-layout>
+
+
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <!-- mimic the lighting-checkbox-group structure so it inherits the same styles, but don't add the checkboxes -->
+            <lightning-layout-item if:true={secondaryName} size="12" class="slds-col slds-m-bottom_small x7s-checkbox-table_header">
+                <lightning-layout multiple-rows class="slds-form-element_horizontal">
+                    <lightning-layout-item size="12" medium-device-size="8"></lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="2">
+                        <div class="slds-form-element__control">
+                            <span class="slds-checkbox">
+                                <span class="x7s-visible">{primaryName}</span>
+                            </span>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="2">
+                        <div class="slds-form-element__control">
+                            <span class="slds-checkbox">
+                                <span class="x7s-visible">{secondaryName}</span>
+                            </span>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+
+            <template if:true={questions}>
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <lightning-layout multiple-rows class="slds-form-element_horizontal"><!-- this class provides important styling for the checkboxes and labels -->
+                        <template iterator:it={questions}>
+
+                            <template if:false={it.first}>
+                                <lightning-layout-item if:true={it.value.isPrimary} key={it.value.fieldPath} size="12" class="slds-m-bottom_large">
+                                    <!-- spacer -->
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- the questions array contains both primary and secondary questions -->
+                            <lightning-layout-item key={it.value.fieldPath} if:true={it.value.isPrimary} size="12" medium-device-size="8">
+                                <legend class="slds-form-element__legend slds-form-element__label">
+                                    {it.value.inlineHelpText}
+                                </legend>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item key={it.value.fieldPath} if:true={it.value.isPrimary} size="12" medium-device-size="2">
+                                <lightning-input type="checkbox" 
+                                    label={primaryName}
+                                    value={it.value.fieldPath}
+                                    data-field={it.value.fieldPath}
+                                    data-question-index={it.index}
+                                    checked={it.value.value}
+                                    onchange={handleChangeQuestions}
+                                ></lightning-input>
+                            </lightning-layout-item>
+
+                            <template if:true={secondaryName}>
+                                <lightning-layout-item key={it.value.fieldPath} if:false={it.value.isPrimary} size="12" medium-device-size="2">
+                                    <lightning-input type="checkbox" 
+                                        label={secondaryName}
+                                        value={it.value.fieldPath}
+                                        data-field={it.value.fieldPath}
+                                        data-question-index={it.index}
+                                        checked={it.value.value}
+                                        onchange={handleChangeQuestions}
+                                    ></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                        </template>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </template>
+
+                        <!-- <lightning-checkbox-group variant="label-inline" 
+                                                label={it.value.inlineHelpText}
+                                                value={it.value.fieldPath}
+                                                options={optionsQuestions}
+                        ></lightning-checkbox-group> -->
+
+        </lightning-layout>
+
+    </div>
+</template>

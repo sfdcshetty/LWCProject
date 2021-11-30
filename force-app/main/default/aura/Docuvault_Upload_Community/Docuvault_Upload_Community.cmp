@@ -1,0 +1,22 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" 
+                controller="Docuvault_PortalDocumentsHelper"
+                access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute type="String" name="parentId" default="" />
+    <aura:attribute name="uploadFile" type="Aura.Component[]" access="global" />
+    <lightning:input name="Short Description" aura:id="desc"
+                        label="Short Description"
+                        class="{!if (v.parentId.length == 18, 'slds-p-around--medium slds-p-bottom--none slds-p-top--none', 'slds-hide')}" 
+                        onblur="{!c.loadUploadFiles}"/>
+    
+    <style>
+        .cDocuvault_Upload_Community {
+        	border :none !important;
+        }
+        .cDocuvault_Upload_Community .slds-card__header {
+        	display:none !important;
+        }
+    </style>
+    
+    {!v.uploadFile}
+</aura:component>

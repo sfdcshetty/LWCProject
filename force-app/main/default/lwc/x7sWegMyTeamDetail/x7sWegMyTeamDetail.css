@@ -1,0 +1,90 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+ .container {
+  padding-top: 20px;
+}
+.team-detail-back-to-team {
+  font-size: 16px;
+  text-decoration: none;
+}
+.team-detail-advisor-profile {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+.team-detail-advisor-border {
+  height: 3px;
+  background-color: #3f9c35;
+  width: 100px;
+  margin-top: 7px;
+}
+.team-detail-photo {
+  height: 250px;
+  width: 250px;
+  /*background-color: #3f9c35;*/
+  border-radius: 250px;
+}
+.left-detail,
+.right-detail {
+  margin: 75px 0px 0px 0px;
+}
+.right-detail {
+  padding-left: 30px;
+}
+.team-detail-header {
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 35px;
+}
+.team-detail-position {
+  font-size: 15px;
+  text-transform: uppercase;
+}
+.team-info-list {
+  margin-top: 12px;
+  margin-bottom: 57px;
+}
+.team-detail-line {
+  line-height: 25px;
+  font-size: 14px;
+}
+.team-detail-line a {
+  color: #01777a;
+}
+.team-detail-icon {
+  width: 14px;
+  margin-right: 10px;
+}
+.team-info-text-body {
+  line-height: 22px;
+  margin-top: 30px;
+  font-size: 16px;
+}
+.team-info-text-body .slds-rich-text-editor__output h3 {
+  font-weight: bold !important;
+}
+.team-info-text-body .slds-rich-text-editor__output p {
+  margin: 10px 0px !important;
+}
+
+.image-cropper-profile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+}

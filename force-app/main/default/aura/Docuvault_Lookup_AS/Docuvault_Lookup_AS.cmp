@@ -1,0 +1,88 @@
+<aura:component controller="ScanToSFAccountServicing" 
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global">
+    
+    <aura:attribute name="listOfSearchRecords" type="List" description="Used for storing the list of search records which returns from apex class" access="global" />
+    <aura:attribute name="SearchKeyWord" type="String" access="global" />
+    <aura:attribute name="selectedRecord" type="sObject" access="global"/>
+    <aura:attribute name="objectAPIName" type="String" default="" access="global" />
+    <aura:attribute name="IconName" type="String" default="" access="global" />
+    <aura:attribute name="objectName" type="String" default="" access="global" />
+    <aura:attribute name="fieldApis" type="String" default="" access="global"/>
+    <aura:attribute name="dataLimit" type="Integer" access="global"/>
+    <aura:attribute name="label" type="String" default="Records" access="global" />
+    <aura:attribute name="placeHolder" type="String" default="" access="global"/>
+    <aura:attribute name="isDisabled" type="boolean" default="" access="global"/>
+    <aura:attribute name="Message" type="String" default=""/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:Docuvault_LookupEvent" 
+                  action="{!c.eventHandler}"/>
+    
+    <label class="slds-form-element__label" padding="around-large">
+        <span>{!v.label}</span>
+    </label>
+    
+    <div class="flexipageComponent"  >
+        <div aura:id="searchRes" 
+             class="slds-form-element slds-lookup slds-is-close" 
+             data-select="single">
+            
+            <div class="slds-form-element__control slds-large-size--3-of-3">            
+                <div class="slds-input-has-icon slds-input-has-icon--right">
+                    <lightning:icon class="slds-input__icon slds-show" 
+                                    iconName="utility:search" size="x-small" 
+                                    alternativeText="Search"/> 
+                    
+                    <div aura:id="lookup-pill" class="slds-pill-container slds-hide">
+                        <span class="{!'slds-pill '+if(v.isDisabled,'slds-disable','')}" 
+                              style="width:100%">
+                            <span class="slds-icon_container slds-combobox__input-entity-icon" 
+                                  title="record">
+                                <lightning:icon class="slds-icon slds-icon slds-icon_small 
+                                                       slds-icon-text-default" 
+                                                iconName="{!'standard:'+v.IconName}" 
+                                                size="x-small" 
+                                                alternativeText="icon"/>
+                                <span class="slds-assistive-text"></span>
+                            </span>  
+                            <span class="slds-pill__label slds-p-left_x-large">
+                                {!v.selectedRecord.TVA_CFB__Value__c}
+                            </span>
+                            <button class="slds-button slds-button--icon slds-pill__remove" 
+                                    onclick="{!c.clear}">
+                                <lightning:icon class="slds-button__icon" 
+                                                iconName="utility:close" size="x-small" 
+                                                alternativeText="search"/>  
+                                <span class="slds-assistive-text">Remove</span>
+                            </button>
+                        </span>
+                    </div>
+                    
+                    <div aura:id="lookupField" class="slds-show"  >
+                        <ui:inputText click="{!c.onfocus}" 
+                                      updateOn="keyup" 
+                                      keyup="{!c.keyPressController}" 
+                                      class="slds-lookup__search-input
+                                             slds-input leftPaddingClass" 
+                                      value="{!v.SearchKeyWord}" 
+                                      placeholder="{!v.placeHolder}" 
+                                      disabled="{!v.isDisabled}"/>
+                    </div>   
+                </div>
+            </div>
+            
+            <ul aura-id="listId" aura:id="result" class="slds-listbox slds-listbox_vertical 
+                                        slds-dropdown slds-dropdown_fluid 
+                                        slds-lookup__menu slds slds-result" role="listbox" 
+                >
+                <center>{!v.Message}</center>
+                <aura:iteration items="{!v.listOfSearchRecords}" var="singleRec">
+                    <c:Docuvault_LookupResults selectedRecord="{!singleRec}" 
+                                               iconName="{!'standard:'+v.IconName}"/>
+                </aura:iteration>
+                
+            </ul>
+        </div>
+    </div>
+</aura:component>

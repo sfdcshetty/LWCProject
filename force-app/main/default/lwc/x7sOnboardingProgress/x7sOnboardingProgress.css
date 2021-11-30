@@ -1,0 +1,23 @@
+/*
+ * Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+ */
+
+.onboarding-progress__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.onboard-list-number {
+    display: inline-block; 
+    position: relative; 
+    background-color: #01777a; 
+    color: #fff; 
+    border-radius: 25px; 
+    height: 25px; 
+    width: 25px; 
+    left: 41px; 
+    padding-left: 9px; 
+    padding-top: 2px; 
+    font-size: 15px;
+}

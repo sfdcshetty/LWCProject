@@ -1,0 +1,114 @@
+<template>
+    <div class="x7s-finprofile_currently-employed">
+
+        <template if:false={showForm}>
+            <lightning-layout multiple-rows class="slds-gutters">
+
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">
+                        <span if:false={otherContact.length}>Are you currently employed?</span>
+                        <span if:true={otherContact.length}>Is {otherContact} currently employed?</span>
+                    </h1>
+                </lightning-layout-item>
+
+
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <div class="slds-m-bottom_small">
+                        <button class="slds-button slds-button_brand" onclick={handleClickEmployed}>
+                            <span if:false={otherContact.length}>Yes, I'm employed</span>
+                            <span if:true={otherContact.length}>Yes, {otherContact} is employed</span>
+                        </button>
+                    </div>
+                    <div class="slds-m-bottom_small">
+                        <button class="slds-button slds-button_brand" onclick={handleClickUnemployed}>
+                            <span if:false={otherContact.length}>No, I'm not currently employed</span>
+                            <span if:true={otherContact.length}>No, {otherContact} is not currently employed</span>
+                        </button>
+                    </div>
+                    <div class="slds-m-bottom_small">
+                        <button class="slds-button slds-button_brand" onclick={handleClickRetired}>
+                            <span if:false={otherContact.length}>No, I'm retired</span>
+                            <span if:true={otherContact.length}>No, {otherContact} is retired</span>
+                        </button>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+        </template>
+
+
+        <template if:true={showForm}>
+
+            <lightning-layout multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">
+                        <span if:false={otherContact.length}>Please enter your employment information</span>
+                        <span if:true={otherContact.length}>Please enter employment information for
+                            {otherContact}</span>
+                    </h1>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <template iterator:it={employers}>
+                <lightning-layout key={it.value.Id} multiple-rows class="slds-gutters">
+
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="6"
+                        class="slds-col slds-m-bottom_large">
+                        <lightning-input label="Employer name" value={it.value.Employer_Name__c} autocomplete="off"
+                            data-index={it.index} onchange={handleChangeEmployerName}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="6"
+                        class="slds-col slds-m-bottom_large">
+                        <lightning-input type="checkbox" label={labelSelfEmployed} class="slds-m-top_large"
+                            data-index={it.index} checked={it.value.Is_Self_Employed__c}
+                            onchange={handleChangeSelfEmployed}></lightning-input>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="6"
+                        class="slds-col slds-m-bottom_large">
+                        <lightning-input label="Occupation" value={it.value.Occupation__c} autocomplete="off"
+                            data-index={it.index} onchange={handleChangeOccupation}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="6"
+                        class="slds-col slds-m-bottom_large">
+                        <!-- nothing goes here -->
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" medium-device-size="4" large-device-size="4"
+                        class="slds-col slds-m-bottom_large">
+                        <lightning-input type="number" formatter="currency" step="1"
+                            placeholder="Round to the nearest dollar" label="Annual income"
+                            value={it.value.Annual_Income__c} autocomplete="off" data-index={it.index}
+                            onchange={handleChangeAnnualIncome}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="8" large-device-size="8"
+                        class="slds-col slds-m-bottom_large slds-m-top_x-large slds-text-align_right">
+                        <lightning-button variant="base" icon-name="utility:close" label="Remove this row" data-row-id={it.value.Id}
+                            data-row-index={it.index} onclick={handleClickRemoveRow}></lightning-button>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                        <lightning-button if:true={it.last} variant="label-inline" icon-name="utility:new" label="Add Another"
+                            onclick={handleClickAddAnotherEmployer}></lightning-button>
+                    </lightning-layout-item>
+
+                </lightning-layout>
+            </template>
+
+            <lightning-layout multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" medium-device-size="4" large-device-size="3"
+                    class="slds-col slds-m-bottom_large">
+                    <lightning-input type="number" step="1" label="Expected retirement age" value={retirementAge}
+                        onchange={handleChangeRetirementAge}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="8" large-device-size="9"
+                    class="slds-col slds-m-bottom_large">
+                    <!-- nothing goes here -->
+                </lightning-layout-item>
+            </lightning-layout>
+
+        </template>
+
+    </div>
+
+</template>

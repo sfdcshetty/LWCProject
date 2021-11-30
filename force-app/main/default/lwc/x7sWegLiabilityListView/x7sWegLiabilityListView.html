@@ -1,0 +1,164 @@
+<template>
+    <template if:true={isDisplayComponent}>
+
+        <div class="liabilityHeader slds-m-bottom_medium">
+            {componentTitle}
+        </div>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+
+        <div class="liabilityListContainer slds-p-top_small">
+            <lightning-datatable key-field="Id" data={dataList} columns={columns} hide-checkbox-column="true"
+                onrowaction={handleRowAction} class="personalPropertTable slds-max-medium-table_stacked-horizontal"
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={onHandleSort}>
+            </lightning-datatable>
+        </div>
+
+    </template>
+
+    <div class="slds-m-top_medium slds-grid">
+        <span class="slds-grow">
+            <span class={addLiability}>
+                <button class="addLiability slds-text-heading_small" onclick={handleAddPropertyClick}>
+                    <div class="iconContainer liabilityIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="add">
+                            <path
+                                d="M30 29h16.5c.8 0 1.5-.7 1.5-1.5v-3c0-.8-.7-1.5-1.5-1.5H30c-.6 0-1-.4-1-1V5.5c0-.8-.7-1.5-1.5-1.5h-3c-.8 0-1.5.7-1.5 1.5V22c0 .6-.4 1-1 1H5.5c-.8 0-1.5.7-1.5 1.5v3c0 .8.7 1.5 1.5 1.5H22c.6 0 1 .4 1 1v16.5c0 .8.7 1.5 1.5 1.5h3c.8 0 1.5-.7 1.5-1.5V30c0-.6.4-1 1-1z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="slds-p-left_small"><b>{buttonLabel}</b></span>&nbsp;
+                </button>
+            </span>
+        </span>
+        <span class="totalAmount slds-grow slds-text-align_right">$
+            <lightning-formatted-number value={totalAmt} format-style="decimal" maximum-fraction-digits="0"
+                currency-code="USD">
+            </lightning-formatted-number>
+        </span>
+    </div>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container slds-p-around_small">
+
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="liabilityHeader">
+                        {liabilityHeader}
+                    </div>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-layout multiple-rows="true" horizontal-align="center">
+
+                        <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-input class="inputField slds-m-vertical_medium validateLiabilityName" name="liabilityName" type="text"
+                                label="Liability Name" value={liabilityName} onchange={handleLiabilityNameChange}
+                                data-id="Name" required>
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+
+                            <lightning-combobox name="liabilityType" label="Liability Type" value={liabilityType}
+                                                class="inputField slds-m-vertical_medium validateLiabilityType" options={liabilityTypeOptions}
+                                                onchange={handleLiabilityTypeChange} data-id="Type" required>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+
+                        <!-- <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-combobox name="liabilityDescription" label="Description" value={liabilityDescription}
+                                class="inputField slds-m-vertical_medium" options={liabilityDescriptionOptions}
+                                onchange={handleLiabilityDescriptionChange} data-id="Type">
+                            </lightning-combobox>
+                        </lightning-layout-item> -->
+
+                        <!-- <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-input class="inputField slds-m-vertical_medium" name="liabilityDescription" type="text"
+                                label="Description" value={liabilityDescription} onchange={handleLiabilityDescriptionChange} data-id="Description">
+                            </lightning-input>
+                        </lightning-layout-item> -->
+
+                        <!-- <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-textarea class="inputField slds-m-vertical_medium validateLiabilityDescription"  name="liabilityDescription"  
+                            value={liabilityDescription} label="Description" 
+                            onchange={handleLiabilityDescriptionChange} data-id="Description"></lightning-textarea>
+                        </lightning-layout-item> -->
+
+                        <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <!--<lightning-input class="inputField slds-m-vertical_medium" name="liabilityOwner" type="text"
+                                label="Liability Owner" value={liabilityOwner} onchange={handleLiabilityOwnerChange}
+                                data-id="Owner">
+                            </lightning-input>-->
+
+                            <lightning-combobox name="liabilityOwner" label="Liability Owner" value={liabilityOwner}
+                                                class="inputField slds-m-vertical_medium validateLiabilityOwner" options={liabilityOwnerOptions}
+                                                onchange={handleLiabilityOwnerChange} data-id="Owner" required>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-input class="inputField slds-m-vertical_medium validateLiabilityInterestRate" name="liabilityInterestRate" type="number"
+                                label="Interest Rate" value={liabilityInterestRate} onchange={handleLiabilityInterestRateChange} data-id="InterestRate" formatter="percent-fixed"
+                                step=".01">
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                       <!--<lightning-layout-item size="12" large-device-size="12w" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-input class="inputField slds-m-vertical_medium" name="liabilityType" type=""
+                                label="As Of Date" value={liabilityAsOfDate} onchange={handleLiabilityAsOfDtChange} data-id="AsOfDate">
+                            </lightning-input>
+                        </lightning-layout-item>-->
+
+                        <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-input class="inputField slds-m-vertical_medium validateLiabilityBalance" name="liabilityBalance" type="number"
+                                label="Amount (Round to nearest dollar)" value={liabilityBalance} onchange={handleAmountChange} data-id="Amount" formatter="currency"
+                                step="1">
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-input class="inputField slds-m-vertical_medium validateLiabilityAsOfDate" name="liabilityAsOfDt" type="Date"
+                                label="As Of Date" value={liabilityAsOfDate} onchange={handleLiabilityAsOfDtChange} data-id="AsOfDate">
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+                </div>
+
+                <footer class="slds-modal__footer">
+
+                    <button class="addLiability slds-float_left slds-button" onclick={closeModal}
+                        title={cancelButtonLabel}>{cancelButtonLabel}</button>
+
+                    <button class="slds-button slds-button_brand slds-float_left" onclick={submitDetails}
+                        title={liabilityBtnLabel}>{liabilityBtnLabel}</button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

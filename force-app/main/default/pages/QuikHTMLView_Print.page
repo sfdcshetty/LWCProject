@@ -1,0 +1,109 @@
+<apex:page action="{!loadHTML}" controller="QuikGenerateHTML_Print" id="page" showHeader="false" standardStylesheets="false" sidebar="false" 
+           cache="false" applyBodyTag="false" applyHtmlTag="false" title="Quikform">
+    
+    <apex:slds />
+    
+    <head lang="en">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"/>
+    </head>
+    
+    <style>
+        #navPage { height:125pt !important; top:25px !important; width:88pt !important}
+        #navFormHeader {top:185px !important;}
+        #navAttachmentsHeader {top:390px !important; height:180px !important; width:100pt !important;}
+        
+        #navForm { height:100pt !important; top: 240px !important; width:88pt !important}
+        #header{
+        border:none !important;
+        }
+        #wrapper {
+        max-width :800px !important;
+        top:0px !important;
+        }
+        #navWrapper {
+        top:0px !important;
+        }
+        #btnPrint{
+        margin-left: 125%;
+        }
+        #btnSave{
+        margin-left: 125%;
+        }
+        #btnSign{
+        margin-left: 125%;
+        height: 28px;
+        border-radius: 4px;
+        padding-left: 0.7rem!important;
+        padding-right: 0.7rem!important;
+        margin-top: 5px!important;
+        text-align: center!important;
+        vertical-align: middle!important;
+        border: 1px solid #d8dde6!important;
+        background-color:rgb(211,211,211);
+        width:41pt!important;
+        min-width:41pt!important;
+        text-align:left!important;color:#ffffff !important;
+        }
+        #footer {
+        visibility:hidden;
+        }
+        #toaster {
+        z-index: 10001 !important;
+        width: 250px !important;
+        padding: 10px;
+        margin-top: 150px !important;
+        margin-left: -125px !important;
+        position: relative !important;
+        bottom: 235px !important;
+        }    
+    </style>
+    
+    <div>
+        <apex:outputText value="{!attachmentBody}" escape="false"/>
+    </div>
+    
+    <script>
+    document.getElementById("btnSave").addEventListener("click", checkData);
+    function checkData() {
+        var saveConfirmation = document.getElementById('btnDocNameSave');
+        if(saveConfirmation) {
+            document.getElementById("btnDocNameSave").addEventListener("click", checkSaveData);  
+        } else {
+            var formData = $('#QFVFormPage').serialize();
+            document.getElementById('page:frm:dataToSave').value = formData;
+            $('#spinner').show();
+            saveData();
+        }
+    }
+    
+    function checkSaveData() {
+        var packageName = $('#txtFormPackageName').val();
+        if(packageName != '') {
+            var formData = $('#QFVFormPage').serialize();
+            document.getElementById('page:frm:dataToSave').value = formData;
+            $('#spinner').show();
+            saveData();
+        }
+    }
+    
+    function formSaved() {
+        $('#spinner').hide();
+        $('#toaster').show();
+        setTimeout(function() { 
+            $('#toaster').hide();
+        }, 6000);
+    }
+    
+    window.onload = function() {
+        $("#btnSign").hide();
+    }
+    </script>
+    
+    <apex:form id="frm">
+        <apex:inputHidden value="{!savedFormData}" id="dataToSave" />
+        <apex:actionFunction action="{!updateData}" name="saveData" oncomplete="formSaved();" />
+    </apex:form>
+    
+</apex:page>

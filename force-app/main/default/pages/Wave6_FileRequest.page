@@ -1,0 +1,9 @@
+<apex:page docType="html-5.0" id="page" sidebar="false" showHeader="false">
+    <TVA_CFB:CloudCategoryUpload componentVisibilty="true" enableNew="false" id="category"/><br/>
+    <!--    
+        Here tva_cfb__file_request5 is Label For Email
+        tva_cfb__file_request6 is Label For Expiration Date
+        tva_cfb__file_request7 is Label For Message        
+    -->
+    <TVA_CFB:FileRequest id="pagecomp" Fields="{!$Label.tva_cfb__file_request5}:TVA_CFB__Email__c,{!$Label.tva_cfb__file_request6}:TVA_CFB__Expiration_Date__c,{!$Label.tva_cfb__file_request7}:TVA_CFB__Message__c"/>
+</apex:page>

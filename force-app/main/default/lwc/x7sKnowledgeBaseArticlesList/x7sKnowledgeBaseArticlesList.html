@@ -1,0 +1,115 @@
+<template>
+    <div>
+        <template if:false={recordId}>
+
+            <div class="supportHeader slds-text-title_bold">
+                {componentTitle}
+            </div>
+            <div class="completeLine"></div>
+
+            <div class="supportArticleHeader slds-text-title_bold">
+                {supportArticleLabel}
+            </div>
+
+            <template if:true={totalArticles}>
+                <div>SHOW ME</div>
+                <div class="searchBar">
+                    <lightning-input type="search" name="search" onchange={handleSearchString} value={searchString}
+                        placeholder={searchPlaceHolder} variant="label-hidden">
+                    </lightning-input>
+                </div>
+
+                <template for:each={articleList} for:item="article">
+                    <div key={article.Id}>
+                        <div class="questionList slds-m-vertical_medium">
+                            <a onclick={handleArticleClick} data-id={article.Id}>
+                                {article.Title}
+                            </a>
+                        </div>
+                        <div class="border">
+                        </div>
+                    </div>
+                </template>
+
+                <div class="slds-m-vertical_medium paginationContainer">
+
+                    <span class="buttonPrevNext slds-float_left">
+                        <button disabled={previous} class="buttonPrevNext slds-text-heading_small"
+                            onclick={previousHandler}>
+                            <div class="iconContainer buttonPrevNextIcon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="prev">
+                                    <path
+                                        d="M34.2 47.7L13.4 27.2c-.6-.6-.6-1.6 0-2.2L34.2 4.5c.6-.6 1.6-.6 2.2 0l2.2 2.2c.6.6.6 1.6 0 2.2L22.1 25c-.6.6-.6 1.6 0 2.2l16.3 16.1c.6.6.6 1.6 0 2.2l-2.2 2.2c-.5.5-1.4.5-2 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <span class="slds-p-left_small"><b>Previous</b></span>&nbsp;
+                        </button>
+                    </span>
+
+                    <span class="paginationCenter">
+                        {totalArticles}&nbsp;Articles&nbsp;&nbsp;{pageNumber}&nbsp;/&nbsp;{totalPages}
+                    </span>
+
+                    <span class="buttonPrevNext slds-float_right">
+                        <button disabled={next} class="buttonPrevNext slds-text-heading_small" onclick={nextHandler}>
+                            <span class="slds-p-left_small"><b>Next</b></span>&nbsp;
+                            <div class="iconContainer buttonPrevNextIcon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="next">
+                                    <path
+                                        d="M17.9 4.4l20.7 20.5c.6.6.6 1.6 0 2.2L17.9 47.6c-.6.6-1.6.6-2.2 0l-2.2-2.2c-.6-.6-.6-1.6 0-2.2l16.3-16.1c.6-.6.6-1.6 0-2.2L13.6 8.8c-.6-.6-.6-1.6 0-2.2l2.2-2.2c.6-.5 1.5-.5 2.1 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </button>
+                    </span>
+
+                </div>
+            </template>
+
+        </template>
+
+        <template if:true={recordId}>
+            <div style="display: grid;">
+                <div class="supportButton slds-float_left">
+                    <button class="supportButton slds-text-heading_medium" onclick={handleSupportClick}>
+                        <div class="iconContainer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="support">
+                                <path
+                                    d="M34.2 47.7L13.4 27.2c-.6-.6-.6-1.6 0-2.2L34.2 4.5c.6-.6 1.6-.6 2.2 0l2.2 2.2c.6.6.6 1.6 0 2.2L22.1 25c-.6.6-.6 1.6 0 2.2l16.3 16.1c.6.6.6 1.6 0 2.2l-2.2 2.2c-.5.5-1.4.5-2 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="slds-p-left_small"><b>Support</b></span>&nbsp;
+                    </button>
+                </div>
+
+
+                <lightning-formatted-text class="slds-text-heading_large slds-m-vertical_large slds-float_left"
+                    value={articleDetail.Question}>
+                </lightning-formatted-text>
+
+                <div class="slds-m-vertical_large slds-float_left">
+                    <span>
+                        <lightning-icon icon-name="utility:clock" alternative-text="Clock" title="Clock">
+                        </lightning-icon>
+                    </span>
+                    <span class="slds-p-left_small">
+                        <lightning-formatted-date-time value={articleDetail.LastPublishedDate}>
+                        </lightning-formatted-date-time>
+                    </span>
+                    <span class="slds-p-left_small">
+                        Knowledge Article
+                    </span>
+                </div>
+
+                <lightning-formatted-rich-text class="slds-text-heading_small slds-m-vertical_large slds-float_left"
+                    value={articleDetail.Answer}>
+                </lightning-formatted-rich-text>
+
+            </div>
+        </template>
+
+    </div>
+
+</template>

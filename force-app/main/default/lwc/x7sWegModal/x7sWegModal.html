@@ -1,0 +1,56 @@
+<template>
+    <h2 class="change-contact-info">Edit Contact Information</h2>
+    <div class="profile-button" onclick={openModal} data-id="address">Change an Address <div class="icon-container"><img src={chevron} class="profile-chevron" /></div></div>
+    <!--<div class="profile-button" onclick={openModal} data-id="email">Change an Email Address <div class="icon-container"><img src={chevron} class="profile-chevron" /></div></div>-->
+    <div class="profile-button" onclick={openModal} data-id="email">Change an Email Address<div class="icon-container"><img src={chevron} class="profile-chevron" /></div></div>
+    <div class="profile-button" onclick={openModal} data-id="phone">Change a Phone Number <div class="icon-container"><img src={chevron} class="profile-chevron" /></div></div>
+    <div class="profile-button" onclick={openModal} data-id="name">Change a Name <div class="icon-container"><img src={chevron} class="profile-chevron" /></div></div>
+
+    <div class="change-contact-text">Changes to some information may impact other systems. As such, not all edits will take effect immediately. Contact your advisory team to add or change a beneficiary, trusted contact, or birth date.</div>
+
+    <!--Use template if:true to display/hide popup based on isModalOpen value--> 
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header no-border">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                     <h3 class="modal-header" if:true={userName}>Edit {mode} for {userName}</h3>
+                    <h3 class="modal-header" if:false={userName}>Edit {mode}</h3>
+                    <div class='modal-lower-edit-border'></div>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <template if:true={modePhone}>
+                        <c-x7s-weg-profile-edit-phone  onclosemodal={closeModal} userid={userId} username={userName} onuserselected={handleUserSelected}></c-x7s-weg-profile-edit-phone>
+                    </template>
+                    <template if:true={modeName}>
+                        <c-x7s-weg-profile-edit-name onclosemodal={closeModal} onuserselected={handleUserSelected}></c-x7s-weg-profile-edit-name>
+                    </template>
+                    <!--<template if:true={modeEmail}>
+                        <c-x7s-weg-profile-edit-email-modal  onclosemodal={closeModal} userid={userId} onuserselected={handleUserSelected}></c-x7s-weg-profile-edit-email-modal>
+                    </template>-->
+                    <template if:true={modeEmail}>
+                        <c-x7s-weg-profile-edit-email-modal-window onclosemodal={closeModal} onuserselected={handleUserSelected}></c-x7s-weg-profile-edit-email-modal-window>
+                    </template>
+                    <template if:true={modeAddress}>
+                        <c-x7s-weg-profile-edit-addresses onclosemodal={closeModal} onuserselected={handleUserSelected}></c-x7s-weg-profile-edit-addresses>
+                    </template>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer no-border">
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+ </template>

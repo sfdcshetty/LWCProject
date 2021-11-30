@@ -1,0 +1,293 @@
+<apex:page id="page" sidebar="false" standardController="TVA_CFB__Cloud_Files__c" extensions="Docuvault_LookupController" recordSetVar="Member" showquickActionVfHeader="false">
+    <style>
+        .slds-listbox_vertical--5-options {
+            height : 12rem !important;
+            overflow-y: auto;
+        }
+        
+        .slds-scope .slds-listbox__option-text_entity {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+            margin-top: .5rem;
+            margin-bottom: .125rem;
+        }
+    </style>
+    <apex:slds id="lightning" />
+    
+    <body onclick="closeLookupList ();">
+        <div id="toastDiv" class="slds-hide" style="height: 4rem;">
+            <div class="slds-notify_container slds-is-relative">
+                <div id="toast" class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+                    
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small" id="toasterMsg"></h2>
+                    </div>
+                    <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                        <span class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                            <img src="{! URLFOR($Asset.slds, '/assets/icons/action/close_60.png') }" 
+                                         width="15px" 
+                                         height="18px" 
+                                         onclick="closeToaster ();" />
+                        </span>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modalHeading" 
+                                                 aria-modal="true" 
+                                                 aria-describedby="modalContent" 
+                                                 class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            <span class="slds-icon_container">
+                                <span class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <img src="{! URLFOR($Asset.slds, '/assets/icons/action/reject_60.png') }" 
+                                         width="15px" 
+                                         height="18px" 
+                                         onclick="history.back();" />
+                                </span>
+                            </span>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Document Submission</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modalContent">
+                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" >
+                            <span class="slds-text-heading_small">
+                                <c:LightningLookup objectApiName="Account"
+                                                   searchableFieldName="Name"  
+                                                   lookupLabel="House Hold" 
+                                                   placeholderLookupLabel="HouseHold"
+                                                   placeholderLookupLabel1="In All fields" 
+                                                   lookupId="householdId"
+                                                   apexField=""
+                                                   apexHiddenField=""
+                                                   recordTypeName="Household"
+                                                   objectType="{!$ObjectType['Account'].custom}"
+                                                   LightningIcon="{!URLFOR ($Asset.slds, '/assets/icons/')}" 
+                                                  />
+                                
+                                <c:LightningLookup objectApiName="Account"
+                                                   searchableFieldName="Name"  
+                                                   lookupLabel="Business" 
+                                                   placeholderLookupLabel="Business"
+                                                   placeholderLookupLabel1="In All fields" 
+                                                   lookupId="businessParentId"
+                                                   apexField=""
+                                                   recordTypeName="Business"
+                                                   apexHiddenField=""
+                                                   objectType="{!$ObjectType['Account'].custom}"
+                                                   LightningIcon="{!URLFOR ($Asset.slds, '/assets/icons/')}"
+                                                   
+                                                 />
+                                
+                                
+                                
+                            </span>
+                        </a>
+                        
+                        <TVA_CFB:StandaloneFileUpload ShowUpload="false" S3bucketName="{!bucketName}"/>
+                        <div class="slds-form-element" style="padding-top:10px">
+                            <div class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_images">
+                                    <div class="slds-file-selector__dropzone" id="filesUploadDiv" style="max-height:7rem !important;">
+                                        <input type="file" class="slds-file-selector__input slds-assistive-text"
+                                                id="fileUploadId"
+                                                onChange="startUpload (0);"
+                                                multiple="true"
+                                                aria-labelledby="file-selector-primary-label file-selector-secondary-label" />
+                                        <label class="slds-file-selector__body" for="fileUploadId" id="file-selector-secondary-label">
+                                            <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                                <span class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                                    <img src="{!URLFor ($Asset.slds, '/assets/icons/utility/upload_60.png')}" />
+                                                </span>Upload</span>
+                                            <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="progressbar" style="border-radius:1em; background:green; height:3px; width:0%"></div>
+                        <div id="progressCount" style="text-align:right; color:#00a1e0"></div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        
+                        <button class="slds-button slds-button_neutral" onclick="history.back();">Cancel</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <script>
+            var successCount = 0;
+            var failedCount = 0;
+            var progressBar = '';
+            
+            $(document).ready(function()
+            {
+                var obj = $("#filesUploadDiv");
+                obj.on('dragenter', function (e) 
+                {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                                  
+                obj.on('dragover', function (e) 
+                {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                                  
+                obj.on('drop', function (e) 
+                {
+                    successCount = 0;
+                    failedCount = 0;
+                    e.preventDefault();
+                    var files = e.originalEvent.dataTransfer.files;                 
+                    if (!document.getElementById('fileUploadId').disabled)
+                        startFileUpload (files, 0);
+                });
+                                  
+                $(document).on('dragenter', function (e) 
+                {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                
+                $(document).on('dragover', function (e) 
+                {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                
+                $(document).on('drop', function (e) 
+                {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+            });
+            function closeToaster () {
+                $("#toastDiv").addClass('slds-hide');
+                $("#toasterMsg").text ("");
+            }
+            
+            function startUpload (i) {
+                successCount = 0;
+                failedCount = 0;
+                var inp = document.getElementById('fileUploadId');
+                startFileUpload (inp.files, i);
+            }
+            
+            function startFileUpload (fileList, i) {
+                if (fileList.length != 0) {
+                    $ ('#progressCount').text ('0%');
+                    $ ('#progressbar').css ('width', '0%');
+                                    
+                    var houseHoldLookup = ( $('#householdId').attr ('data-lookupRecord') != 0 ? JSON.parse($('#householdId').attr ('data-lookupRecord')) : '');
+                    var businessLookup = ( $('#businessParentId').attr ('data-lookupRecord') != 0 ? JSON.parse($('#businessParentId').attr ('data-lookupRecord')) : ''); 
+                    
+                    var parentID = '' , parentObjectAPI = '';
+                    if (houseHoldLookup != '' && businessLookup != '') {
+                        $('#fileUploadId').val('');
+                        $("#countMessage").html ('');
+                        $("#toastDiv").removeClass('slds-hide');
+                        $('#toast').addClass('slds-theme--error');
+                        $("#toasterMsg").text ("Either the Household or the Business must be selected");                
+                        
+                    }
+                    else if (houseHoldLookup == '' && businessLookup == '') {
+                        $('#fileUploadId').val('');
+                        $("#countMessage").html ('');
+                        $("#toastDiv").removeClass('slds-hide');
+                        $('#toast').addClass('slds-theme--error');
+                        $("#toasterMsg").text ("Either the Household or the Business must be selected");                    
+                    } else {
+                        
+                        if (houseHoldLookup != '' ){                                           
+                            parentID =  houseHoldLookup.Id;
+                        }
+                        if (businessLookup != '' ){
+                            parentID =  businessLookup.Id;                         
+                        }
+                        if (i < fileList.length) {
+                            
+                            $("#toast").addClass('slds-hide');
+                            var obj = {
+                                TVA_CFB__Parent_ID__c : parentID,
+                                WEGP1_Household__c : houseHoldLookup.Id,
+                                Business__c : businessLookup.Id,
+                                WEGP1_DocumentType__c : 'Document Submission',
+                                TVA_CFB__Folder__c : 'Document Submission',
+                                WEGP1_Ready_for_Review__c : true
+                                
+                            };
+                            console.log (obj);
+                            var signatureDetailsMap = new Object ();  
+                            if (houseHoldLookup != '' )          
+                                signatureDetailsMap['parentObjectAPI'] = 'WEGP1_Household__c';
+                            if (businessLookup != '' )
+                                signatureDetailsMap['parentObjectAPI'] = 'Business__c';
+                                
+                            signatureDetailsMap['parentID'] = parentID  ;
+                            
+                            document.getElementById('fileUploadId').setAttribute ('disabled','true');
+                            
+                            uploadSingleFile(obj, signatureDetailsMap, fileList[i], function(result, statusFlag, resultType) {
+                                if (resultType == 'Error') {                        
+                                    failedCount += 1;
+                                }
+                                
+                                if (resultType == 'Success') {                        
+                                    successCount += 1;
+                                }
+                                
+                                if (resultType == 'Uploading') {
+                                    $ ('#progressCount').text (result+' %');
+                                    $ ('#progressbar').css ('width', result+'%');
+                                    
+                                }
+                                
+                                if (i < fileList.length && statusFlag) {
+                                    ++i;
+                                    startFileUpload (fileList, i);
+                                }
+                            });
+                        }
+                            
+                    
+                        if (i == fileList.length) {
+                            $("#toast").removeClass('slds-theme--error').removeClass('slds-hide');
+                            var message = '<span>Success: '+successCount+"</span> &#160; <span>Failed: "+failedCount+"</span>";
+                            $("#toastDiv").removeClass('slds-hide');
+                            $('#toast').addClass('slds-theme--success');
+                            $('#fileUploadId').val('');
+                            if (successCount > 0) {
+                                $ ('#toasterMsg').html('<p>{!$Label.tva_cfb__successful_upload}</p>'+message);
+                                
+                            }
+                            else {
+                                $ ('#toasterMsg').html('<p>{!$Label.TVA_CFB__error_while_uploading_files}</p>'+message);
+                                $('#toast').removeClass('slds-theme--success');
+                                $('#toast').addClass('slds-theme--error');
+                            }
+                            
+                            $("#countMessage").html (message);
+                            $ ('#progressbar').css ('width', '0%');
+                            $ ('#progressCount').text ('');
+                            $ ('#fileUploadId').removeAttr('disabled');
+    
+                        }
+                    }
+                }
+            }
+            
+        </script>
+    </body>                
+    
+</apex:page>

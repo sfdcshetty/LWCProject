@@ -1,0 +1,20 @@
+<!--******************************************************************************************************************************
+* @component name    : WEGAccountSharing
+* @description   	 : This lightning component is used as quick action and will be added to Account Layouts so that user can 
+*   				   re-calculate sharing by clicking on the button whenever required.                  
+*
+* @author        	 : Ganesh Ekhande
+* @date          	 : 07/04/2017               
+*                   
+* Modification Log :
+* _________________________________________________________________________________________________________________
+* Developer                   Date(MM/DD/YYYY)       Description
+* _________________________________________________________________________________________________________________
+* Ganesh Ekhande              07/04/2017             Created.
+
+******************************************************************************************************************************-->
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="Wave6_WEGAccountSharingController">
+    <aura:attribute name="msg" type="string" default=""/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    {!v.msg}
+</aura:component>

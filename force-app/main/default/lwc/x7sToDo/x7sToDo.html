@@ -1,0 +1,93 @@
+<!--
+ - Created by karolbrennan on 5/11/21.
+ -->
+
+<!-- X7S To Do -->
+<template>
+
+    <lightning-layout class="x7sToDos slds-p-vertical_large slds-is-relative" multiple-rows>
+        <lightning-layout-item size="12">
+            <h2>To Do List</h2>
+            <lightning-spinner if:true={isLoading} variant="brand" size="medium"
+                               alternative-text="Loading"></lightning-spinner>
+        </lightning-layout-item>
+        <!-- Open To Dos --->
+        <lightning-layout-item size="12" if:true={hasOpenToDos}>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Open To Dos</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={openToDos} for:item="todo">
+                        <tr key={todo.Id}>
+                            <td>
+                                <lightning-layout>
+                                    <lightning-layout-item>
+                                        <lightning-input
+                                                type="checkbox"
+                                                label="completed"
+                                                checked={todo.Is_Completed__c}
+                                                variant="label-hidden"
+                                                data-id={todo.Id}
+                                                onchange={handleUpdateTodo}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <lightning-formatted-rich-text if:true={todo.Name}
+                                                                       value={todo.Name}></lightning-formatted-rich-text>
+                                        <lightning-formatted-rich-text if:true={todo.ToDo_Description__c}
+                                                value={todo.ToDo_Description__c}></lightning-formatted-rich-text>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </td>
+                            <td class="date">{todo.dueDate}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </lightning-layout-item>
+
+        <!-- Completed To Dos --->
+        <lightning-layout-item size="12" if:true={hasClosedToDos} class="slds-p-top_large">
+            <table>
+                <thead>
+                <tr>
+                    <th>Closed To Dos</th>
+                    <th>Completed</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <template for:each={closedToDos} for:item="todo">
+                        <tr key={todo.Id} class="completed-item">
+                            <td>
+                                <lightning-layout>
+                                    <lightning-layout-item>
+                                        <lightning-input
+                                                type="checkbox"
+                                                label="completed"
+                                                checked={todo.Is_Completed__c}
+                                                variant="label-hidden"
+                                                data-id={todo.Id}
+                                                onchange={handleUpdateTodo}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <lightning-formatted-rich-text if:true={todo.Name}
+                                                                       value={todo.Name}></lightning-formatted-rich-text>
+                                        <lightning-formatted-rich-text if:true={todo.ToDo_Description__c}
+                                                                       value={todo.ToDo_Description__c}></lightning-formatted-rich-text>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </td>
+                            <td class="date">{todo.completedDate}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </lightning-layout-item>
+
+    </lightning-layout>
+</template>

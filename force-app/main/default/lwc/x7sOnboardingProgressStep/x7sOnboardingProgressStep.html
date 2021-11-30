@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <div if:true={show} role="presentation">
+        <div role="listitem" class="onboarding-step">
+            <lightning-layout class="onboarding-step__layout" vertical-align="center" >
+                <lightning-layout-item size="12" class="slds-p-around_xxx-small" flexibility="auto, no-grow">
+                    <lightning-button   variant="Base"
+                                        class="onboarding-step__link"
+                                        label={label}
+                                        icon-name={isCompletedIcon} 
+                                        onclick={handleClick} >
+                    </lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+</template>

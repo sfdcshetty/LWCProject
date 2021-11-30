@@ -1,0 +1,39 @@
+<template>
+
+    <template if:false={showForm}>
+        <lightning-layout multiple-rows class="slds-gutters">
+    
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">
+                    Do you have any large planned future expenses?
+                </h1>
+            </lightning-layout-item>
+    
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <button class="slds-button slds-button_brand" onclick={handleClickAddFutureExpenses}>
+                    Yes
+                </button>
+                <button class="slds-button slds-button_brand" onclick={handleClickDontAddFutureExpenses}>
+                    No
+                </button>
+            </lightning-layout-item>
+    
+        </lightning-layout>
+    </template>
+    
+    <template if:true={showForm}>
+        <form class="x7s-finprofile_about-your-planned-expenses">
+            <lightning-layout multiple-rows class="slds-gutters">
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">
+                        Please tell us more about your planned expenses
+                    </h1>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <c-x7s-unifi-questionnaire-about-your-rows type="expense" row-data={data} owners={optionsOwner} onupdate={handleUpdateRowData}>
+            </c-x7s-unifi-questionnaire-about-your-rows>
+        </form>
+    </template>
+
+</template>

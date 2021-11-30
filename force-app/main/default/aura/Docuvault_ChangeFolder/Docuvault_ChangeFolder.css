@@ -1,0 +1,14 @@
+.THIS .slds-modal__container{
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 40rem !important;
+    min-width: 20rem !important;
+}
+.THIS .slds-modal__close {
+    width: 2rem !important;
+    height: 2rem !important;
+    position: absolute !important;
+    top: -2.5rem !important;
+    right: -.5rem !important;
+    z-index: 99999 !important;
+}

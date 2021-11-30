@@ -1,0 +1,25 @@
+<template>
+    <lightning-layout multiple-rows class="slds-gutters">
+        <lightning-layout-item size="12" class="slds-col slds-grid slds-wrap slds-grid_align-center">
+
+            <div class="slds-col slds-medium-size_10-of-12">
+                <div class="slds-box slds-theme_default">
+                    <div class="slds-p-around_x-large">
+
+                        <h1 class="x7s-text-heading_large">{header}</h1>
+                        <!-- <p class="slds-m-top_small slds-text-heading_medium x7s-pre-wrap">{paragraph}</p> -->
+                        <template iterator:it={paragraphs}>
+                            <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-heading_medium">{it.value}</p>
+                        </template>
+                        <div class="slds-m-vertical_large">
+                            <c-x7s-financial-profile-mark-completed is-completed={isCompleted} completed-date={completedDate} 
+                                    onsavetempdata={handleSaveTempData}></c-x7s-financial-profile-mark-completed>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

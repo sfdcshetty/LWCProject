@@ -1,0 +1,20 @@
+<template>
+    
+    <div class="x7s-unifi_investment-time-horizon">
+        <lightning-layout multiple-rows class="slds-gutters">
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+                <!-- <p class="slds-m-top_small">{paragraph}</p> -->
+            </lightning-layout-item>
+            
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <lightning-radio-group name="investmentTimeHorizon" class="x7s-unifi_radio-group-vertical"
+                    label={header} variant="label-hidden" 
+                    options={optionsInvestmentTimeHorizon} value={investmentTimeHorizon}
+                    onchange={handleChangeInvestmentTimeHorizon}></lightning-radio-group>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </div>
+
+</template>

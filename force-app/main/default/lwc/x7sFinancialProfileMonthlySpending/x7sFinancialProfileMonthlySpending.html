@@ -1,0 +1,21 @@
+<template>
+    <form class="x7s-finprofile_monthly-spending">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+                <template iterator:it={paragraphs}>
+                    <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-body_regular">
+                        <lightning-formatted-rich-text value={it.value}></lightning-formatted-rich-text>
+                    </p>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Amount" type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" autocomplete="off"
+                    value={estimateMonthlySpending}
+                    onchange={handleChangeMonthlySpending}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+    </form>
+</template>

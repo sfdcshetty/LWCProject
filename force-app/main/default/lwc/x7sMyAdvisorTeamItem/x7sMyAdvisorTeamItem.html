@@ -1,0 +1,56 @@
+<template>
+    <lightning-layout>
+
+        <template if:false={isHomepageOrCompact}>
+            <lightning-layout-item size="3">
+                <div class="image-cropper image-cropper-other">
+                    <img src={photourl} alt={username} class="advisor-image"/>
+                </div>
+            </lightning-layout-item>
+        </template>
+            <template if:true={isHomepage}>
+                <lightning-layout-item size="2">
+                    <div class="image-cropper image-cropper-home">
+                        <img src={photourl} alt={username} class="advisor-image"/>
+                    </div>
+                </lightning-layout-item>
+            </template>
+            <template if:true={isCompact}>
+                <lightning-layout-item size="3">
+                    <div class="image-cropper image-cropper-compact">
+                        <img src={photourl} alt={username} class="advisor-image-compact" />
+                    </div>
+                </lightning-layout-item>
+            </template>
+        
+        <lightning-layout-item size="9" class="slds-p-left_medium">
+            <div class="user-stats-container">
+                <strong class="name">{username}</strong>
+                <template if:false={isHomepageOrCompact}>
+                    <p class="title">{title}</p>
+                </template>
+                <template if:true={isHomepageOrCompact}>
+                    <p class="title" style="margin-bottom:5px">{title}</p>
+                </template>
+
+                <ul>
+                    <li class="user-stats">
+                        <lightning-icon size="x-small" class="slds-m-right_x-small" icon-name="utility:email"></lightning-icon>
+                        {email}
+                    </li>
+                    <template if:false={isHomepageOrCompact}>
+                    <li class="user-stats">
+                        <lightning-icon size="x-small" class="slds-m-right_x-small" icon-name="utility:call"></lightning-icon> {teamphone}
+                    </li>
+                        <template if:true={showProfileLink}>
+                            <li class="user-stats">
+                                <lightning-icon size="x-small" class="slds-m-right_x-small" icon-name="utility:people"></lightning-icon>
+                                <a onclick={navigateToProfile}>View Profile</a>
+                            </li>
+                        </template>
+                    </template>
+                </ul>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

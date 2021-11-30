@@ -1,0 +1,11 @@
+<apex:page standardController="FinServ__FinancialAccount__c" docType="html-5.0" >
+    <TVA_CFB:FolderStructure recordId="" 
+                        enableChangeFolder="true"
+                        folderShare="false" 
+                        thumbnailPreview="true" 
+                        uploadNewVersion="true" 
+                        makePublic="false" 
+                        passwordLink="false" 
+                        uploadAsSFFile="false" 
+                        deleteFile="true" />
+</apex:page>

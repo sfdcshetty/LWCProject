@@ -1,0 +1,4 @@
+<!-- Page to Upload Files Directly from Salesforce Parent Record Layout -->
+<apex:page standardController="TVA_CFB__Cloud_Files__c" docType="html-5.0" id="page">
+    <TVA_CFB:QuickUploadFiles CloudBucketName=""/>
+</apex:page>

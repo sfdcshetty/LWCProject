@@ -1,0 +1,71 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="wv6_FABalanceByTypeController">
+    <aura:attribute type="LIST" name="FinancialAccountWrapList" />
+    <aura:attribute name="tableTitle" type="String" default=""/>
+    <aura:attribute name="msg" type="String" default=""/>
+    <aura:attribute name="showSpinner" type="boolean" default="TRUE"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    	<!--<article class="slds-card">-->
+        <div>
+            <!-- Message -->
+            {!v.msg}
+            
+            <!--Spinner-->
+            <aura:if isTrue="{!v.showSpinner}" >
+                <div class="demo-only" style="height: 6rem;margin-top:50%;margin-right:75%;">
+                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </aura:if>
+            
+            <!-- Data Table -->
+            <aura:if isTrue="{!v.FinancialAccountWrapList.length >0}" >
+                <aura:if isTrue="{!v.tableTitle}" >
+                    <div class="box slds-theme_shade">
+                        {!v.tableTitle}
+                    </div>
+                    <aura:set attribute="else">
+                        <BR></BR>
+                    </aura:set>
+                </aura:if>
+                <table class="slds-table slds-table--bordered">
+                    <thead>
+                        <tr class="slds-text-heading--label">
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Account Type</div>
+                            </th>
+                            <th class="slds-is-sortable" scope="col">
+                                <div class="slds-truncate">Balance</div>
+                            </th>
+                        </tr>
+                    </thead>  
+                    <tbody>
+                        <aura:iteration items="{!v.FinancialAccountWrapList}" var="finAcc">
+                            <tr class="slds-hint-parent">
+                                <aura:if isTrue="{!finAcc.accountType != 'TOTAL'}" >
+                                    <td class="slds-truncate ">    
+                                        {!finAcc.accountType}
+                                    </td>
+                                    <td class="slds-truncate"> 
+                                        <lightning:formattedNumber value="{!finAcc.balance}" style="currency" currencyCode="USD" />
+                                    </td>
+                                    <aura:set attribute="else">
+                                        <th scope="col">
+                                            <div class="slds-truncate" style="font-weight:bold;">{!finAcc.accountType}</div>
+                                        </th>
+                                        <td class="slds-truncate" style="font-weight:bold;"> 
+                                            <lightning:formattedNumber value="{!finAcc.balance}" style="currency" currencyCode="USD" />
+                                        </td>
+                                    </aura:set>
+                                </aura:if>    
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </aura:if>
+        </div> 	
+    <!--</article> -->
+</aura:component>

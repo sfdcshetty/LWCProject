@@ -1,0 +1,26 @@
+<!--
+ - Created by martinblase on 4/6/21.
+ -->
+
+<!-- 7S Financial Profile Nav -->
+<template>
+    <div class="x7s-finprofile_nav" data-is-open={showMenu}>
+
+        <button class="x7s-finprofile_menu-button slds-button slds-button_inverse" onclick={handleMenuButtonClick}>
+            <lightning-icon icon-name={menuIcon} size="x-small" variant="inverse" alternative-text=""></lightning-icon>
+            <span>menu</span>
+        </button>
+
+        <div class={menuClasses}>
+            <ul class="x7s-finprofile_menu">
+                <template iterator:it={menuItems}>
+                    <li key={it.value.label} if:false={it.value.hideInNav} class="x7s-finprofile_menu-item" data-is-active={it.value.isActive}
+                        data-form-idx={it.index} onclick={handleNavClick}>
+                        <span>{it.value.label}</span>
+                    </li>
+                </template>
+            </ul>
+        </div>
+
+    </div>
+</template>

@@ -1,0 +1,88 @@
+.THIS  .slds-theme--error .slds-notify--toast .slds-notify .slds-notify--toast .forceToastMessage{
+    min-width: 25rem !important;
+    max-width: 25rem !important;
+}
+.THIS a{
+    text-decoration: none !important;
+}
+.THIS .spinner {
+    position: absolute;
+}
+.THIS .outer-div {
+    position: relative;
+}
+.THIS .slds-accordion__summary-action {
+    text-decoration: none !important;
+}
+.THIS .table .th {
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #fff;
+}
+.THIS .parentCard {
+    border: 1px solid rgba(128, 128, 128, 0.45098039215686275) !important;
+    padding: 10px !important;
+    padding-top:5px !important;
+    border-radius: 5px !important;
+}
+.THIS.slds-card__body{
+    height:450px !important;
+}
+.THIS .spinner {
+    position: absolute;
+}
+
+.THIS .saveFormContainer{ 
+    max-width: 80rem !important;
+    min-width: 80rem !important;
+    height: 100% !important;
+    padding:0px !important;
+}
+.THIS .content {
+    height: 100% !important;
+}
+.THIS .slds-modal__container{
+    max-width: 70rem !important;
+    width:80% !important;
+}
+.THIS.slds-card__body{
+    height:450px !important;
+}
+
+.THIS.parentCard {
+    border: 1px solid rgba(128, 128, 128, 0.45098039215686275) !important;
+    padding: 10px !important;
+    padding-top:5px !important;
+    border-radius: 5px !important;
+}
+
+.THIS .slds-p-around--custom {
+    padding-top: 20px !important;
+}
+
+.THIS .slds-truncate {
+    max-width: 300px !important;
+    overflow: hidden  !important;
+    text-overflow: ellipsis  !important;
+    white-space: normal  !important;
+}
+
+.THIS .disableCls {
+    pointer-events: none; 
+}
+
+.THIS .container {
+    width: 80%;
+    margin: auto;
+}
+
+.THIS .one {
+    float: left;
+}
+
+.THIS .slds-required
+{
+    color:white;
+}

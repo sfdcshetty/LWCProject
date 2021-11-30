@@ -1,0 +1,59 @@
+<template>
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header no-border">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <!--<div class='modal-lower-edit-border'></div>-->
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <iframe src={modalDestination} width="100%" height="100%" style="border-style:none; min-height:500px"></iframe>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+               <!--<footer class="slds-modal__footer no-border"></footer>-->
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <lightning-layout>
+            <lightning-layout-item>
+               <iframe src={modalDestination} width="1px" height="1px" style="border-style:none; display:none;"></iframe>
+                <div>
+                    <div class="c-container">
+                        <h2 class="mydocs-header">{title}</h2>
+                        <div class="mydocs-text">{paragraph}</div>
+                        <div>
+                            <ul class="mydocs-list">
+                                <li><img src={shareIcon} class="doc-icon"> <a href={shareUrl}>{shareLabel}</a></li>
+                                <template if:true={presentMeetingNotes}>
+                                    <li><img src={accessIcon} class="doc-icon"> <a onclick={openNotes}>{accessLabel}</a></li>
+                                </template>
+                                <template if:true={presentQuarterlyReport}>
+                                    <li><img src={quarterlyIcon} class="doc-icon"> <a onclick={openQuarterly}>{quarterlyLabel}</a></li>
+                                </template>
+                            </ul>
+                        </div>
+                        <a href={vaultUrl} class="profile-button"><span>{vaultLabel}</span> 
+                            <lightning-icon
+                                    size="xx-small"
+                                    icon-name="utility:chevronright"
+                                    alternative-text={vaultLabel}
+                                ></lightning-icon>
+                        </a>
+                    </div>
+                </div>   
+                
+            </lightning-layout-item>
+    </lightning-layout>
+</template>

@@ -1,0 +1,67 @@
+<template>
+  <footer role="contentinfo" class="footer">
+
+    <lightning-layout multiple-rows vertical-align="center" class="footer-content">
+      <div class="slds-col slds-size_6-of-12 slds-medium-size_3-of-12 footer-logo-container">
+        <div class="x7s-theme__logo-link" style="display:inline-block"></div>
+      </div>
+      <div class="slds-col slds-size_3-of-12 slds-medium-size_5-of-12 nav-list-container">
+        <nav aria-label="Footer Navigation">
+          <ul class="footer-links">
+            <li>
+              <c-x7s-weg-footer-link url={contactUrl} arialabel={contactLabel} linktext={contactText}
+                linkclass="footer-links"></c-x7s-weg-footer-link>
+            </li>
+            <li>
+              <c-x7s-weg-footer-link url={advisorUrl} arialabel={advisorLabel} linktext={advisorText} linkclass="link">
+              </c-x7s-weg-footer-link>
+            </li>
+            <li>
+              <c-x7s-weg-footer-link url={supportUrl} arialabel={supportLabel} linktext={supportText} linkclass="link">
+              </c-x7s-weg-footer-link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="slds-col slds-size_3-of-12 slds-medium-size_4-of-12 nav-list-container slds-p-top_xx-large" style="padding-top:60px; padding-right:25px">
+        <div class="privacy-container">
+          <a class="copy-links" onclick={termsHref}>{termsText}</a>
+          <div class="bullet-container">&bull;</div>
+          <a class="copy-links" onclick={privacyHref}>{privacyText}</a>
+        </div>
+      </div>
+    </lightning-layout>
+
+  <!-- <lightning-layout multiple-rows vertical-align="center" class="footer-content">
+      <div class="slds-col slds-size_3-of-12 copyright-text">{copyText}</div>
+  </lightning-layout> -->
+
+    <!-- <lightning-layout multiple-rows vertical-align="center" class="footer-content">
+      <div class="slds-col slds-size_5-of-12 slds-medium-size_4-of-12 copyright-text">{copyText}</div>
+      <div class="slds-col slds-size_1-of-12 slds-medium-size_5-of-12"></div>
+      <div class="slds-col slds-size_6-of-12 slds-medium-size_3-of-12">
+        <a class="copy-links" onclick={termsHref}>{termsText}</a>
+        <div class="bullet-container">&bull;</div>
+        <a class="copy-links" onclick={privacyHref}>{privacyText}</a>
+      </div>
+    </lightning-layout> -->
+
+    <lightning-layout vertical-align="center" class="footer-content">
+      <div class="slds-col slds-size_1-of-12 disclosure"></div>
+      <div class="slds-col slds-size_10-of-12 disclosure disclosure-text">
+        <p>
+          {footerDisclosureText1} {disclosureLabel} :<a class="copy-links" onclick={goToWeas}>{disclosureLink1}</a> | <a class="copy-links" onclick={goToWeas2}>{disclosureLink2}</a> | <a class="copy-links" onclick={goToWeas3}>{disclosureLink3}</a>. {footerDisclosureText2}
+        </p>
+        <p>&copy; {copyLabel}</p>
+        <!-- <p>Advisory services offered through Wealth Enhancement Advisory Services, LLC (WEAS), a registered investment
+          advisor. This Client Portal is a service offering and constitutes a communication only of WEAS, a registered investment adviser. It is not and shall not be construed as a service offering or communication from any qualified custodian or broker-dealer.</p>
+        <p>Disclosures: <a class="copy-links" onclick={goToWeas}>WEAS ADV Part 2A</a> | <a class="copy-links" onclick={goToWeas2}>WEAS Supplement to ADV Part 2A</a> | <a class="copy-links" onclick={goToWeas3}>WEAS ADV PART 2A Appendix 1</a></p>
+        <p>This site has been published for residents of all 50 states and the District of Columbia. By entering, you certify that you are a resident of one of these states. All information herein has been prepared solely for informational purposes, and is not an offer to buy or sell, or a solicitation of an offer to buy or sell any security.</p>
+        <p>&copy; 2021 Wealth Enhancement Group. All rights reserved.</p> -->
+      </div>
+      <div class="slds-col slds-size_1-of-12 disclosure"></div>
+    </lightning-layout>
+
+  </footer>
+</template>

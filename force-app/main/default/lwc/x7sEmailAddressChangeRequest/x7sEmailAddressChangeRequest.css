@@ -1,0 +1,7 @@
+/**
+ * Created by 7Summits on 4/7/21.
+ */
+.THIS .slds-form-element__label {
+    display : none;
+    visibility : hidden;
+}

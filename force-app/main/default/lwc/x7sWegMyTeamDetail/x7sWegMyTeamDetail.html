@@ -1,0 +1,39 @@
+<template>
+    <lightning-layout-item>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-col slds-size_12-of-12 container">
+                <a href={goBackToTeamsUrl} class="team-detail-back-to-team">&#8249; BACK TO TEAM</a>
+                <div class="team-detail-advisor-profile">Advisor Profile</div>
+                <div class="team-detail-advisor-border">&nbsp;</div>
+            </div>
+            <div class="slds-col slds-size_3-of-12 left-detail">
+                
+                <div class="image-cropper image-cropper-profile">
+                    <img src={advisorPhoto} alt={teamMemberName} class="advisor-image"/>
+                </div>
+
+            </div>
+            <div class="slds-col slds-size_9-of-12 right-detail">
+                <h3 class="team-detail-header">{teamMemberName}</h3>
+                <template if:true={showPosition}>
+                    <h4 class="team-detail-position">{teamMemberPosition}</h4>
+                </template>
+                <ul class="team-info-list">
+                    <template if:true = {showEmail}>
+                        <li class="team-detail-line"><img class="team-detail-icon" src={emailIcon}> <a>{emailAddress}</a></li>
+                    </template>
+                    <template if:true = {showPhone}>
+                        <li class="team-detail-line"><img class="team-detail-icon" src={phoneIcon}> {phoneNumber}</li>
+                    </template>
+                    <template if:true = {showLinkedin}>   
+                        <li class="team-detail-line"><img class="team-detail-icon" src={linkedInIcon}> <a onclick={goToLinkedInHref}>{linkedInProfile}</a></li>
+                    </template>
+                </ul>
+                <div class="team-info-text-body">
+                    <lightning-formatted-rich-text
+                        value= {userBio}></lightning-formatted-rich-text>
+                </div>
+            </div>
+        </div>
+    </lightning-layout-item>
+</template>

@@ -1,0 +1,73 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.x7s-unifi {
+  position: relative;
+  min-height: 800px;
+  padding-left: 100px;
+  font-family: ProximaNova, sans-serif;
+}
+.x7s-unifi .x7s-theme__logo-link {
+  width: 180px;
+  height: 70px;
+}
+.x7s-unifi .slds-button {
+  border-radius: 1.5rem;
+  font-size: 15px;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.x7s-unifi .slds-button.slds-button_neutral {
+  background-color: #f6f8f6;
+  border-color: #f6f8f6;
+  color: #000;
+}
+.x7s-unifi .slds-button.slds-button_neutral:hover {
+  border-color: #000;
+}
+.x7s-unifi .slds-button.slds-button_brand {
+  background-color: #00777a;
+  border-color: #00777a;
+  color: #fff;
+}
+.x7s-unifi .slds-button.slds-button_brand:hover {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+}
+.x7s-unifi .slds-button.slds-button_outline-brand {
+  background-color: #fff;
+  border-color: #00777a;
+  color: #00777a;
+}
+.x7s-unifi .slds-button.slds-button_outline-brand:hover {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+  color: #fff;
+}
+.x7s-progressbar {
+  display: flex;
+}
+.x7s-progressbar .x7s-progressbar_bar {
+  flex: 1 0 auto;
+  height: calc(2 * (1px + 2px) + 1rem);
+  border-radius: calc(1px + 2px + (0.5 * 1rem));
+  border: 1px solid #dce6da;
+  padding: 2px;
+}
+.x7s-progressbar .x7s-progressbar_progress {
+  border-radius: calc(0.5 * 1rem);
+  background: #3f9c35;
+  height: 1rem;
+  min-width: 1rem;
+  width: var(--progress-width, 0);
+  transition: width 0.3s ease;
+}
+.x7s-progressbar .x7s-progressbar_label {
+  padding-left: 0.5em;
+}

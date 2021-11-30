@@ -1,0 +1,122 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" 
+                controller="ScanToSFAccountServicing"
+                access="global" >
+    <lightning:spinner variant="brand" size="small" aura:id="spinner"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute type="boolean" default="true" name="readOnly" />
+    <aura:attribute type="boolean" default="false" name="disableButtons" />
+    <aura:attribute name="documentTypes" type="List" default=""/>
+    <aura:attribute name="message" type="String" default=""/>
+    <aura:attribute name="selectedValue" type="String" default=""/>
+    <aura:attribute name="Document_Folder" type="String" default=""/>
+    <aura:attribute name="src" type="String" default="" />
+    <aura:attribute name="selectedFolderRecord" type="sObject" access="global"/>
+    <aura:attribute name="notificationTheme" type="string" access="global" default="slds-theme_info" />
+    <aura:handler event="c:Docuvault_LookupEvent" 
+                  action="{!c.documentFolderHandler}"/>
+    
+    <div class="slds-hide" style="height: 4rem;" aura:id="notification"> 
+        <div class="slds-notify_container slds-is-relative">
+            <div class="{!'slds-notify slds-notify_toast '+v.notificationTheme}" 
+                 aura:id="toastClass" role="alert">
+                <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top">
+                    <lightning:icon iconName="utility:info" 
+                                    variant="bare" 
+                                    size="small" />
+                </span>
+                <div class="slds-notify__content">
+                    <h2 class="slds-text-heading_small" style="font-size: 13.5px;">
+                        {!v.message}
+                        <aura:if isTrue="{!if (v.src != '', true, false)}">
+                            <span>
+                                <iframe src="{!v.src}" frameBorder="0" width="100%" class="slds-p-around--xx-small"/>
+                            </span>
+                        </aura:if>
+                    </h2>
+                </div>
+                <lightning:buttonIcon class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" 
+                                      iconName="utility:close" 
+                                      variant="bare" 
+                                      onclick="{!c.closeMessage}" />
+                
+            </div>
+        </div>
+    </div>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" 
+             aria-modal="true" aria-describedby="modal-content-id-1"
+             class="slds-modal slds-fade-in-open"
+             >
+        <div class="slds-modal__container " style="width:100%">
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Scan to Salesforce</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium  slds-modal-cus-height" id="modal-content-id-1">
+                
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-form-element">
+                        <lightning:input type="checkbox" 
+                                         label="Document Submission" 
+                                         name="Document Submission" 
+                                         checked="true" 
+                                         aura:id="documentSubmission"
+                                         onchange="{!c.clickEvent}"/>
+                    </div>
+                    
+                    <fieldset class="slds-form-element slds-fieldSet">
+                        
+                        <div class="slds-form-element__control">
+                            <lightning:input type="text" 
+                                             label="File Name" 
+                                             name="Name" 
+                                             aura:id="name"
+                                             />
+                            <lightning:input type="checkbox" 
+                                             label="Ready For Review" 
+                                             name="ReadyForReview" 
+                                             checked="true" 
+                                             aura:id="readyForReview"
+                                             disabled="{!v.readOnly}"/>
+                            
+                            <div class="slds-top-padding">
+                                <lightning:select name="select" 
+                                                  label="Document Type" 
+                                                  disabled="{!v.readOnly}" 
+                                                  value="{!v.selectedValue}"
+                                                  aura:id="document_type">
+                                    
+                                    <option value="">-- None --</option>
+                                    <aura:iteration items="{!v.documentTypes}" var="item">
+                                        <option text="{!item.label}" value="{!item.value}" 
+                                                selected="{!item.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                                
+                                <div class="slds-top-padding">
+                                </div>
+                                <c:Docuvault_Lookup label="Document Folder" 
+                                                    objectAPIName="TVA_CFB__DocuVault_Folders__c"
+                                                    fieldApis="Name"
+                                                    dataLimit=""
+                                                    placeHolder=""
+                                                    isDisabled="{!v.readOnly}"
+                                                    selectedRecord=""
+                                                    /> 
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                </div>
+                
+            </div>
+            <footer class="slds-modal__footer">
+                
+                <lightning:button variant="neutral" label="Close" 
+                                  disabled="{!v.disableButtons}" 
+                                  onclick="{!c.closeAction}" />
+                <lightning:button variant="brand" label="Create" 
+                                  disabled="{!v.disableButtons}" 
+                                  onclick="{!c.createRecord}" />
+            </footer>
+        </div>
+    </section>
+</aura:component>

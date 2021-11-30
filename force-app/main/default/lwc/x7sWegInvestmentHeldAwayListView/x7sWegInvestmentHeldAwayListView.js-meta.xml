@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Investments Held Away</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig
+      targets="lightning__AppPage, lightning__HomePage, lightningCommunity__Default"
+    >
+            <property
+        name="componentTitle"
+        label="Component title"
+        type="String"
+        default="Investments Held Away"
+      />
+            <property
+        name="introParagraph"
+        type="String"
+        label="Intro paragraph"
+        default="These accounts are not editable. Have questions? Contact your advisory team."
+      />
+
+            <property
+        name="addInvestmentHeldAwayHeader"
+        label="Add Held Away modal header"
+        type="String"
+      />
+            <property
+        name="addInvestmentHeldAwayBtnLabel"
+        label="Add Held Away button label"
+        type="String"
+      />
+
+            <property
+        name="editInvestmentHeldAwayHeader"
+        label="Edit Held Away modal header"
+        type="String"
+      />
+            <property
+        name="editInvestmentHeldAwayBtnLabel"
+        label="Edit Held Away button label"
+        type="String"
+      />
+
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

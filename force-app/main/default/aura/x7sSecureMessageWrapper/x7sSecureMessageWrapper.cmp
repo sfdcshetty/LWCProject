@@ -1,0 +1,30 @@
+<!--
+ - Created by keith bonarrigo on 5/26/21.
+ -->
+
+ <aura:component description="x7sDocumentUploaderAuraWrapper" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="myParam" type="Integer" default="1234" access="global"/>
+    <!--<aura:attribute name="successFilesCount" type="Integer" default="0" access="global"/>
+    <aura:attribute name="errorFilesCount" type="Integer" default="0" access="global"/>
+    <aura:attribute name="cloudRecord"
+                    type="TVA_CFB__Cloud_Files__c" access="global"
+                    default="{'sobjectType': 'TVA_CFB__Cloud_Files__c', 'TVA_CFB__Folder__c':''}"
+    />
+    <aura:attribute name="uploadingFile" type="Object" access="global" default="" />
+    <aura:attribute name="uploadStatus" type="Object" access="global" default="" />
+    <aura:attribute name="fileList" type="Object" access="global" default="" />
+    <aura:attribute name="submissionMessage" type="String" access="global" default=""/>
+    <aura:attribute name="faqLink" type="String" access="global" />-->
+    <!--<TVA_CFB:Docuvault_Upload
+            aura:id="uploadFilesComp"
+            recordId="{!v.recordId}"
+            uploadStatus="{!v.progressBar}"
+            displayFile="{!v.uploadingFile}"
+            successFiles="{!v.successFilesCount}"
+            errorFiles="{!v.errorFilesCount}"/>-->
+    <!-- Document Uploader LWC -->
+    <c:x7sWegSecureMessage
+            myparam = "{!v.myParam}"
+            recordid="{!v.recordId}"
+    />
+</aura:component>

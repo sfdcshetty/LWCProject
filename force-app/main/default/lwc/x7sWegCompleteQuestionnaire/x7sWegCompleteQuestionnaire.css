@@ -1,0 +1,72 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.c-container {
+  background-color: #fff;
+  background-clip: padding-box;
+  border: solid 15px rgba(255, 255, 255, 0.7);
+  margin-top: 30px;
+  padding-top: 15px;
+  border-radius: 20px;
+  position: relative;
+  z-index: 100;
+  margin-left: -15px;
+  max-width: 620px;
+}
+.complete-icon {
+  width: 43px;
+  height: 52px;
+  float: left;
+  margin: 15px 20px 20px 50px;
+}
+.complete-header {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 10px 0px 0px 140px;
+}
+.complete-text {
+  color: #909299;
+  margin-left: 140px;
+}
+.launch-button {
+  height: 31px;
+  margin: 24px 253px 33px 140px;
+  padding: 10px 14px 24px 17px;
+  border-radius: 20px;
+  border: solid 1px #3f9c35;
+  background-color: #3f9c35;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
+  /* width: 240px; */
+  white-space: nowrap;
+  cursor: pointer;
+}
+.launch-button-label {
+  display: inline-block; 
+  margin-right:24px;
+}
+.profile-button a {
+  color: #fff;
+}
+.profile-chevron {
+  height: 10px;
+}
+.white {
+  --sds-c-icon-color-foreground-default: #fff !important;
+  --sds-c-icon-color-foreground: #fff !important;
+  --sds-c-icon-color-background: #3f9c35 !important;
+}
+.launch-button .slds-icon_container {
+  top: -1px; /* nudge the icon icon up a bit since it's not square */
+  position: relative;
+}

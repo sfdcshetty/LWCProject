@@ -1,0 +1,45 @@
+<template>
+    <form class="x7s-finprofile_add-trusted-contact">
+            <lightning-layout multiple-rows class="slds-gutters">
+
+                <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                    <h1 class="x7s-text-heading_large">{header}</h1>
+                    <template iterator:it={paragraphs}>
+                        <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-body_regular">
+                            <lightning-formatted-rich-text value={it.value}></lightning-formatted-rich-text>
+                        </p>
+                    </template>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <lightning-input label="First name" value={firstName} onchange={handleChangeFirstName}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <!-- nothing displayed here -->
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <lightning-input label="Last name" value={lastName} onchange={handleChangeLastName}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <!-- nothing displayed here -->
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <lightning-input type="tel" label="Phone" value={phone} onchange={handleChangePhone}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <!-- nothing displayed here -->
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <lightning-input type="email" label="Email address" value={email} onchange={handleChangeEmail}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large">
+                    <!-- nothing displayed here -->
+                </lightning-layout-item>
+
+            </lightning-layout>
+        </form>
+
+</template>

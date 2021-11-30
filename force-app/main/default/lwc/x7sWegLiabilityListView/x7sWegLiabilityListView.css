@@ -1,0 +1,67 @@
+footer.slds-modal__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.liabilityHeader {
+    margin-top: 1em;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.36;
+    text-align: left;
+    color: #000000;
+}
+
+.inputField{
+    width: 20em;
+}
+
+.addLiability {
+    /* padding: 10px;
+    font-weight: bold;
+    border-color:#20B2AA;
+    color: #20B2AA;
+    background-color: white;
+    border-radius: 25px; */
+
+    display: inline-block;
+    height: 31px;
+    margin:0; /* 0.1px 261px 13px 7px; */
+    padding: 10px 14px 24px 17px;
+    border-radius: 20px;
+    border: solid 1px #01777a;
+    background-color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 0.9;
+    text-align: center;
+    color: #01777a;
+    width: 160px;
+    cursor: pointer;
+}
+
+.iconContainer {
+    width: 0.875rem;
+    display: inline-block;
+}
+
+.liabilityIcon {
+    fill: #01777a;
+}
+
+/* .completeLine{
+    width: 20%;
+    margin-top: 30px;
+    margin-bottom:  30px;
+    border: solid 1px #3f9c35;
+} */
+
+.liabilityListContainer{
+    font-size: 16px;
+}
+
+.totalAmount{
+    font-size: 20px;
+    margin-top: 10px;
+    color: #000000;
+}

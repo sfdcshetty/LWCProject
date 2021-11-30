@@ -1,0 +1,103 @@
+<template>
+    <div class="x7s-finprofile_financial-goals">
+        <lightning-spinner if:false={hideLoading}></lightning-spinner>
+
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+                <template iterator:it={paragraphs}>
+                    <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-body_regular">
+                        <lightning-formatted-rich-text value={it.value}></lightning-formatted-rich-text>
+                    </p>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" large-device-size="6" class="slds-col slds-m-bottom_large">
+                <h2 class="slds-text-heading_medium">Short-Term</h2>
+                <div class="x7s-finprofile_checkbox-buttons slds-form-element">
+                    <div class="slds-form-element__control">
+                        <template iterator:it={buttons}>
+                            <template if:true={it.value.isShortTerm}><!-- short-term only -->
+                                <label key={it.value.Label} class="slds-checkbox">
+                                    <input type="checkbox" value="{it.value.Label"
+                                        data-label={it.value.Label} data-selected={it.value.selected}
+                                        checked={it.value.selected} onchange={handleChangeGoal}>
+                                    <span class="slds-checkbox__label">
+                                        <lightning-icon icon-name={it.value.Icon_Name__c}></lightning-icon>
+                                        <span class="slds-form-element__label">
+                                            {it.value.Label}
+                                        </span>
+                                    </span>
+                                </label>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" large-device-size="6" class="slds-col slds-m-bottom_large">
+                <div class="x7s-finprofile_checkbox-buttons slds-form-element">
+                    <h2 class="slds-text-heading_medium">Long-Term</h2>
+                    <div class="slds-form-element__control">
+                        <template iterator:it={buttons}>
+                            <template if:true={it.value.isLongTerm}><!-- long-term only, code is otherwise the same as short-term -->
+                                <label key={it.value.Label} class="slds-checkbox">
+                                    <input type="checkbox" value="{it.value.Label" 
+                                        data-label={it.value.Label} data-selected={it.value.selected}
+                                        checked={it.value.selected} onchange={handleChangeGoal}>
+                                    <span class="slds-checkbox__label">
+                                        <lightning-icon icon-name={it.value.Icon_Name__c}></lightning-icon>
+                                        <span class="slds-form-element__label">
+                                            {it.value.Label}
+                                        </span>
+                                    </span>
+                                </label>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        
+        <!-- custom goals -->
+
+        <lightning-layout multiple-rows class="slds-gutters slds-container_small slds-container_center">
+
+            <lightning-layout-item size="12" class="slds-text-align_center">
+                <lightning-button icon-name="utility:add" variant="brand-outline" 
+                    label="Add a Custom Goal"
+                    onclick={handleShowAddCustomGoal}></lightning-button>
+            </lightning-layout-item>
+
+            <template if:true={showAddCustomGoal}>
+                <lightning-layout-item size="12" class="x7s-finprofile_add-custom-goal-form">
+                    <lightning-input label="Goal Name" maxlength="100" required
+                        value={tempCustomGoalName} onchange={handleChangeGoalName} autocomplete="off"></lightning-input>
+                    <lightning-textarea label="Goal Description" maxlength="255" 
+                        value={tempCustomGoalDescription} onchange={handleChangeGoalDescription}></lightning-textarea>
+                    <div class="slds-text-align_right slds-m-top_medium">
+                        <lightning-button variant="brand-outline" label="Cancel"
+                            class="slds-m-horizontal_small" onclick={handleCancelAddCustomGoal}></lightning-button>
+                        <lightning-button variant="brand" label="Add Goal" disabled={isInvalidCustomGoal}
+                            onclick={handleAddCustomGoal}></lightning-button>
+                    </div>
+                </lightning-layout-item>
+            </template>
+
+            <lightning-layout-item size="12" class="slds-m-top_small"></lightning-layout-item>
+            <template iterator:it={customGoals}>
+                <lightning-layout-item key={it.value.Id} size="8">
+                    <span class="x7s-finprofile_custom-goal-name">{it.value.Goal_Name__c} </span>
+                    -- 
+                    <span class="x7s-finprofile_custom-goal-description"> {it.value.Description__c}</span>
+                </lightning-layout-item>
+                <lightning-layout-item key={it.value.Id} size="4">
+                    <lightning-button variant="base" label="Remove" 
+                        onclick={handleRemoveCustomGoal} data-id={it.value.Id}></lightning-button>
+                </lightning-layout-item>
+            </template>
+
+        </lightning-layout>
+
+    </div>
+</template>

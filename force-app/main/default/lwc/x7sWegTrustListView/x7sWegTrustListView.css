@@ -1,0 +1,45 @@
+.trustHeader {
+    margin-top: 1em;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.36;
+    text-align: left;
+    color: #000000;
+}
+
+.addTrust {
+    padding: 10px;
+    font-weight: bold;
+    border-color:#20B2AA;
+    color: #20B2AA;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.iconContainer {
+    width: 0.875rem;
+    display: inline-block;
+}
+
+.addTrustIcon {
+    fill: #20B2AA;
+}
+
+.totalAmount{
+    font-size: 20px;
+    margin-top: 10px;
+    float: right;
+    color: #000000;
+}
+
+.addTrust{
+    float: left;
+}
+
+.inputField{
+    width: 20em;
+}
+
+.trustListContainer{
+    font-size: 16px;
+}

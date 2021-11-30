@@ -1,0 +1,46 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.THIS .x7s-layout_shaded,
+.THIS.x7s-layout_shaded {
+  background: #eee;
+}
+.THIS .x7s-layout_full.siteforceContentArea,
+.THIS.x7s-layout_full.siteforceContentArea {
+  max-width: 100%;
+}
+.THIS .x7s-layout_padded,
+.THIS.x7s-layout_padded {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.THIS .sticky-nav {
+  display: block;
+}
+.THIS .x7s-theme-vertical-nav-container {
+  position: relative;
+  z-index: 2;
+}
+@media (min-width: 768px) {
+  .THIS .x7s-theme-vertical-nav-container {
+    display: block;
+  }
+  .THIS .x7s-theme-pinnable__pinned .x7s-theme-vertical-nav-container {
+    position: fixed;
+    width: inherit;
+    top: 0;
+    z-index: 1;
+  }
+}
+@media (min-width: 1024px) {
+  .THIS .x7s-theme-pinnable__pinned .x7s-theme-vertical-nav-container {
+    position: fixed;
+    width: inherit;
+    top: 0;
+    z-index: 1;
+  }
+}

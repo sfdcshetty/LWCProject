@@ -1,0 +1,18 @@
+<!--
+ - Copyright (c) 2020. 7Summits Inc. All rights reserved.
+-->
+<aura:tokens extends="force:base">
+	<aura:token name="headerImageUrl" value=''/>
+	<aura:token name="brandLogoImage" value=''/>
+	<aura:token name="labelColor" value='{!colorTextLabel}'/>
+	<aura:token name="linkColor" value='{!colorTextLink}'/>
+	<aura:token name="linkHoverColor" value='{!colorTextLinkHover}'/>
+	<aura:token name="logoUrl" value=""/>
+	<aura:token name="brandColor" value='{!colorBrand}'/>
+	<aura:token name="brandHoverColor" value='{!colorBackgroundButtonBrandHover}'/>
+	<aura:token name="buttonHoverColor" value="{!colorBackgroundButtonBrandHover}"/>
+	<aura:token name="textColor" value='{!colorTextDefault}'/>
+	<aura:token name="inverseTextColor" value='{!colorTextInverse}'/>
+	<aura:token name="borderColor" value='{!colorBorder}'/>
+	<aura:token name="transformText" value='{!textTransform}'/>
+</aura:tokens>

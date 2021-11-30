@@ -1,0 +1,38 @@
+<template>
+    <lightning-layout multiple-rows class="slds-gutters">
+
+        <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+            <h1 class="x7s-text-heading_large">{header}</h1>
+            <template iterator:it={paragraphs}>
+                <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-body_regular">
+                    <lightning-formatted-rich-text value={it.value}></lightning-formatted-rich-text>
+                </p>
+            </template>
+            <div class="slds-m-vertical_large">
+                <!-- <lightning-button variant="brand" onclick={handleClickOpenVault}
+                        icon-name="utility:new_window" icon-position="right"
+                        label=""></lightning-button> -->
+                <a class="slds-button slds-button_brand" href={vaultUrl} target="_blank">
+                    {vaultButtonLabel}
+                    <lightning-icon icon-name="utility:new_window" size="x-small" class="slds-p-left_small"></lightning-icon>
+                </a>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-layout multiple-rows pull-to-boundary="small">
+        <!-- copied from x7sFinancialProfileDocListModal -->
+        <template iterator:list={documents}>
+            <lightning-layout-item key={list.value.title} size="12" medium-device-size="6" large-device-size="4" padding="around-small">
+                <h3 class="slds-text-heading_label">{list.value.title}</h3>
+                <ul>
+                    <template iterator:item={list.value.items}>
+                        <li key={item.value}>{item.value}</li>
+                    </template>
+                </ul>
+            </lightning-layout-item>
+        </template>
+
+    </lightning-layout>
+
+</template>

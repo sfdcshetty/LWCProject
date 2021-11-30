@@ -1,0 +1,21 @@
+.THIS .slds-page-header__col-title {
+    cursor : pointer !important;
+}
+
+.THIS .wrapCls {
+    max-width : 17rem !important;
+    overflow-y : auto !important;
+    overflow-wrap : break-word !important;
+    word-wrap : break-word !important;
+    -webkit-hyphens : auto !important;
+    -moz-hyphens : auto;
+    -ms-hyphens : auto;
+    hyphens : auto;
+    white-space : normal !important;
+    position : relative;
+    max-height : 3.65625rem;
+}
+
+.THIS .btnCls {
+    z-index : 100001 !important;
+}

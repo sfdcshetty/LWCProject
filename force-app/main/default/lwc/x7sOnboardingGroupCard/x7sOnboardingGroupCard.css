@@ -1,0 +1,23 @@
+/*
+ * Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+ */
+
+
+.onboarding-group-card {
+    height: 100%;
+    background: #f9f9f9;
+    border-radius: token(borderRadiusMedium);
+    padding: 1rem;
+}
+
+.block {
+    display: block;
+}
+
+.slds-card {
+    padding: 1rem;
+}
+
+.slds-dropdown {
+    text-align: left;
+}

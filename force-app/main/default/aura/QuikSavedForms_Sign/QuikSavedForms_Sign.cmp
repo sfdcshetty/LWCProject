@@ -1,0 +1,153 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="QuikFormHandler">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="eventForCloseModal" event="c:CloseEvent" action="{!c.cancel}"/>
+    <aura:attribute name="envelopeList" type="List" />
+    <aura:attribute name="showModal" type="Boolean" />
+    <aura:attribute name="showFormsModal" type="Boolean" />
+    <aura:attribute name="viewFormModal" type="Boolean" />
+    <aura:attribute name="formHTMLURL" type="String" />
+    <aura:attribute name="showSignModal" type="Boolean" />
+    <aura:attribute name="displaySpinner" type="Boolean"/>
+    <aura:attribute name="spinnerForOpenEnv" type="Boolean"/>
+    <aura:attribute name="showSpinner" type="Boolean" />
+    
+    <aura:method name="parentMethod" action="{!c.closeSignsModal}"/> 
+    
+    <aura:html tag="style">
+        .saveFormContainer{ 
+        max-width: 80rem !important;
+        min-width: 80rem !important;
+        height: 100% !important;
+        padding:0px !important;
+        }
+        .content {
+        height: 100% !important;
+        }     
+    </aura:html>
+    
+    <div>
+        <div class="slds-card slds-p-around_small">
+            <div class="slds-page-header slds-page-header_record-home">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h1>
+                                                        <span class="slds-page-header__title slds-truncate" title="Saved esign Envelope">
+                                                            Saved eSign Envelope
+                                                        </span>
+                                                    </h1>
+                                                </td>
+                                                <td>
+                                                    <button class="slds-button slds-button_icon slds-p-left--x-small slds-p-right--x-small" 
+                                                            title="Refresh Forms" onclick="{!c.refreshForms}">
+                                                        <lightning:icon iconName="utility:refresh" size="x-small"/>
+                                                        <span class="slds-assistive-text">Refresh</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-page-header__col-actions">
+                        <div class="slds-page-header__controls">
+                            <div class="slds-page-header__control">
+                                <lightning:button label="New Envelope" variant="brand" onclick="{!c.openFormsModal}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-p-around--small" style="max-height:500px; overflow-y:auto">
+                <aura:if isTrue="{!v.displaySpinner}">
+                    <lightning:spinner size="small" variant="brand"/>
+                </aura:if>
+                <table >
+                    <aura:iteration items="{!v.envelopeList}" var="asQuikForm">
+                        <tr style="margin-bottom:1% !important">
+                            <td style="width:30%"><div class="slds-truncate">Form Name:</div></td>
+                            <td style="width:70%" class="wrapCls">
+                                <div class="wrapCls">{!asQuikForm.AS_Quik_Forms_Group__r.Name}</div>
+                            </td>
+                        </tr>
+                        <tr style="margin-bottom:1% !important">
+                            <td style="width:30%"><div class="slds-truncate">Form Numbers:</div></td>
+                            <td style="width:70%" class="wrapCls">
+                                <div class="wrapCls">{!asQuikForm.Form_Numbers__c}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%">Form Status:</td>
+                            <td style="width:70%">{!asQuikForm.AS_Quik_Forms_Group__r.DocuSign_Envelope_Status__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%">Last Updated Date:</td>
+                            <td style="width:70%">
+                                <ui:outputDateTime value="{!asQuikForm.AS_Quik_Forms_Group__r.LastModifiedDate}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%">Submitted Date:</td>
+                            <td style="width:70%">
+                                <ui:outputDateTime value="{!asQuikForm.AS_Quik_Forms_Group__r.CreatedDate}"/>
+                            </td>
+                        </tr><br/>
+                        <tr>
+                            <td style="width:30%">View Form:</td>
+                            <td style="width:70%">
+                                <a href="{!'/apex/QuikHTMLView?showAttach=true&amp;id='+asQuikForm.Id}" target="_blank">Click Here</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><hr style="margin:10px"/></td>
+                        </tr>
+                    </aura:iteration>
+                </table>
+            </div>
+        </div>
+        <aura:if isTrue="{!v.showModal}">
+            <div style="height:640px;">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" 
+                         aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container saveFormContainer">
+                        <div class="slds-modal__content slds-p-around_medium content">
+                            <lightning:buttonIcon class="slds-float--right" 
+                                                  iconName="utility:close" 
+                                                  variant="border-filled" 
+                                                  onclick="{!c.closeModal}" alternativeText="close" />                            
+                            <aura:if isTrue="{!v.showSpinner}">
+                                <lightning:spinner size="medium" variant="brand" />
+                            </aura:if>
+                            <iframe src="{!'/apex/QuikHTMLView?showAttach=true&amp;id='+v.formHTMLURL}" 
+                                    style="height:100%; width:100%; border:none" 
+                                    scrolling="no"/>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>
+        <!-- for updating envelope-->
+        <aura:if isTrue="{!v.viewFormModal}">
+            <lightning:buttonIcon class="slds-float--right" 
+                                  iconName="utility:close" 
+                                  variant="border-filled" 
+                                  onclick="{!c.closeViewFormModal}" alternativeText="close" />
+            <c:QuikNewEnvelope recordId="{!v.recordId}" />
+        </aura:if>
+        <!-- for creating new envelope-->
+        <aura:if isTrue="{!v.showFormsModal}">
+            <c:QuikNewEnvelope recordId="{!v.recordId}" />
+        </aura:if>      
+    </div>
+</aura:component>

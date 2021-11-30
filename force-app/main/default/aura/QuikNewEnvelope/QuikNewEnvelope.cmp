@@ -1,0 +1,338 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global" controller="Quik_NewEnvelopeController" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="selectedStep" type="string" default="step1" /> 
+    <aura:attribute name="spinnerForOpenEnv" type="Boolean" />
+    <aura:attribute name="baseURL" type="String" />
+    <aura:attribute name="AsQuikformList" type="List" />
+    <aura:attribute name="formGroupId" type="List" />
+    <aura:attribute name="docOrder" type="List" />
+    <aura:attribute name="docSignersOrder" type="List" />
+    <aura:attribute name="signerList" type="List" />
+    <aura:attribute name="StepName" type="String" default="Select Envelope Record" />
+    <aura:attribute name="docPreviewListSize" type="Integer" default="" />
+    <aura:attribute name="CurrentPreview" type="Integer" default="1" />
+    <aura:attribute name="documnentHasValue" type="Boolean" default="true" />
+    <aura:registerEvent name="eventForCloseModal" type="c:CloseEvent" />
+    
+    <aura:html tag="style">
+        .forceToastMessage.slds-notify--toast {
+        max-width: 22rem !important;
+        min-width: 22rem!important;
+        }
+        .saveFormContainer { 
+        max-width: 80rem !important;
+        min-width: 80rem !important;
+        height: 110% !important;
+        padding:0px !important;
+        }
+        .content {
+        height: 100% !important;
+        }     
+    </aura:html>
+    
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+             class="slds-modal slds-fade-in-open">       
+        <div class="slds-modal__container saveFormContainer content">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-float_right" title="Close" onclick="{!c.cancel}">
+                    <lightning:icon iconName="utility:close" alternativeText="Select"  size="xx-small" />
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.StepName}</h2>
+            </header> 
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning:progressIndicator currentStep="{!v.selectedStep}" type="path">
+                    <lightning:progressStep aura:id="step2Id" label=" Confirm Signers" value="step1" onclick="{!c.doInit}" />
+                    <lightning:progressStep aura:id="step3Id" label="Document Order" value="step2" onclick="{!c.saveRecipients}" />
+                    <lightning:progressStep aura:id="step4Id" label="Review Document" value="step3" onclick="{!c.getFormView}" />
+                    <lightning:progressStep aura:id="step5Id" label="Confirm and Send" value="step4" onclick="{!c.confirmAndSend}" />
+                </lightning:progressIndicator><br/>
+                <aura:if isTrue="{!v.spinnerForOpenEnv}">
+                    <div class="demo-only" style="height:6rem">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+                <div class="outer-div">
+                    <div style="height:600px !important;">
+                        <aura:if isTrue="{!v.selectedStep == 'step1'}">
+                            <br/><div style="height:455px !important;">
+                            <div style="border:0.2px solid lightgrey;border-radius: 10px;margin-left: 4%;margin-right:4%">
+                                <lightning:accordion aura:id="accordion" activeSectionName="1" allowMultipleSectionsOpen="true">
+                                    <lightning:accordionSection name="1" label="Household / Business">
+                                        <aura:set attribute="body">
+                                            <div style="height:150px !important; overflow-y:auto;">
+                                                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                                    <thead>
+                                                        <tr class="slds-line-height_reset">
+                                                            <th class="" scope="col" style="width: 7%;">
+                                                                <div class="slds-truncate" title="Type">Signer Type</div>
+                                                            </th>
+                                                            <th class="" scope="col" style="width: 15%;">
+                                                                <div title="Form ID" >
+                                                                    <span style="color:red"></span>Name</div>
+                                                            </th>
+                                                            <th class="" scope="col" style="width: 18%;">
+                                                                <div class="slds-truncate" title="" >
+                                                                    <span style="color:red"></span>Email</div>
+                                                            </th>
+                                                            <th class="" scope="col" style="width: 12%;">
+                                                                <div class="slds-truncate" title="Phone">
+                                                                    <span style="color:red"></span>Phone</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <aura:iteration items="{!v.signerList}" var="signer">
+                                                            <tr style="height: 40px !important;">
+                                                                <td style="width: 7%;">
+                                                                    {!signer.Signer_Type__c}
+                                                                </td>
+                                                                <td style="width: 15%;">
+                                                                    {!signer.Name__c}
+                                                                </td>
+                                                                <td style="width: 18%;">
+                                                                    {!signer.Email__c}
+                                                                </td>
+                                                                <td style="width: 12%;">
+                                                                    <div style="width: 70%;">
+                                                                        {!signer.Phone_Number__c}
+                                                                        &nbsp;&nbsp;
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </aura:iteration>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </aura:set>
+                                    </lightning:accordionSection>
+                                </lightning:accordion>
+                            </div><br/>
+                            </div><br/>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!v.selectedStep == 'step2'}">
+                            <div style="height:455px !important">
+                                <aura:if isTrue="{!v.docOrder.length > 0}">
+                                    <div style="height:450px; overflow-y:auto;width:100%">
+                                        <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th class="" scope="col" style="width:95px" >Order </th>
+                                                    <th class="" scope="col" style="width: 220px !important;">Form Name</th>
+                                                    <th class="" scope="col" style="">Form Numbers</th>
+                                                    <th class="" scope="col" style="">Signers</th>
+                                                    <th class="" scope="col" style="">Created Date/Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="width:100%">
+                                                <aura:iteration items="{!v.docOrder}" var="doc">
+                                                    <tr>
+                                                        <td style="width: 95px !important;">
+                                                            <ui:inputnumber  class="field" value="{!doc.orderWrap}" />
+                                                        </td>
+                                                        <td style="width: 220px !important;">
+                                                            {!doc.nameWrap.FAS_List__c}
+                                                        </td>
+                                                        <td style=" text-overflow: inherit;
+                                                                   white-space: normal;
+                                                                   word-wrap: break-word;
+                                                                   overflow-wrap: break-word; ">
+                                                            <div style="max-width: 250px;" title="{!doc.formNumber}">{!doc.formNumber}</div>
+                                                        </td>
+                                                        <td style=" text-overflow: inherit;
+                                                                   white-space: normal;
+                                                                   word-wrap: break-word;
+                                                                   overflow-wrap: break-word; max-width: 250px !important;">
+                                                            <aura:iteration items="{!doc.recipients}" var="rec" indexVar="indx">
+                                                                <aura:if isTrue="{!indx+1 == doc.recipients.length }">
+                                                                    {!rec.Name__c}
+                                                                    <aura:set attribute="else">
+                                                                        {!rec.Name__c},
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </aura:iteration>
+                                                        </td>
+                                                        <td style="width: 220px !important;">
+                                                            {!doc.createdDate}
+                                                        </td>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <div class="slds-float_right">
+                                        <button style="border-radius: 18px;" class="slds-button slds-button_brand"  
+                                                onclick="{!c.saveAndCloseStep3}" id="btSubmit">Close</button>&nbsp;&nbsp;   
+                                        <button style="border-radius: 18px;" class="slds-button slds-button_brand" 
+                                                onclick="{!c.getFormView}" id="btSubmit2">Save &amp; Next</button> 
+                                    </div>
+                                </aura:if>
+                            </div>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!v.selectedStep == 'step3'}">
+                            <aura:if isTrue="{!v.documnentHasValue}">
+                                <aura:iteration items="{!v.AsQuikformList}" var="eachQuikForm" indexVar="index">
+                                    <aura:if isTrue="{!v.CurrentPreview == index+1}">
+                                        <ui:message title="{!eachQuikForm.Name}" severity="info" closable="false">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <ul>
+                                                            <li class="slds-list_dotted">
+                                                                You must Save your document before selecting Next or Confirm Signers.
+                                                            </li>
+                                                        </ul></td>
+                                                    <td>
+                                                        <div align="right">
+                                                            <aura:if isTrue="{!v.CurrentPreview != 1}">
+                                                                <lightning:button label="Previous" variant="neutral" title="Previous" 
+                                                                                  onclick="{!c.previousUrl}"/>
+                                                            </aura:if>
+                                                            <aura:if isTrue="{!lessthan(v.CurrentPreview, v.docPreviewListSize)}">
+                                                                <lightning:button label="Next" variant="brand" title="Next" 
+                                                                                  onclick="{!c.nextUrl}"/>
+                                                            </aura:if>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </ui:message>
+                                        <div style="height:600px; overflow-y:auto;">
+                                            <iframe src="{!eachQuikForm.URL}" 
+                                                    style="height:601px; width:100%; border:none; overflow-y:auto" scrolling="no"/>
+                                        </div>
+                                    </aura:if>
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <center>
+                                        <span style="font-size:120%;color:red">No form selected to review</span> 
+                                    </center>
+                                </aura:set>
+                            </aura:if>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!v.selectedStep == 'step4'}">
+                            <div style="height:600px !important;">
+                                <aura:if isTrue="{!not(empty(v.docSignersOrder))}">
+                                    <aura:if isTrue="{!v.documnentHasValue}">
+                                        <div style="min-height:80px !important; max-height:230px; overflow-y:auto; margin-top: 10px; 
+                                                    border: 0.5px solid lightgrey; border-radius: 6px;">
+                                            <div style="padding: 4px;"><span style="font-size:150%;margin-left: 24px;">Documents</span></div>
+                                            <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                                <thead>
+                                                    <tr class="slds-line-height_reset">
+                                                        <th class="" scope="col" style="width:15%;">Form Name</th>
+                                                        <th class="" scope="col" style="width:30%;">Form number</th>
+                                                        <th class="" scope="col" style="width:30%;">Signers</th>
+                                                        <th class="" scope="col" style="width:15%;">Delivered To</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <aura:iteration items="{!v.docSignersOrder}" var="doc">
+                                                        <aura:if isTrue="{!doc.orderWrap != 0}">
+                                                            <tr style="height: 2px !important;">
+                                                                <td style="width:15%; word-break: break-word;">
+                                                                    {!doc.nameWrap.FAS_List__c}
+                                                                </td>
+                                                                <td style="width: 30%; text-overflow: inherit; white-space: normal; 
+                                                                           overflow-wrap: break-word; word-break: break-all; padding: 5px;">
+                                                                    <div style="">
+                                                                        {!doc.formNumber}
+                                                                    </div>
+                                                                </td>
+                                                                <td style="width: 30%; text-overflow: inherit; white-space: normal; 
+                                                                           overflow-wrap: break-word; word-break: break-word; padding: 5px;">
+                                                                    <div style="">
+                                                                        <aura:iteration items="{!doc.recipients}" var="rec" indexVar="indx">
+                                                                            <aura:if isTrue="{!indx+1 == doc.recipients.length }">
+                                                                                {!rec.Name__c}
+                                                                                <aura:set attribute="else">
+                                                                                    {!rec.Name__c},
+                                                                                </aura:set>
+                                                                            </aura:if>
+                                                                            
+                                                                        </aura:iteration>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="width:15%;">{!doc.deliverTo}</td>
+                                                            </tr>
+                                                        </aura:if>
+                                                    </aura:iteration>
+                                                </tbody>                           
+                                            </table>
+                                        </div><br/>
+                                        <aura:set attribute="else">
+                                            <center>
+                                                <span style="font-size:120%;color:red">No Document selected </span> 
+                                            </center>
+                                        </aura:set>
+                                    </aura:if>
+                                    <div style="max-height:250px; overflow-y:auto; margin-top: 10px; border: 0.5px solid lightgrey;
+                                                border-radius: 6px;">
+                                        <div style="padding: 4px;"> <span  style="font-size:150%;margin-left: 24px;">Signers</span></div>
+                                        <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th style="width:25% !important">Role
+                                                    </th>
+                                                    <th class="" scope="col" style="width:25% !important">Name
+                                                    </th>
+                                                    <th class="" scope="col" style="width:25% !important">Email
+                                                    </th>
+                                                    <th class="" scope="col" style="width:25% !important">SMS Number
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <aura:iteration items="{!v.signerList}" var="signer">
+                                                    <tr style="height: 3px !important;">
+                                                        <td style="width: 7%;">
+                                                            {!signer.Signer_Type__c}
+                                                        </td>
+                                                        <td style="width: 15%;">
+                                                            {!signer.Name__c}
+                                                        </td>
+                                                        <td style="width: 18%;">
+                                                            {!signer.Email__c}
+                                                        </td>
+                                                        <td style="width: 12%;">
+                                                            <div style="width: 70%;">
+                                                                {!signer.Phone_Number__c}
+                                                                &nbsp;&nbsp;
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div><br/>
+                                    <aura:set attribute="else">
+                                        <center>
+                                            <span style="font-size:120%;color:red">Please complete all steps to proceed</span> 
+                                        </center>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="slds-float_right">
+                                <button style="border-radius: 18px; margin-top: -350px;" class="slds-button slds-button_brand"  
+                                        onclick="{!c.sendAllForms}" id="btSubmit">Send Envelope</button>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div> 	
+</aura:component>

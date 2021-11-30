@@ -1,0 +1,100 @@
+<apex:page standardController="TVA_CFB__Cloud_Files__c" extensions="Docuvault_DownloadSelectedFiles" recordSetVar="Member">
+    <apex:slds />
+    <apex:includeScript value="{!URLFOR($Resource.TVA_CFB__JQueryMin, '')}"/>
+    <style>
+        .slds-hide { 
+            display:none !important;
+        }
+    </style>
+    <script>
+        function recordView() {
+            var view = '{!$User.UITheme}';
+            var recordId = '{!$CurrentPage.parameters.id}';
+            if(view == 'Theme4d') {
+                sforce.one.back(true);
+            } else {
+                window.close ();
+                
+            }
+        }
+        var fileURLs = [];
+        function downloadFile (i) {
+            
+            $("#loading").show();
+            var length = fileURLs.length;
+            
+            if (i < length) {
+
+                var recordId = fileURLs[i];
+                
+                Docuvault_DownloadSelectedFiles.generateDownloadURL(recordId , function (result,event){
+                    if(event.status) {
+                        if (result != '') {
+                            var replacedString = result.replace(/amp;/g, '');
+                            var ifrm = document.createElement("IFRAME");
+                                ifrm.setAttribute("src", replacedString );
+                                ifrm.frameBorder = 0;
+                                ifrm.setAttribute("width","80%");
+                                ifrm.setAttribute("height","30%");
+                            document.body.appendChild(ifrm);
+                            ++i;
+                            downloadFile(i);
+                        }
+                        else {
+                            ++i;
+                            downloadFile(i);
+                        }
+                    }
+                    else {
+                        ++i;
+                        downloadFile(i);
+                    }
+                });
+            }
+            if (i == length) {
+                $("#loading").hide();
+                var UIview = '{!$User.UITheme}';
+                if(UIview == 'Theme4d') {
+                    $('#backbtn').removeClass ('slds-hide');
+                }
+                $('#completed').html("{!$Label.tva_cfb__downloaded_successfully}");
+            }
+               
+        }
+    </script>
+    <apex:form >
+        <div class="slds-scope">
+            <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" id="completed">
+                {!$Label.tva_cfb__processing_request}
+            </div>
+            <center>
+                <div id="loading">
+                    <img src="{!URLFOR($Resource.TVA_CFB__Lightning_Zip_Docuvault, '/assets/images/spinners/slds_spinner_brand.gif')}" width="55px" height="55px" />
+                </div>
+            
+                 <div id="backbtn" class="slds-hide">
+                    <apex:commandLink onclick="recordView()" styleClass="slds-button slds-button--neutral" id="goBack-btn" style="margin-top:10px">
+                        <img src="{!URLFOR($Resource.TVA_CFB__Lightning_Zip_Docuvault, '/assets/icons/utility/back_60.png')}" width="16px" height="14px"/> <b>{!$Label.TVA_CFB__Back_Button}</b>
+                    </apex:commandLink>
+                </div>
+            </center>
+            
+            <input type="hidden" id="fileCount" value="{!count}"/>
+            <apex:repeat value="{!cloudFileIDs}" var="recIds">
+                
+                <script> 
+                    var recID = '{!JSENCODE(recIds)}';
+                    
+                    fileURLs.push(recID); 
+                    
+                    if ( fileURLs.length == $('#fileCount').val ())
+                        downloadFile(0);
+                    
+                </script>
+                
+                
+            </apex:repeat>
+        </div>
+    </apex:form>
+    
+</apex:page>

@@ -1,0 +1,26 @@
+<template>
+    <div class="x7s-finprofile_financial-goals">
+
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+                <template iterator:it={paragraphs}>
+                    <p if:true={it.value} key={it.value} class="slds-m-top_small slds-text-body_regular">
+                        <lightning-formatted-rich-text value={it.value}></lightning-formatted-rich-text>
+                    </p>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" large-device-size="6" class="slds-col slds-m-bottom_large">
+                <!-- <lightning-textarea value={primaryWealth} label={header} variant="label-hidden" maxlength="255"
+                    onchange={handleChangePrimaryWealth}></lightning-textarea> -->
+                <lightning-combobox label={header} variant="label-hidden"
+                    value={primaryWealth} options={optionsWealth}
+                    onchange={handleChangePrimaryWealth}></lightning-combobox>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </div>
+    
+</template>

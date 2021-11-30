@@ -1,0 +1,110 @@
+<!--
+ - Created by jasonmiletta on 4/7/21.
+ -->
+
+<!-- X7S Email Address Change Request -->
+<template>
+    <div class="profile-button" onclick={openModal} data-id="email">Change an Email Address <div class="icon-container"><img src={chevron} class="profile-chevron" /></div></div>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container" if:true={onStep1}>
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Edit Email</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>For whom would you like to edit an email address</p>
+                </div>
+                <div class="slds-form-element__control">
+                    <span class="slds-radio">
+                      <input type="radio" id="radio-43" value="radio-43" name="default" checked="" />
+                      <label class="slds-radio__label" for="radio-43">
+                        <span class="slds-radio_faux"></span>
+                        <span class="slds-form-element__label">FirstName</span>
+                      </label>
+                    </span>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral">Cancel</button>
+                    <button class="slds-button slds-button_brand">Continue</button>
+                </footer>
+            </div>
+            <div class="slds-modal__container" if:true={onStep2}>
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                        <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">Edit Email for FirstName</h2>
+                </header>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-3">
+                        <span>Type</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <span>Email Address</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <span>Primary</span>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3">
+                        <span>Personal</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input type="email" label="Personal Email"></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input type="Checkbox" label="Primary"></lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3">
+                        <span>Work</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input type="email" label="Work Email"></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input type="Checkbox" label="Primary"></lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3">
+                        <span>Other</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input type="email" label="Other Email"></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input type="Checkbox" label="Primary"></lightning-input>
+                    </div>
+
+                    <span>NOTE: Your primary email address is your username. Changing it will take up to 1 week.</span>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral">Cancel</button>
+                    <button class="slds-button slds-button_brand">Save Email</button>
+                </footer>
+            </div>
+            <div class="slds-modal__container" if:true={onStep3}>
+                <header class="slds-modal__header">
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate">Change is pending</h2>
+                </header>
+                <div>
+                    <span>You've changed your primary email address. This change is pending and may take up to one (1) week. You will be notified when it has been updated in our systems.</span>
+                    <span>Please continue to use your primary email, <b>email</b> as your username when logging in.</span>
+                    <br/>
+                    <span>If you have questions or would like to cancel, please contact your advisor team.</span>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand">Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

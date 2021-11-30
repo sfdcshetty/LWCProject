@@ -1,0 +1,305 @@
+<apex:page controller="DocuvaultFileRequest" showheader="false" title="File Upload">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <apex:slds />
+    <apex:stylesheet value="{!URLFOR ($Resource.DocuvaultFileRequest, '/Docuvault/fileRequest.css')}"/>
+    <!--<apex:includeScript value="{!URLFOR($Resource.DocuvaultTracking, '/Tracking.js')}"/>-->
+    <style>
+        .upload {
+            background-image: url('{!URLFOR ($Resource.DocuvaultFileRequest, "/Docuvault/images/Background.png")}');
+            background-size: cover;
+        }
+        #message {
+            overflow-x:hidden;
+        }
+        #message p {
+            overflow-x:hidden;
+            padding: 2em;
+            
+        }
+        
+        .footer p{
+            color:rgba(21, 140, 189, 0.72);
+            font-family: -webkit-body;
+            font-size:23px;
+        }
+    </style>
+    <div id="container" class="content">
+        <div id="header" class="content-slicing">
+            
+        </div>
+        
+        <div id="message" class="slds-text-align_center content-slicing {!if (message == '', 'slds-hide', '')}" >
+            <apex:outputPanel rendered="{!if (errorMessage != '', true, false)}">
+                <div id="completePanel" style="height: 4rem;">
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                            
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small">{!errorMessage}</h2>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!if (errorMessage == '', true, false)}">
+                <p>{!message}</p>
+            </apex:outputPanel>
+        </div>
+
+        <div id="UploadSection" class="upload slds-text-align_center content-slicing">
+            <apex:outputPanel rendered="{!if (errorMessage != '', true, false)}">
+                <div id="completePanel" style="height: 4rem;">
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                            
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small">{!errorMessage}</h2>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!if (errorMessage == '', true, false)}">
+                <c:StandaloneFileUpload /> 
+                <div class="upload-btn-wrapper uploadImage" id="uploadImgPanel">
+                    <img class="upload-btn" src="{!URLFOR ($Resource.DocuvaultFileRequest, '/Docuvault/images/UploadButton.png')}"/>
+                    <input class="upload-btn" type="file" name="myfile" multiple="true" id="fileid" onchange="showFiles();"/>
+                </div>
+            
+                <div class="innerDiv" id="innerDiv">
+                    <div id="displayFiles" style="padding:5px; width:100%" class="text-center"></div>
+                </div>
+                
+                <div style="padding-top: 10px" class="centerAlign">
+                    <button onclick="uploadFiles()" 
+                            class="slds-button slds-button_brand" 
+                            id="btnUpload" >
+                                {!$Label.TVA_CFB__File_Request16}
+                            </button>
+                </div>
+                <div class="slds-hide" id="completePanel" style="height: 4rem;">
+                    <div class="slds-notify_container slds-is-relative" style="padding:1em">
+                        <div class="slds-notify slds-theme_info" style="border-radius: 10px;padding: 0.5em;">
+                            
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small" id="msg"></h2> 
+                                <div style="padding-top:5px;" >
+                                    
+                                    <button class="slds-button slds-button_neutral" onclick="window.close ();">Close Tab</button>
+                                    <button class="slds-button slds-button_brand" onclick="location.reload ();">Upload More Files</button>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+        
+        </div>
+        <div class="footer content-slicing slds-hide" id="message" style="overflow:hidden">
+        </div>
+        
+        
+    </div>
+    <center>
+        <div style="height: 4rem;display:none" id="errorBlock">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                    
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small" id="errorMsg" ></h2>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <input type="text" class="slds-hide" value="{!myIP}" id="myipAddress" />
+    </center>
+    <apex:outputPanel rendered="{!if (errorMessage == '', true, false)}">
+        <script>
+            var filesRemoved = '';
+            var files = '';
+            var count = 0;
+            var filesList = new Array();
+            var finalArrayToUpload = new Array();
+            var successCount = 0;
+            var failedCount = 0;
+            function showFiles() {
+                filesRemoved += '';
+                files = $('#fileid').prop('files');
+                
+                var counter = count;
+                count = count+files.length;
+                var j = 0;
+                
+                for (var i = counter;i < count ;i++ ) {
+                    filesList[i] = files[j];
+                    var maindiv = document.createElement("div");
+                    maindiv.id = i;
+                    maindiv.className = 'subDiv';
+        
+                    var div = document.createElement("div");
+                    div.className = 'subDivName';
+                    div.innerHTML = files[j].name;
+                    maindiv.appendChild(div);
+        
+                    var span = document.createElement('div');
+                    span.className = 'subDivBtn';
+                    
+                    span.innerHTML = '<div style="cursor:pointer" id="' + i +'" onclick="removethisFile(this)" >x</div>';
+                    maindiv.appendChild(span);
+                    
+                    $("#uploadImgPanel").removeClass ('uploadImage');
+                    document.getElementById('displayFiles').appendChild(maindiv);
+                    j = j+1;
+                    
+                }
+                $('#btnUpload').css ('display', 'block');
+                
+            }
+            
+            function removethisFile(e) {
+                filesRemoved += e.id+',';
+                $("#"+e.id).remove();
+                
+                var list = document.querySelectorAll('div.text-center div.subDiv');
+                if (0 == list.length) {
+                    $('#btnUpload').css ('display', 'none');
+                }
+                
+            }
+            function uploadFiles() {
+                $ ('#btnUpload').hide ();
+                $ ('#innerDiv').attr('style','max-height:20em !important');
+                var tempList = '';
+                for (var a = 0; a < filesList.length;a++ )
+                {
+                    if (filesRemoved.indexOf (a) == -1)
+                    {
+                        tempList += a+',';
+                    }
+                }
+                
+                tempList = tempList.substring(0, tempList.length - 1);
+                var finalList = tempList.split(",");
+                
+                finalArrayToUpload = new Array();
+                
+                for (var i=0; i < finalList.length ;i++ )
+                {
+                    var j = finalList[i];
+                    finalArrayToUpload[i] = filesList[j];
+                }
+                $("#displayFiles").empty();
+                for (var i=0; i < finalArrayToUpload.length;i++) {
+                
+                    var maindiv = document.createElement("div");
+                    maindiv.className = 'subDiv';
+                    maindiv.id = 'main_'+i;
+                    maindiv.tabIndex = 'tab_'+i;
+                    
+                        var div = document.createElement("div");
+                        div.className = 'subDivName one';
+                        div.style = 'width: 75% !important;';
+                        div.innerHTML = finalArrayToUpload[i].name;
+                        maindiv.appendChild(div);
+                        
+                        var div2 = document.createElement("div");
+                        div2.innerHTML = '0%';
+                        div2.id = 'status_'+i; 
+                        div2.className = "two";
+                        div2.style = "color:white";
+                        maindiv.appendChild(div2);
+                    
+                    
+                    document.getElementById('displayFiles').appendChild(maindiv);
+                    document.getElementById('displayFiles').style.display = 'block';
+                }
+                $ ('#uploadImgPanel').hide ();
+                successCount = 0;
+                failedCount = 0;  
+                
+                startFileUpload (finalArrayToUpload, 0); 
+                       
+                
+            }
+            function startFileUpload (fileList, i) {
+                if (fileList.length != 0 ) {
+                    
+                    if (i < fileList.length) {
+                        var obj = {
+                            '{!parentObjectName}' : '{!parentRecID}',
+                            TVA_CFB__Parent_ID__c : '{!parentRecID}',
+                            TVA_CFB__File_Request__c : '{!fileRequestID}',
+                            TVA_CFB__Folder__c : '{!folderName}'
+                        };
+                        var signatureDetailsMap = new Object ();            
+                        signatureDetailsMap['parentObjectAPI'] = '{!parentObjectName}';
+                        signatureDetailsMap['parentID'] = '{!parentRecID}';
+                        signatureDetailsMap['fileName'] = fileList[i].name;
+                        if (fileList[i].size <= 10000000) {                        
+                            document.getElementById ('main_'+i).focus();
+                            uploadSingleFile(obj, signatureDetailsMap, fileList[i], function(result, statusFlag, resultType) {
+                                if (resultType == 'Error') {
+                                    failedCount += 1;
+                                    
+                                    var failedIcon = '<img src="{!URLFOR ($Resource.DocuvaultFileRequest, '/Docuvault/images/cancel.png')}" style="width:20px;margin-top:2px"></img>';
+                                    $ ('#status_'+i).html(failedIcon);
+                                }
+                                
+                                if (resultType == 'Success') {
+                                    successCount += 1;
+        
+                                    var succesIcon = '<img src="{!URLFOR ($Resource.DocuvaultFileRequest, '/Docuvault/images/successIcon.png')}" style="width:20px;margin-top:2px"></img>';
+                                    $ ('#status_'+i).html(succesIcon);
+                                }
+                                
+                                
+                                if (resultType == 'Uploading') {
+                                    $ ('#status_'+i).html(result+'%');
+                                }
+            
+                                if (i < fileList.length && statusFlag) {
+                                    var myIp = document.getElementById ('myipAddress').value;
+                                    DocuvaultFileRequest.createJournalRecord ('Secure File Receipt', '{!fileRequestID}', myIp,
+                                                                        function (trackingResult, event){ 
+                                        if (event.status) { 
+                                            ++i;
+                                            startFileUpload (fileList, i);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        else {
+                            failedCount += 1;
+                            var failedIcon = '<img src="{!URLFOR ($Resource.DocuvaultFileRequest, '/Docuvault/images/cancel.png')}" style="width:20px;margin-top:2px"></img>';
+                            $ ('#status_'+i).html(failedIcon);
+                            ++i;
+                            startFileUpload (fileList, i);
+                        }
+                    }
+                    if (i == fileList.length) {
+                        DocuvaultFileRequest.updateFileRequestUploadCount (successCount, '{!fileRequestID}',
+                                                                    function (uploadResult, event){ 
+                            if (event.status) {              
+                                var message = '<span>{!$Label.TVA_CFB__Successful_Upload}</span>'
+                                                +'<br/>'
+                                            +'<span>Success:'+successCount+"</span> &nbsp; <span>Failed:"+failedCount+"</span></span>"; 
+                                
+                                $ ('#displayFiles').html ('');
+                                $ ('#msg').html (message);
+                                $ ('#completePanel').removeClass ('slds-hide');
+                            }
+                        });
+                        
+                    }
+                }
+            }
+        </script>
+    </apex:outputPanel>
+    
+</apex:page>

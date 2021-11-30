@@ -1,0 +1,329 @@
+<aura:component implements="flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,force:appHostable" access="global" controller="wv6_FinancialAccountsGridViewController">
+    <!-- Attribute definiation starts here-->
+    <aura:attribute name="objectName" type="string" default="FinServ__FinancialAccount__c"/>
+    <aura:attribute name="recordTypes" type="string" />
+    <aura:attribute name="fieldSetName" type="string" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="accountType" type="String" />
+    <aura:attribute name="statuses" type="String" />
+    <aura:attribute name="isEditMode" type="Boolean" default="false"/>
+    <aura:attribute name="financialAccountData" type="wv6_FinancialAccountsGridViewWrapper" />
+    <aura:attribute name="financialAccountDataFirstCopy" type="wv6_FinancialAccountsGridViewWrapper" />
+    <aura:attribute name="title" type="String" />
+    <aura:attribute name="pageSizeLimit" type="Integer" default="3"/>
+    <aura:attribute name="pageSize" type="Integer" />
+    <aura:attribute name="isCollapsed" type="Boolean" default="true" />
+    <aura:attribute name="isForceSaveFired" type="Boolean" default="false" />
+    <!--<aura:attribute name="isActionPicklistPopulated" type="Boolean" default="false" /> -->
+    <aura:attribute name="recordEditOptions" type="String[]" default="Edit"/>
+    <aura:attribute name="showSpinner" type="boolean" default="false"/>
+    <aura:attribute name="currentElementId" type="String" default=""/>
+    <aura:attribute name="groupBy" type="String" default=""/>
+    <aura:attribute name="sortBy" type="String" default=""/>
+    <aura:attribute name="showErrorToast" type="boolean" default="false"/>
+    <aura:attribute name="showEdit" type="boolean" default="false"/>
+    <aura:attribute name="selectedRecordId" type="String" />
+    <aura:attribute name="showNewRecordModal" type="boolean" default="false"/>
+    <aura:attribute name="recordTypeOptions" type="list"/>
+    <aura:attribute name="finAccGridWrap" type="wv6_FinancialAccountsGridViewWrapper" />
+    <aura:attribute name="readOnlyMode" type="Boolean" default="false" />
+    <aura:attribute name="allInOneTab" type="boolean" default="false"/>
+    
+    
+    <aura:attribute name="listSize" type="String" default=""/>
+    <!-- Attribute definiation ends here-->
+    
+    <!-- Refresh grid view event handler-->
+    <aura:handler name="refreshView" event="c:wv6_RefreshFinancialAccountsGridView" action="{!c.doInit}"/>
+    
+    <!-- handler definiation starts here-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- Component body starts here -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner aura:id="mySpinner"  variant="brand" alternativeText="Please wait..." />
+    </aura:if>
+    
+    <lightning:notificationsLibrary aura:id="toast"/>
+    
+    <aura:if isTrue="{!v.readOnlyMode}">
+        <div class="slds-modal slds-fade-in-open slds-hide" aria-hidden="false" role="dialog" aura:id="modal">
+            <div class="slds-modal__content slds-p-around__medium" aura:id="investAdjustModal"/>   
+        </div>
+        <article class="slds-card" >
+            <!-- Grid view body section starts here -->
+            <div class="slds-card__body slds-card__body_inner overflowClass">
+                <div class="titleDiv" onclick="{!c.hideActionMenu}">
+                    <span title="Category Name" class="title slds-p-top_xx-small slds-p-left_xx-small">{!v.title + ' (' + v.listSize + ')'}</span>                                                
+                    <span class="slds-float_right slds-p-right_xx-small slds-p-top_xx-small">
+                        <aura:if isTrue="{!!v.allInOneTab}">
+                            <lightning:button variant="neutral" label="Edit" onclick="{! c.editGrid }" />
+                        </aura:if>
+                        <lightning:button variant="neutral" label="New" onclick="{! c.createRecord }" />
+                    </span>
+                </div>
+                <aura:if isTrue="{!not(empty(v.finAccGridWrap.fieldLabelList))}">
+                    
+                    <table class="slds-table slds-table_cell-buffer">
+                        <tbody>
+                            <tr onclick="{!c.hideActionMenu}">
+                                <aura:iteration items="{!v.finAccGridWrap.fieldLabelList}" var="fieldLabel" indexVar="index" >
+                                    <th class="headerCell">{!fieldLabel}</th>
+                                </aura:iteration>
+                                <aura:if isTrue="{!!v.allInOneTab}">
+                                    <th style="width:10px;" >
+                                        <!--Action-->
+                                    </th>
+                                </aura:if>    
+                            </tr>
+                            
+                            <aura:iteration items="{!v.finAccGridWrap.categoryWrapperList}" var="categoryWrapper" indexVar="outerListIndex">
+                                <aura:iteration items="{!categoryWrapper.sObjects}" var="sObject" indexVar="headerIndx">
+                                    <aura:if isTrue="{!lessthan(sObject.recordNumber, v.pageSize)}">
+                                        <aura:if isTrue="{!and(not(empty(categoryWrapper.category)), headerIndx == 0)}">
+                                            <div class="CategoryNameDiv" onclick="{!c.hideActionMenu}"> 
+                                                <span title="Category Name">{!categoryWrapper.category}</span>
+                                            </div>
+                                        </aura:if>	
+                                        <tr>
+                                            <aura:if isTrue="{!sObject.showField1Value}">
+                                                <td onclick="{!c.hideActionMenu}">
+                                                    <lightning:button variant="base" value="{!sObject.recordId}" 
+                                                                      label="{!sObject.field1Value}" 
+                                                                      title="{!sObject.field1Value}" 
+                                                                      onclick="{! c.navigate }"/>
+                                                    <!--<ui:outputURL value="{!'/'+sObject.recordId}" label="{!sObject.field1Value}" target="_blank"/>-->
+                                                </td>
+                                            </aura:if>
+                                            <aura:if isTrue="{!sObject.showField2Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field2Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField3Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field3Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField4Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field4Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField5Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field5Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField6Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field6Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField7Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field7Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField8Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field8Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField9Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field9Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField10Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field10Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField11Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field11Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!sObject.showField12Value}"><td onclick="{!c.hideActionMenu}"><ui:outputText value="{!sObject.field12Value}"/></td></aura:if>
+                                            <aura:if isTrue="{!!v.allInOneTab}">
+                                                <td style="width:20px;">
+                                                    <lightning:buttonIcon iconName="utility:down" name="{!sObject.recordId}" variant="border" alternativeText="Settings" size="x-small" onclick="{!c.showRecordActionList}" iconClass="dark" />
+                                                    <div id="{!sObject.recordId + 'menulist'}" class="branding-actions actionMenu popupTargetContainer uiPopupTarget uiMenuList forceActionsDropDownMenuList uiMenuList--left uiMenuList--default" data-aura-rendered-by="2064:0" data-aura-class="uiPopupTarget uiMenuList forceActionsDropDownMenuList uiMenuList--left uiMenuList--default" aria-labelledby="2029:0" style="{!v.objectName == 'FinServ__FinancialAccount__c' ?  'left: -160%; opacity: 1;position: absolute;' : 'left: -30%; opacity: 1;position: absolute;'}" >
+                                                        <div class="branding-actions actionMenu" role="menu" data-aura-rendered-by="2058:0">
+                                                            <ul class="scrollable" role="presentation" data-aura-rendered-by="2060:0">
+                                                                <aura:iteration items="{!v.recordEditOptions}" var="action">
+                                                                    <li role="presentation" data-aura-rendered-by="2081:0" class="uiMenuItem" data-aura-class="uiMenuItem">
+                                                                        <a href="javascript:void(0);" onclick="{!c.onSelectChange}"  data-aura-rendered-by="2082:0" name="{!action + ':' + sObject.recordId}" role="menuitem" aria-disabled="false" tabindex="0" title="Delete" id="ActionMenu">
+                                                                            <div title="{!action}" data-aura-rendered-by="2100:0" class="forceActionLink" data-aura-class="forceActionLink">{!action}</div>
+                                                                        </a>
+                                                                    </li>
+                                                                </aura:iteration>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </aura:if>
+                                        </tr>
+                                    </aura:if>
+                                </aura:iteration>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    <BR/>
+                    <div class="slds-align_absolute-center" onclick="{!c.hideActionMenu}">                        
+                        <aura:If isTrue="{!v.isEditMode}">
+                            <lightning:button variant="neutral" label="Cancel" onclick="{! c.cancel }" />
+                            <lightning:button variant="brand" label="Save" onclick="{! c.save }" />
+                        </aura:If>
+                    </div>
+                    
+                    <aura:If isTrue="{!greaterthan( v.finAccGridWrap.listSize, v.pageSizeLimit)}">
+                        <BR/>
+                        <div class="expandCollapse" data-aura-rendered-by="70:2092;a">
+                            <aura:if isTrue="{!v.isCollapsed}">
+                                <a onclick="{!c.expandGrid}">View All</a>
+                                <aura:set attribute="else">
+                                    <a onclick="{!c.collapseGrid}">Collapse</a>
+                                </aura:set>
+                            </aura:if>
+                        </div>   	
+                    </aura:If>
+                    <aura:set attribute="else">
+                        <div style="padding: 5px !important;">
+                            <ui:outputText value="No records to display." />
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </article>	
+        <aura:set attribute="else">
+            <article class="slds-card" > 
+                <div class="slds-card__header slds-grid">
+                </div>
+                <!-- Grid view body section starts here -->
+                <div class="slds-card__body slds-card__body_inner overflowClass">
+                    <div class="titleDiv">
+                        <span title="Category Name" class="title slds-p-top_xx-small slds-p-left_xx-small">{!v.title + ' (' + v.listSize + ')'}</span>                                                
+                        <span class="slds-float_right slds-p-right_xx-small slds-p-top_xx-small"><lightning:button variant="neutral" label="Edit" onclick="{! c.editGrid }" /><lightning:button variant="neutral" label="New" onclick="{! c.createRecord }" /></span>
+                    </div>
+                    <aura:if isTrue="{!not(empty(v.financialAccountData.categoryWrapperList))}">
+                        <table class="slds-table slds-table_cell-buffer">
+                            <tbody>
+                                
+                                <aura:iteration items="{!v.financialAccountData.categoryWrapperList}" var="categoryWrapper" indexVar="outerListIndex">
+                                    <!-- Grid view body collapsed section starts here. This section show limited records -->    
+                                    
+                                    <aura:iteration items="{!categoryWrapper.recordFieldValuesList}" var="fieldValues" indexVar="headerIndx">
+                                        <aura:if isTrue="{!lessthan(fieldValues[0].recordNumber, v.pageSize)}">
+                                            <aura:if isTrue="{!and(outerListIndex== 0 , headerIndx == 0) }">
+                                                <tr>
+                                                    <aura:iteration items="{!fieldValues}" var="field" indexVar="index">
+                                                        <aura:If isTrue="{!index > 0}">
+                                                            <aura:if isTrue="{!and(field.apiName == 'Name', v.title == 'Additional Income')}">
+                                                                <th class="headerCell">Additional Income Name</th>
+                                                                <aura:set attribute="else">
+                                                                    <aura:if isTrue="{!and(field.apiName == 'Name', v.title == 'Insurance')}">
+                                                                        <th class="headerCell">Insurance Account Name</th>
+                                                                        <aura:set attribute="else">
+                                                                            <aura:if isTrue="{!and(field.apiName == 'WEGP1_AsOfDate__c', v.title == 'Assets and Liabilities')}">
+                                                                                <th class="headerCell" style="width:13.5%">As of Date</th>
+                                                                                <aura:set attribute="else">
+                                                                                    <aura:if isTrue="{!field.fieldType == 'DATE'}" >
+                                                                                        <th class="headerCell" style="width:13.5%">{!field.label}</th>
+                                                                                        <aura:set attribute="else">
+                                                                                            <th class="headerCell" >{!field.label}</th>
+                                                                                        </aura:set>
+                                                                                    </aura:if>     
+                                                                                </aura:set>
+                                                                            </aura:if>
+                                                                        </aura:set>
+                                                                    </aura:if>
+                                                                </aura:set>
+                                                            </aura:if>
+                                                        </aura:If>
+                                                    </aura:iteration>
+                                                </tr>
+                                            </aura:if>
+                                            <aura:if isTrue="{!and(not(empty(categoryWrapper.category)), headerIndx == 0)}">
+                                                <div class="CategoryNameDiv"> 
+                                                    <span title="Category Name">{!categoryWrapper.category}</span>
+                                                </div>
+                                            </aura:if>
+                                            <tr>
+                                                <aura:iteration items="{!fieldValues}" var="fieldValue" indexVar="recordIndex">
+                                                    <aura:if isTrue="{!recordIndex > 0}">
+                                                        <aura:if isTrue="{!fieldValue.apiName == 'Name'}" >
+                                                            <td id="{!fieldValues[0].fieldValue}">
+                                                                <aura:If isTrue="{!fieldValue.isEdit}">
+                                                                    <ui:inputText value="{!fieldValue.fieldValue}" />
+                                                                    <aura:set attribute="else">
+                                                                        <lightning:button variant="base" value="{!fieldValues[0].fieldValue}" 
+                                                                                          label="{!fieldValue.displayLabel}" 
+                                                                                          title="{!fieldValue.displayLabel}" 
+                                                                                          onclick="{! c.navigate }"/>
+                                                                        <!--<lightning:formattedUrl value="{! '/'+fieldValues[0].fieldValue}" label="{!fieldValue.displayLabel}" tooltip="{!fieldValue.fieldValue}"/>-->
+                                                                    </aura:set>
+                                                                </aura:If>
+                                                            </td>
+                                                            <aura:set attribute="else">
+                                                                <td id="{!fieldValues[0].fieldValue}" >   <!-- Ganesh 04252018 : Commented this out as WEG has decided to remove this functionality : style="{!fieldValue.valueChanged == true ? 'font-weight: bold;' : ''}" -->
+                                                                    <aura:if isTrue="{!fieldValue.isEdit}">
+                                                                        <aura:if isTrue="{!or(fieldValue.fieldType == 'DATE', fieldValue.fieldType == 'DATETIME')}">
+                                                                            <ui:inputDate label="" value="{!fieldValue.fieldValue}" displayDatePicker="true" format="MM/DD/YYYY"/>
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{!fieldValue.fieldType == 'PERCENT'}">
+                                                                            <ui:inputNumber value="{!fieldValue.fieldValue}" format="##.0000%"/>
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{!fieldValue.fieldType == 'CURRENCY'}">
+                                                                            $ <ui:inputNumber label="" value="{!fieldValue.fieldValue}" format="###,###,##0.00" class="width85"/>
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{!fieldValue.fieldType == 'STRING'}">
+                                                                            <ui:inputText label=""  value="{!fieldValue.fieldValue}"/>
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{!fieldValue.fieldType == 'BOOLEAN'}">
+                                                                            <ui:inputCheckbox value="{!fieldValue.fieldValue}"/>
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{!fieldValue.fieldType == 'PICKLIST'}">
+                                                                            <lightning:select class="slds-m-bottom_medium" value="{!fieldValue.fieldValue}">
+                                                                                <aura:iteration items="{!fieldValue.picklistEntries}" var="ple">
+                                                                                    <ui:inputSelectOption text="{!ple.plEntryValue}" label="{!ple.plEntryLabel}" value="{!ple.plEntryValue == fieldValue.fieldValue}"/>
+                                                                                </aura:iteration>
+                                                                            </lightning:select>
+                                                                        </aura:if>
+                                                                        <aura:set attribute="else">
+                                                                            <aura:if isTrue="{!fieldValue.fieldType == 'CURRENCY'}">
+                                                                                <span class="slds-float_right">
+                                                                                     <lightning:formattedNumber value="{!fieldValue.fieldValue}" style="currency" currencyCode="USD"/>
+                                                                                    <aura:if isTrue="{!fieldValue.valueChanged}">*</aura:if>
+                                                                                </span>                                           
+                                                                                <aura:set attribute="else">
+                                                                                    <aura:if isTrue="{!fieldValue.fieldType == 'PICKLIST'}">
+                                                                                        <ui:outputText value="{!fieldValue.displayLabel}"/>
+                                                                                        <aura:set attribute="else">
+                                                                                            <aura:if isTrue="{!fieldValue.fieldType == 'PERCENT'}">
+                                                                                                <ui:outputText value="{!fieldValue.fieldValue*100}"/>%
+                                                                                                <aura:set attribute="else">
+                                                                                                    <ui:outputText value="{!fieldValue.fieldValue}"/>
+                                                                                                </aura:set>
+                                                                                            </aura:if>  
+                                                                                        </aura:set>
+                                                                                    </aura:if>
+                                                                                </aura:set>
+                                                                            </aura:if>
+                                                                        </aura:set>
+                                                                    </aura:if>
+                                                                </td>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </aura:if>
+                                                </aura:iteration>
+                                            </tr>
+                                        </aura:if>
+                                    </aura:iteration>  
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        <aura:if isTrue="{!greaterthan( v.financialAccountData.listSize, v.pageSizeLimit)}">
+                            <BR/>
+                            <div class="expandCollapse" data-aura-rendered-by="70:2092;a">
+                                <aura:if isTrue="{!v.isCollapsed}">
+                                    <a onclick="{!c.expandGrid}">View All</a>
+                                    <aura:set attribute="else">
+                                        <a onclick="{!c.collapseGrid}">Collapse</a>
+                                    </aura:set>
+                                </aura:if>
+                                <!--<a href="#" data-aura-rendered-by="10:2092;a">View All</a>render facet: 48:2092;a-->
+                            </div>   	
+                        </aura:if>
+                        <BR/>
+                        <div class="slds-align_absolute-center">                        
+                            <aura:If isTrue="{!v.isEditMode}">
+                                <lightning:button variant="neutral" label="Cancel" onclick="{! c.cancel }" />
+                                <lightning:button variant="brand" label="Save" onclick="{! c.save }" />
+                            </aura:If>
+                        </div>
+                        <BR/>
+                        <aura:set attribute="else">
+                            <div style="padding: 5px !important;">
+                                <ui:outputText value="No records to display." />
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <!-- Grid view body section ends here -->
+            </article>
+        </aura:set>
+    </aura:if>
+    
+    <!--Modal Section -->
+    <aura:if isTrue="{!v.showNewRecordModal}">
+        <c:wv6_RecordTypeSelection objectName="{!v.objectName}" accountId="{!v.recordId}" recordTypeOptions="{!v.recordTypeOptions}" primaryOwnerId="{!v.finAccGridWrap.primaryOwnerId}"/>
+    </aura:if>
+    
+    <!--Modal Section -->
+    <aura:if isTrue="{!v.showEdit}">
+        <c:wv6_RecordEdit recordId="{!v.selectedRecordId}" accountId="{!v.recordId}"/>
+    </aura:if>
+    <!-- Component body ends here -->
+</aura:component>

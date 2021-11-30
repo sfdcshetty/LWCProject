@@ -1,0 +1,25 @@
+<template>
+    <div class="x7s-finprofile_social-security-benefit">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">{header}</h1>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={showPrimary} size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label={primaryName} type="number" formatter="currency" step="1"
+                                    placeholder="Round to the nearest dollar" autocomplete="off"
+                                    value={primaryAmount}
+                                    onchange={handleChangePrimaryBenefit}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={showSecondary} size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label={secondaryName} type="number" formatter="currency" step="1"
+                                    placeholder="Round to the nearest dollar" autocomplete="off"
+                                    value={secondaryAmount}
+                                    onchange={handleChangeSecondaryBenefit}></lightning-input>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </div>
+</template>

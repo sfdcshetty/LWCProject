@@ -1,0 +1,20 @@
+/**
+ * 7Summits_Theme - Front-end assets used for the 7Summits Theme
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.THIS .x7s-layout_shaded,
+.THIS.x7s-layout_shaded {
+  background: #eee;
+}
+.THIS .x7s-layout_full.siteforceContentArea,
+.THIS.x7s-layout_full.siteforceContentArea {
+  max-width: 100%;
+}
+.THIS .x7s-layout_padded,
+.THIS.x7s-layout_padded {
+  padding-left: 20px;
+  padding-right: 20px;
+}

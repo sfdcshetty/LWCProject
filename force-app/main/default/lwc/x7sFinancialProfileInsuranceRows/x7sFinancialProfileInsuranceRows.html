@@ -1,0 +1,149 @@
+<template>
+    
+    <lightning-layout multiple-rows class="slds-gutters">
+        <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+            <h1 class="x7s-text-heading_large">{header}</h1>
+            <!-- <p class="slds-m-top_small"></p> -->
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <template iterator:it={insurancePoliciesOfType}>
+        <lightning-layout key={it.value.Id} vertical-align="end" multiple-rows class="slds-gutters">
+
+            <lightning-layout-item if:false={it.first} size="12" class="slds-col slds-border_bottom slds-m-bottom_medium slds-medium-order_1">
+                <!-- no content -->
+            </lightning-layout-item>
+
+
+
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_2">
+                <lightning-input label={labelName} value={it.value.Name} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeName}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_2">
+                <lightning-input label="Policy Number" 
+                    type="text" value={it.value.Policy_Number__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangePolicyNumber}>
+                </lightning-input>
+            </lightning-layout-item>
+            
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_2">
+                <lightning-combobox label="Owner" options={optionsOwner} value={it.value.Owner__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeOwner}>
+                </lightning-combobox>
+            </lightning-layout-item>
+
+
+    
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_3">
+                <lightning-input label="As Of Date" 
+                    type="date" value={it.value.As_Of_Date__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeAsOfDate}>
+                </lightning-input>
+            </lightning-layout-item>
+            
+            <!-- <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_3">
+                <lightning-combobox label="Term" options={optionsTerm} value={it.value.Term__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeTerm}>
+                </lightning-combobox>
+            </lightning-layout-item> -->
+
+            <lightning-layout-item size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_3">
+                <lightning-input label={labelInsured} 
+                    type="text" value={it.value.Insured__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeInsured}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="6" class="slds-col slds-m-bottom_large slds-m-top_x-large slds-medium-order_3 slds-show_medium">
+                <!-- no content -->
+            </lightning-layout-item>
+
+            
+            
+            <lightning-layout-item if:true={showBenefitAmount} size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_4">
+                <lightning-input label="Benefit Amount" 
+                    type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" value={it.value.Benefit_Amount__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeBenefitAmount}>
+                </lightning-input>
+            </lightning-layout-item>
+            
+            <lightning-layout-item if:true={showDeathBenefit} size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_4">
+                <lightning-input label="Death Benefit" 
+                    type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" value={it.value.Death_Benefit__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeDeathBenefit}>
+                </lightning-input>
+            </lightning-layout-item>
+            
+            <lightning-layout-item if:true={showCashValue} size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_4">
+                <lightning-input label="Cash Value" 
+                    type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" value={it.value.Cash_Value__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeCashValue}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={showCoverageAmount} size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_4">
+                <lightning-input label="Coverage Amount" 
+                    type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" value={it.value.Coverage_Amount__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangeCoverageAmount}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item if:true={showPremium} size="12" medium-device-size="3" class="slds-col slds-m-bottom_large slds-medium-order_4">
+                <lightning-input label="Premium" 
+                    type="number" formatter="currency" step="1"
+                    placeholder="Round to the nearest dollar" value={it.value.Premium__c} 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    autocomplete="off"
+                    onchange={handleChangePremium}>
+                </lightning-input>
+            </lightning-layout-item>
+
+
+
+            <lightning-layout-item size="6" medium-device-size="3" class="slds-col slds-m-bottom_large slds-m-top_x-large slds-medium-order_2">
+                <lightning-button variant="base" icon-name="utility:close" 
+                    label="Remove this row" 
+                    data-row-id={it.value.Id} data-row-index={it.index} 
+                    onclick={handleClickRemoveRow}>
+                </lightning-button>
+            </lightning-layout-item>
+
+
+    
+            <!-- slds-medium-order_## only goes up to 12 -->
+            <lightning-layout-item if:true={it.last} size="6" medium-device-size="12" class="slds-col slds-m-bottom_large slds-medium-order_5">
+                <lightning-button variant="base" icon-name="utility:new" 
+                    label="Add Another"
+                    onclick={handleClickAddAnotherRow}></lightning-button>
+            </lightning-layout-item>
+   
+        </lightning-layout>
+    </template>
+</template>

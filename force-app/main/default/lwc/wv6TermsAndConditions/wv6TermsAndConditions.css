@@ -1,0 +1,73 @@
+/**
+ * Created by karolbrennan on 4/9/21.
+ */
+* {
+  font-family: "proximaNova", sans-serif;
+}
+
+h2 {
+  font-weight: 800;
+  font-size: 28px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.68;
+  letter-spacing: -1.9px;
+  text-align: left;
+  color: #000000;
+}
+
+h2:after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 3px;
+  background-color: #3f9c35;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 28px;
+  margin-bottom: 10px;
+}
+
+h3,
+h4 {
+  font-weight: 600;
+}
+
+h4 {
+  color: #3f9c35;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.36px;
+  margin-top: 20px;
+}
+p {
+  font-size: 15px;
+  line-height: 2;
+  color: #63656a;
+}
+
+.terms-box {
+  overflow-x: auto;
+  height: 500px;
+  padding: 1rem 0;
+}
+
+.slds-button_brand {
+  font-weight: 800;
+  line-height: 1;
+  padding: 10px 16px 9px;
+  border-radius: 20px;
+  border: solid 1px #00777a;
+  background-color: #00777a;
+  color: #ffffff;
+}
+.slds-button_brand:hover {
+  border: solid 1px #00585b;
+  background-color: #00585b;
+}
+svg {
+  height: 70px !important;
+}

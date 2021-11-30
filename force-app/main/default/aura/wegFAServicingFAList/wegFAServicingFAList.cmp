@@ -1,0 +1,20 @@
+<aura:component implements="lightning:availableForFlowScreens,force:lightningQuickAction"
+                access="global" controller="WEG_FAServicingFAListController">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <aura:attribute name="accountRecordId" type="string" />
+    <aura:attribute name="financialAccounts" type="List" />
+    <aura:attribute name="financialAccountValues" type="List" />
+    <aura:attribute name="financialAccountList" type="WEG_FAServicingSelectedFAList" />
+    
+    <!--<aura:iteration items="{!v.financialAccounts}" var="finAcct">
+        <meter value="{!finAcct}"/><br/>
+    </aura:iteration>-->
+    <lightning:checkboxGroup name="Checkbox Group"
+                             label="Choose your account(s)"
+                             options="{!v.financialAccounts}"
+                             value="{!v.financialAccountValues}"
+                             onchange="{!c.handleCheckboxChange}"
+                             required="true"/>
+</aura:component>

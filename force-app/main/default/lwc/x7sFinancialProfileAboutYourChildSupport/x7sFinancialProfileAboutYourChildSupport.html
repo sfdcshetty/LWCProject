@@ -1,0 +1,13 @@
+<template>
+    <form class="x7s-finprofile_about-your-child-support">
+        <lightning-layout multiple-rows class="slds-gutters">
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">
+                    Please tell us more about your child support
+                </h1>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <c-x7s-unifi-questionnaire-about-your-rows row-data={data} owners={optionsOwner} onupdate={handleUpdateRowData}></c-x7s-unifi-questionnaire-about-your-rows>
+    </form>
+</template>

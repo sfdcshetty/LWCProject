@@ -1,0 +1,105 @@
+<!--
+  ~ Copyright (c) 2020. 7Summits Inc. All rights reserved.
+  -->
+
+<aura:component implements="forceCommunity:layout" description="7S Lead, 2:1 Full, 1, Full, 1" access="global">
+    <aura:attribute name="leadBanner" type="Aura.Component[]" required="false" />
+    <aura:attribute name="full" type="Aura.Component[]" required="false" />
+    <aura:attribute name="bannerLeftColumn" type="Aura.Component[]" required="false" />
+    <aura:attribute name="bannerRightColumn" type="Aura.Component[]" required="false" />
+    <aura:attribute name="leftColumn" type="Aura.Component[]" required="false" />
+    <aura:attribute name="rightColumn" type="Aura.Component[]" required="false" />
+    <aura:attribute name="banner" type="Aura.Component[]" required="false" />
+    <aura:attribute name="full2" type="Aura.Component[]" required="false" />
+    <aura:attribute name="bottom" type="Aura.Component[]" required="false" />
+
+    <section class="x7s-layout__lead x7s-layout_full x7s-layout_shaded">
+        <div class="x7s-layout__lead-content">
+            {!v.leadBanner}
+        </div>
+    </section>
+
+    <section class="x7s-layout__main x7s-layout__full x7s-layout_shaded">
+        <div class="slds-container_x-large slds-container_center">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <lightning:layoutItem size="12"
+                                      mediumDeviceSize="8"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.bannerLeftColumn}
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12"
+                                      mediumDeviceSize="4"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.bannerRightColumn}
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+
+    <section class="x7s-layout__main">
+        <div class="slds-container_x-large slds-container_center">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <lightning:layoutItem size="12"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.full}
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+
+    <section class="x7s-layout__main x7s-layout__full x7s-layout_shaded">
+        <div class="slds-container_x-large slds-container_center">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <lightning:layoutItem size="12"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.banner}
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+
+    <section class="x7s-layout__main">
+        <div class="slds-container_x-large slds-container_center">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <lightning:layoutItem size="12"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.full2}
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+
+    <section class="x7s-layout__main">
+        <div class="slds-container_x-large slds-container_center">
+            <lightning:layout pullToBoundary="small"
+                              multipleRows="true"
+            >
+                <lightning:layoutItem size="12"
+                                      padding="horizontal-small"
+                                      class="slds-p-vertical_large"
+                >
+                    {!v.bottom}
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </section>
+
+</aura:component>

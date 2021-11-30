@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>7S My Wealth Banner User Info</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="title" label="Title" type="String" default="My Wealth" />
+            <property name="labelInvestments" label="Investments label" type="String" default="Investments" />
+            <property name="subLabelInvestments" label="Investments sub-label" type="String" default="Held With Us" />
+            <property name="labelNetWorth" label="Net Worth label" type="String" default="Net Worth" />
+            <property name="subLabelNetWorth" label="Net Worth sub-label" type="String" default="Estimated" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

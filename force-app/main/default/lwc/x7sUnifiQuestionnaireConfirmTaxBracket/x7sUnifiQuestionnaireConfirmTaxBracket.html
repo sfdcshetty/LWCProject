@@ -1,0 +1,35 @@
+<template>
+    <div class="x7s-unifi_confirm-tax-bracket">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">
+                    Based on your income and filing status, we believe this is your tax bracket.
+                </h1>
+                <p class="slds-m-top_small">
+                    <span>Please review and confirm. Visit </span>
+                    <a href="https://taxfoundation.org/2020-tax-brackets">https://taxfoundation.org/2020-tax-brackets</a> 
+                    <span> for the latest tax information.</span>
+                </p>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Income" type="number" formatter="currency" step="1" 
+                    value={incomeCombined} autocomplete="off"
+                    placeholder="Round to the nearest dollar"
+                    onchange={handleChangeIncome}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label="Filing Status" 
+                    options={optionsFilingStatus} value={filingStatus} 
+                    onchange={handleChangeFilingStatus}></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="2" class="slds-col slds-m-bottom_large slds-grid slds-grid_vertical-align-end">
+                <lightning-input label="Rate" type="number" step="0.1"
+                    value={taxBracketRate} autocomplete="off"
+                    onchange={handleChangeRate}></lightning-input>
+                    <span class="slds-p-around_x-small">%</span>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </div>
+</template>

@@ -1,0 +1,91 @@
+<template>
+    <div class="c-container">
+        <div if:true={showPage1}>
+            <lightning-layout multiple-rows>
+
+                <lightning-layout-item size="12">
+                    <!--<p class="slds-text_heading_small">
+                        Which name would you like to edit?
+                    </p>-->
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-align_absolute-center slds-is-relative">
+                    <lightning-spinner if:false={nameSelectOptions.length}></lightning-spinner>
+                    <lightning-radio-group name="radioGroup" label="Which name would you like to edit?"
+                                            options={nameSelectOptions} value={value}
+                                            onchange={handleChangeUserName}
+                                            class="x7s-radiogroup_inline"
+                                            ></lightning-radio-group>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <div style="height:60px"></div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+        </div>
+        <div if:true={showPage1} style="text-align: left; margin-left:10px">
+            <lightning-layout>
+                <lightning-layout-item size="12">
+                    <lightning-button variant="brand"
+                                        label="Cancel" title="Cancel and close this modal"
+                                        onclick={closeModal}
+                    ></lightning-button>
+                    <lightning-button variant="brand"
+                                        label="Continue"
+                                        title="Edit this person's name"
+                                        icon-position="right"
+                                        disabled={disableButtonNameSelect}
+                                        onclick={handleClickNameSelect}
+                                        class="slds-m-left_x-small"
+                    ></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <div if:true={showPage2} class="c-container">
+            <form class="">
+                <lightning-input-name label={requiredFieldsLabel}
+                                        fields-to-display={nameFields}
+                                        salutation={nameData.Salutation}
+                                        options={salutationOptions}
+                                        first-name={nameData.FirstName}
+                                        middle-name={nameData.MiddleName}
+                                        last-name={nameData.LastName}
+                                        suffix={nameData.Suffix}
+                                        informal-name={nameData.FinServ__PreferredName__c}
+                                        onchange={handleChangeNameFields}
+                ></lightning-input-name>
+                <div class="slds-p-horizontal_small slds-p-top_large" style="text-align:left">
+                    <span>Custodian account updates may require paperwork, your advisor team will review and follow up with next steps.</span>
+                </div>
+                <div class="slds-m-top_xx-large"></div>
+                
+                <lightning-button variant="brand"
+                                    label="Cancel" title="Cancel and close this modal"
+                                    onclick={closeModal}
+                ></lightning-button>
+                <lightning-button variant="brand"
+                                    label="Save Name" title="Save changes to this person's name"
+                                    disabled={disableButtonSaveName}
+                                    onclick={handleClickSaveName}
+                                    class="slds-m-left_x-small"
+                ></lightning-button>
+            </form>
+        </div>
+        <template if:true={showPage3}>
+            <div class="slds-col slds-size_3-of-3" style="width:100%; text-align:center">
+                <h3 class="finish-header"><img src={checkmarkImage} alt="" class="checkmark" /> Got it, Thanks!</h3>
+                <div class="slds-col slds-size_1-of-3"></div>
+                <div class="slds-col slds-size_1-of-3" style="width:70%; margin:30px auto; color:#666">Changes to your name have been saved.</div>
+                <div class="slds-col slds-size_1-of-3"></div>
+            </div>
+
+            <lightning-layout-item padding="around-small">
+                <div style="text-align:center">
+                    <lightning-button variant="brand" label="Close" title="Close" onclick={closeModal} class="slds-m-left_x-small continue"></lightning-button>
+                </div>
+            </lightning-layout-item>
+        </template>
+
+    </div>
+
+</template>

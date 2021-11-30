@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <a class="onboarding-card" href={link} onclick={handleClick} target={urlTarget}>
+        <lightning-layout vertical-align="center" class="slds-grid_vertical">
+            <lightning-layout-item flexibility="no-flex" class="onboarding-done-icon">
+                <lightning-icon src={icon} size="medium"></lightning-icon>
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <template if:true={label}>
+                    <strong class="onboarding-card__label">{label}</strong>
+                </template>
+                <template if:true={description}>
+                    <span class="onboarding-card__description">{description}</span>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </a>
+</template>

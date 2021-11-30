@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global"
+                controller="QuikCreateFASController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:spinner variant="brand"/>
+</aura:component>

@@ -1,0 +1,73 @@
+/**
+ * Created by karolbrennan on 5/11/21.
+ */
+
+* {
+    font-family: ProximaNova, sans-serif;
+}
+h2 {
+    font-size: 38px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.68;
+    letter-spacing: -1.9px;
+    text-align: left;
+    color: #000000;
+    position: relative;
+    margin-bottom: 92px;
+}
+h2:after {
+    width: 100px;
+    height: 3px;
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    background-color: #3f9c35;
+}
+table {
+    width: 900px;
+    max-width: 100%;
+}
+table thead th {
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #505050;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+}
+table tbody td
+{
+    vertical-align: top;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #505050;
+    padding: 10px 0;
+}
+table th:last-of-type,
+table td:last-of-type {
+    text-align: right;
+}
+table tbody td.upload-doc {
+    width: 150px;
+}
+a {
+    text-decoration: underline;
+}
+table tbody td.date {
+    color: #a0a0a0;
+    width: 150px;
+}
+table tbody .completed-item * {
+    text-decoration: line-through;
+}

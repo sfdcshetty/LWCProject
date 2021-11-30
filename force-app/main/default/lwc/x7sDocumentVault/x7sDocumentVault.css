@@ -1,0 +1,130 @@
+/**
+ * Created by karolbrennan on 4/15/21.
+ */
+* {
+    font-family: ProximaNova, sans-serif;
+}
+h2 {
+    font-size: 38px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.68;
+    letter-spacing: -1.9px;
+    text-align: left;
+    color: #000000;
+    position: relative;
+    margin-bottom: 92px;
+}
+h2:after {
+    width: 100px;
+    height: 3px;
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    background-color: #3f9c35;
+}
+h3 {
+    font-size: 27px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.11;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+    margin-bottom: 30px;
+}
+.slds-card {
+    border: none;
+    padding: 41px 30px 42px 32px;
+    border-radius: 8px;
+    box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
+}
+a {
+    color: #00777a;
+}
+a:hover {
+    color: #005a5b;
+}
+.folder-link {
+    font-size: 15px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    margin: 0 0 20px 0;
+    letter-spacing: -.38px;
+    text-align: left;
+    display: inline-block;
+    color: #000;
+}
+.folder-link,
+.folder-link:hover {
+    text-decoration: none;
+}
+a.folder-link:after {
+    display: block;
+    content: "";
+    width: inherit;
+    background-color: transparent;
+    height: 3px;
+}
+a.folder-link.active:after {
+    background-color: #3f9c35;
+}
+.file-row {
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.87;
+    letter-spacing: normal;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.folder-icon {
+    margin-right: 12px;
+    vertical-align: text-bottom;
+    --sds-c-icon-color-foreground: #06777a;
+    --sds-c-icon-color-foreground-default: #06777a;
+}
+
+strong {
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: -0.36px;
+    text-align: left;
+    color: #000000;
+}
+.column-title {
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.47;
+    letter-spacing: normal;
+    text-align: left;
+    color: #63656a;
+}
+.bottom-border {
+    border-bottom: 2px solid #eef2ed;
+}
+.docActionIcon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+}
+.small-icon {
+    margin-bottom: 12px !important;
+}
+.hrefClass:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

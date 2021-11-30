@@ -1,0 +1,225 @@
+<!--
+  ~ Copyright (c) 2020. 7Summits Inc. All rights reserved.
+  -->
+  
+<aura:component implements="forceCommunity:themeLayout" access="global" description="7Summits Theme">
+    <!-- Theme Attributes -->
+    <aura:attribute name="logoWidth" type="String" default="120px" access="global"/>
+    <aura:attribute name="logoHeight" type="String" default="40px"  access="global"/>
+
+    <aura:attribute name="headerType" type="String" default="Top Header Navigation" access="global" />
+    <aura:attribute name="searchType" type="String" default="Inline Search" access="global" />
+
+    <aura:attribute name="hideNotifications" type="Boolean" default="false" access="global" />
+    <aura:attribute name="hideProfile" type="Boolean" default="false" access="global" />
+    <aura:attribute name="hideMenu" type="Boolean" default="false" access="global" />
+    <aura:attribute name="isScrolled" type="Boolean" default="false"  access="global"/>
+
+    <!-- Main Header Area -->
+    <aura:attribute name="headerBkgColor" type="String" default="#FFF"  access="global"/>
+    <aura:attribute name="headerBkgImage" type="String" default=""  access="global"/>
+
+    <!-- Navigation Bar -->
+    <aura:attribute name="navHeight" type="String" default="90px" access="global" />
+    <aura:attribute name="navHeightScrolled" type="String" default="70px" access="global" />
+    <aura:attribute name="navBkgColor" type="String" default="rgba(255,255,255,0)" access="global" />
+    <aura:attribute name="navBkgColorScrolled" type="String" default="rgba(255,255,255,.85)" access="global" />
+    <aura:attribute name="navBkgImage" type="String" default="" access="global" />
+    <aura:attribute name="navTextColor" type="String" default="#222"  access="global"/>
+    <aura:attribute name="navTextColorScrolled" type="String" default="#222" access="global" />
+    <aura:attribute name="navTextColorHover" type="String" default="#10487b" access="global" />
+    <aura:attribute name="navTextColorHoverScrolled" type="String" default="#10487b" access="global" />
+    <aura:attribute name="dropdownLinkBkgColor" type="String" default="rgba(255,255,255,1)" access="global" />
+    <aura:attribute name="dropdownLinkBkgColorHover" type="String" default="rgba(0,0,0,.1)" access="global" />
+    <aura:attribute name="navShadow" type="String" default="none" access="global" />
+    <aura:attribute name="navShadowScrolled" type="String" default="small" access="global" />
+
+    <!-- Featured Area -->
+    <aura:attribute name="featuredHeight" type="String" default="300px" access="global" />
+    <aura:attribute name="featuredBkgColor" type="String" default="transparent" access="global" />
+    <aura:attribute name="featuredBkgImage" type="String" default="" access="global" />
+    <aura:attribute name="featuredAlignment" type="String" default="Left" access="global" />
+    <aura:attribute name="featuredDesktopColumns" type="String" default="6" access="global" />
+    <aura:attribute name="showFeaturedTopRegion" type="Boolean" default="false" access="global" />
+    <aura:attribute name="showFeaturedBottomRegion" type="Boolean" default="false" access="global" />
+
+    <aura:attribute name="themeContentWidth" type="String" default="1100px" access="global" />
+
+    <aura:attribute name="enableFixedHeader" type="Boolean" default="false" access="global" />
+    <aura:attribute name="showHeaderTopContainer" type="Boolean" default="false" access="global" />
+    <aura:attribute name="showHeaderBottomContainer" type="Boolean" default="false" access="global" />
+    <aura:attribute name="hideHeader" type="Boolean" default="false" access="global" />
+    <aura:attribute name="hideFooter" type="Boolean" default="false" access="global" />
+
+    <!-- Search Bar -->
+    <aura:attribute name="hideSearch" type="Boolean" default="false" access="global" />
+    <aura:attribute name="searchBarColor" type="String" default="#222" access="global" />
+    <aura:attribute name="searchBarBkgColor" type="String" default="rgba(0,0,0,.1)" access="global" />
+    <aura:attribute name="searchBarPlaceholderColor" type="String" default="#777" access="global" />
+
+    <!-- Default Salesforce Components -->
+    <aura:attribute name="search" type="Aura.Component[]" required="false"  access="global"/>
+    <aura:attribute name="profileMenu" type="Aura.Component[]" required="false"  access="global"/>
+    <aura:attribute name="navBar" type="Aura.Component[]" required="false" access="global"/>
+
+    <!-- Theme -->
+    <aura:attribute name="enableFullWidthBanner" type="Boolean" default="true" access="global" />
+    <aura:attribute name="leadBkgColor" type="String" default="#eee" access="global" />
+    <aura:attribute name="leadBkgImage" type="String" default="" access="global" />
+    <aura:attribute name="shadedBkgColor" type="String" default="#eee" access="global" />
+    <aura:attribute name="shadedBkgImage" type="String" default="" access="global" />
+
+    <!-- Theme Regions -->
+    <aura:attribute name="templateHeaderTop" type="Aura.Component[]" required="false" access="global"/>
+    <aura:attribute name="templateHeaderBottom" type="Aura.Component[]" required="false" access="global"/>
+    <aura:attribute name="templateFooter" type="Aura.Component[]" required="false" access="global"/>
+
+    <aura:attribute name="featuredTop" type="Aura.Component[]" required="false" access="global"/>
+    <aura:attribute name="featuredBottom" type="Aura.Component[]" required="false" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.handleInit}" />
+
+    <aura:html tag="style">
+        /* Handle the dynamic theme content width */
+        .slds-container_x-large,
+        .siteforceContentArea,
+        .x7s-theme.x7s-theme_narrow-banners .x7s-layout__lead-content {
+            max-width: {!v.themeContentWidth};
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .x7s-theme .x7s-layout_shaded {
+            background-color: {!v.shadedBkgColor};
+            background-image: url('{!v.shadedBkgImage}');
+        }
+        .x7s-theme .x7s-layout__lead {
+            background-color: {!v.leadBkgColor};
+            background-image: url('{!v.leadBkgImage}');
+        }
+        .x7s-theme .x7s-header__content {
+            background-color: {!v.headerBkgColor};
+            background-image: url('{!v.headerBkgImage}');
+        }
+        @media screen and (min-width: {!v.themeContentWidth}) {
+            /* Salesforce does not move their layouts far enough out to align with our max-width due to this padded column. We reset all containers that aren't ours. */
+            .x7s-theme .siteforceContentArea:not([class^="x7s-"]) > .slds-col_padded,
+            .x7s-theme .siteforceContentArea:not([class^="x7s-"]) > .slds-col--padded {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .x7s-theme .siteforceContentArea:not([class^="x7s-"]) > .slds-grid {
+                margin-left: -.75rem;
+                margin-right: .75rem;
+            }
+        }
+
+        @media screen and (max-width: {!v.themeContentWidth}) {
+            /* Mobile devices need padding on the left and right, while we still need to account for the potential of full-width layouts */
+            .x7s-theme .x7s-layout__main,
+            .x7s-theme.x7s-theme_narrow-banners .x7s-layout__lead-content{
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        .x7s-theme .big-search-container.forceCommunitySearchBox .search-field {
+            color: {!v.searchBarColor};
+            background-color: {!v.searchBarBkgColor};
+        }
+        .x7s-theme .big-search-container.forceCommunitySearchBox .search-field::placeholder,
+        .x7s-theme .big-search-container.forceCommunitySearchBox .search-field::-webkit-input-placeholder,
+        .x7s-theme .big-search-container.forceCommunitySearchBox .search-field::-moz-placeholder {
+            color: {!v.searchBarPlaceholderColor};
+        }
+    </aura:html>
+
+    <div class="{!'x7s-theme'
+                + (if(v.enableFullWidthBanner, ' x7s-theme_full-banners', ' x7s-theme_narrow-banners'))}">
+
+        <aura:if isTrue="{!v.hideHeader != true}">
+            <header class="{!'x7s-header'
+                           + (if(v.enableFixedHeader, ' x7s-header_fixed', ''))
+                           + (if(v.isScrolled, ' x7s-header_scrolled', ''))}">
+
+                <!-- Optional header top component area -->
+                <aura:if isTrue="{!v.showHeaderTopContainer == true}">
+                    <div class="x7s-header__content-top">
+                        <div class="slds-container_x-large">
+                            {!v.templateHeaderTop}
+                        </div>
+                    </div>
+                </aura:if>
+
+                <!-- Main header content area -->
+                <div class="x7s-header__content">
+
+                    <c:X7S_ThemeSingleBar
+                        searchDropdown="{!(v.searchType == 'Icon w/Dropdown') ? true : false}"
+                        hideNotifications="{!v.hideNotifications}"
+                        hideProfile="{!v.hideProfile}"
+                        hideMenu="{!v.hideMenu}"
+                        hideSearch="{!or(v.hideSearch == true, v.headerType == 'Navigation with Featured Area')}"
+                        logoHeight="{!v.logoHeight}"
+                        logoWidth="{!v.logoWidth}"
+                        height="{!v.navHeight}"
+                        heightScrolled="{!v.navHeightScrolled}"
+                        bkgColor="{!v.navBkgColor}"
+                        bkgColorScrolled="{!v.navBkgColorScrolled}"
+                        bkgImage="{!v.navBkgImage}"
+                        navColor="{!v.navTextColor}"
+                        navColorScrolled="{!v.navTextColorScrolled}"
+                        navColorHover="{!v.navTextColorHover}"
+                        navColorHoverScrolled="{!v.navTextColorHoverScrolled}"
+                        dropdownLinkBkgColor="{!v.dropdownLinkBkgColor}"
+                        dropdownLinkBkgColorHover="{!v.dropdownLinkBkgColorHover}"
+                        navShadow="{!v.navShadow}"
+                        navShadowScrolled="{!v.navShadowScrolled}"
+                        navBarComponent="{!v.navBar}"
+                        searchComponent="{!v.search}"
+                        profileMenuComponent="{!v.profileMenu}"
+                    />
+
+                    <aura:if isTrue="{!v.headerType == 'Navigation with Featured Area'}">
+                        <c:X7S_ThemeTwoBar
+                            searchComponent="{!v.search}"
+                            featuredTop="{!v.featuredTop}"
+                            featuredBottom="{!v.featuredBottom}"
+                            height="{!v.featuredHeight}"
+                            enableFixedHeader="{!v.enableFixedHeader}"
+                            bkgColor="{!v.featuredBkgColor}"
+                            bkgImage="{!v.featuredBkgImage}"
+                            showFeaturedTopRegion="{!v.showFeaturedTopRegion}"
+                            showFeaturedBottomRegion="{!v.showFeaturedBottomRegion}"
+                            desktopAlign="{!v.featuredAlignment}"
+                            desktopColumns="{!v.featuredDesktopColumns}"
+                        />
+                    </aura:if>
+
+                </div>
+
+                <!-- Optional header bottom component area -->
+                <aura:if isTrue="{!v.showHeaderBottomContainer == true}">
+                    <div class="x7s-header__content-bottom">
+                        <div class="slds-container_x-large">
+                            {!v.templateHeaderBottom}
+                        </div>
+                    </div>
+                </aura:if>
+
+            </header>
+        </aura:if>
+
+        <section class="x7s-theme__body"
+                 style="{!if(and(v.enableFixedHeader, notequals(v.headerType, 'Navigation with Featured Area')), ('margin-top:' + v.navHeight + ';'), '')}">
+            {!v.body}
+        </section>
+
+        <aura:if isTrue="{!v.hideFooter != true}">
+            <footer class="x7s-theme__footer">
+                {!v.templateFooter}
+            </footer>
+        </aura:if>
+
+    </div>
+
+</aura:component>

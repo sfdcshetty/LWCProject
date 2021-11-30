@@ -1,0 +1,26 @@
+<template>
+    <lightning-layout vertical-align="center" class="">
+      <div class="container">
+        <div class="slds-col slds-size_1-of-6 inner">
+            <div class="my-wealth-title">{title}</div>
+            <div class="my-wealth-border"></div>
+        </div>
+        <div class="slds-col slds-size_3-of-6 inner">
+            
+        </div>
+        <div class="slds-col slds-size_1-of-6 inner info">
+            <div class="my-wealth-holdings-header">$<lightning-formatted-number value={amountWithWeg} format-style="decimal" maximum-fraction-digits="0" 
+                currency-code="USD"></lightning-formatted-number></div>
+            <div class="my-wealth-holdings-desc">{labelInvestments}</div>
+            <div class="my-wealth-holdings-lower">{subLabelInvestments}</div>
+        </div>
+        <div class="slds-col slds-size_1-of-6 inner info-right">
+            <div class="my-wealth-holdings-header">$<lightning-formatted-number value={myGrandTotal} format-style="decimal" maximum-fraction-digits="0" 
+                currency-code="USD"></lightning-formatted-number>
+            </div>
+            <div class="my-wealth-holdings-desc label-net-worth">{labelNetWorth}</div>
+            <div class="my-wealth-holdings-lower">{subLabelNetWorth}</div>
+        </div>
+    </div>
+    </lightning-layout>
+</template>

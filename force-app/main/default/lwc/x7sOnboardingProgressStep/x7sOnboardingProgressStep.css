@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+ */
+
+
+.onboarding-step__link {
+    display: block;
+    font-size: 0.8rem;
+    border-radius: 0.4rem;    
+    border: none;
+    /*background: #f9f9f9;*/
+    cursor: pointer;
+    text-align: left;
+    padding: 0.65rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    /*transition: .2s all linear;*/
+    color: #333;
+}
+
+.onboarding-step__link:hover,
+.onboarding-step__link:focus {
+    /*background: #E4E5E6;*/
+    text-decoration: none;
+}
+.onboarding-topic__label {
+    line-height: 1.1;
+    font-size: .875rem;
+}
+
+.slds-button__icon {
+    fill:red !important;
+}
+
+.onboarding-step__link .slds-button {
+    color: red !important;
+}

@@ -1,0 +1,14 @@
+<aura:component controller="wv6_EnableDisableUserController" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader">
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="Status" type="String" default="Activation Initiated..."/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+	<div class="slds-p-around--medium" style="border-bottom: lightgrey 2px solid;margin-left: -32px;margin-right: -32px;text-align: center;padding: 10px;">
+        <h2 class="slds-text-heading--medium">Enable Customer User</h2>
+    </div>
+    <div class="slds-p-around--medium">
+        {!v.Status}
+    </div>
+    <div class="slds-p-around--medium" style="float:right;padding:0px;">
+        <lightning:button variant="brand" label="Ok" onclick="{!c.closePopup}"/>
+    </div>
+</aura:component>

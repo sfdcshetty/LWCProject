@@ -1,0 +1,427 @@
+<template>
+    <div class="insuranceHeader slds-m-bottom_medium" style="margin-top: 1em;">
+        {componentTitle}
+    </div>
+    <template if:true={isDisplayComponent}>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+
+        <div class="slds-grid">
+            <div class="slds-col slds-size_6-of-12">
+                <span class={addinsurance}>
+                    <button class="addinsurance slds-text-heading_small" onclick={handleAddInsuranceClick}>
+                        <div class="iconContainer insuranceIcon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="add">
+                                <path
+                                    d="M30 29h16.5c.8 0 1.5-.7 1.5-1.5v-3c0-.8-.7-1.5-1.5-1.5H30c-.6 0-1-.4-1-1V5.5c0-.8-.7-1.5-1.5-1.5h-3c-.8 0-1.5.7-1.5 1.5V22c0 .6-.4 1-1 1H5.5c-.8 0-1.5.7-1.5 1.5v3c0 .8.7 1.5 1.5 1.5H22c.6 0 1 .4 1 1v16.5c0 .8.7 1.5 1.5 1.5h3c.8 0 1.5-.7 1.5-1.5V30c0-.6.4-1 1-1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="slds-p-left_small"><b>Add Insurance</b></span>&nbsp;
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+            <!-- Insurance Life -->
+            <lightning-accordion-section name="InsuranceLife" label="Life">
+                <div class="insuranceListContainer slds-m-top_large slds-m-bottom_large">
+                    <template if:true={isDataListInsuranceLife}>
+                        <lightning-datatable key-field="Id" data={dataListInsuranceLife} columns={columnsInsuranceLife}
+                            hide-checkbox-column="true" onrowaction={handleRowAction}
+                            class="insuranceTable slds-max-medium-table_stacked-horizontal"
+                            default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                            sorted-by={sortedBy} onsort={onHandleSort}>
+                        </lightning-datatable>
+                        <div>
+                            <span class="totalAmount">$
+                                <lightning-formatted-number value={totalAmtInsuranceLife} format-style="decimal"
+                                    maximum-fraction-digits="0" currency-code="USD">
+                                </lightning-formatted-number>
+                                
+                            </span>
+                        </div>
+                    </template>
+                    <template if:false={isDataListInsuranceLife}>
+                        <h3>No Records Found</h3>
+                    </template>
+                </div>
+            </lightning-accordion-section>
+
+            <!-- Insurance Long Term Care -->
+            <lightning-accordion-section name="InsuranceLongTermCare" label="Long Term Care">
+                <div class="insuranceListContainer slds-m-top_large slds-m-bottom_large">
+                    <template if:true={isDataListInsuranceLongTerm}>
+                        <lightning-datatable key-field="Id" data={dataListInsuranceLongTerm}
+                            columns={columnsInsuranceLongTerm} hide-checkbox-column="true" onrowaction={handleRowAction}
+                            class="insuranceTable slds-max-medium-table_stacked-horizontal"
+                            default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                            sorted-by={sortedBy} onsort={onHandleSort}>
+                        </lightning-datatable>
+                        <div>
+                            <span class="totalAmount">$
+                                <lightning-formatted-number value={totalAmtInsuranceLongTerm} format-style="decimal"
+                                    maximum-fraction-digits="0" currency-code="USD">
+                                </lightning-formatted-number>
+                            </span>
+                        </div>
+                    </template>
+                    <template if:false={isDataListInsuranceLongTerm}>
+                        <h3>No Records Found</h3>
+                    </template>
+
+                </div>
+            </lightning-accordion-section>
+
+            <!-- Insurance Disability -->
+            <lightning-accordion-section name="InsuranceDisability" label="Disability">
+                <div class="insuranceListContainer slds-m-top_large slds-m-bottom_large">
+                    <template if:true={isDataListDisability}>
+                        <lightning-datatable key-field="Id" data={dataListDisability}
+                            columns={columnsInsuranceDisability} hide-checkbox-column="true"
+                            onrowaction={handleRowAction}
+                            class="insuranceTable slds-max-medium-table_stacked-horizontal"
+                            default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                            sorted-by={sortedBy} onsort={onHandleSort}>
+                        </lightning-datatable>
+                        <div>
+                            <span class="totalAmount">$
+                                <lightning-formatted-number value={totalAmtDisability} format-style="decimal"
+                                    maximum-fraction-digits="0" currency-code="USD">
+                                </lightning-formatted-number>
+                            </span>
+                        </div>
+                    </template>
+                    <template if:false={isDataListDisability}>
+                        <h3>No Records Found</h3>
+                    </template>
+
+                </div>
+            </lightning-accordion-section>
+
+            <!-- Insurance Health -->
+            <lightning-accordion-section name="InsuranceHealth" label="Health">
+                <div class="insuranceListContainer slds-m-top_large slds-m-bottom_large">
+                    <template if:true={isDataListInsuranceHealth}>
+                        <lightning-datatable key-field="Id" data={dataListInsuranceHealth}
+                            columns={columnsInsuranceHealth} hide-checkbox-column="true" onrowaction={handleRowAction}
+                            class="insuranceTable slds-max-medium-table_stacked-horizontal"
+                            default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                            sorted-by={sortedBy} onsort={onHandleSort}>
+                        </lightning-datatable>
+                        <div>
+                            <span class="totalAmount">$
+                                <lightning-formatted-number value={totalAmtListInsuranceHealth} format-style="decimal"
+                                    maximum-fraction-digits="0" currency-code="USD">
+                                </lightning-formatted-number>
+                            </span>
+                        </div>
+                    </template>
+                    <template if:false={isDataListInsuranceHealth}>
+                        <h3>No Records Found</h3>
+                    </template>
+                </div>
+            </lightning-accordion-section>
+
+            <!-- Insurance Property And Casualty -->
+            <lightning-accordion-section name="InsurancePropertyAndCasualty" label="Property And Casualty">
+                <div class="insuranceListContainer slds-m-top_large slds-m-bottom_large">
+                    <template if:true={isDataListInsurancePropertyAndCasualty}>
+                        <lightning-datatable key-field="Id" data={dataListInsurancePropertyAndCasualty}
+                            columns={columnsInsurancePropertyAndCasualty} hide-checkbox-column="true"
+                            onrowaction={handleRowAction}
+                            class="insuranceTable slds-max-medium-table_stacked-horizontal"
+                            default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                            sorted-by={sortedBy} onsort={onHandleSort}>
+                        </lightning-datatable>
+                        <div>
+                            <span class="totalAmount">$
+                                <lightning-formatted-number value={totalAmtListPropertyAndCasualty}
+                                    format-style="decimal" maximum-fraction-digits="0" currency-code="USD">
+                                </lightning-formatted-number>
+                            </span>
+                        </div>
+                    </template>
+                    <template if:false={isDataListInsurancePropertyAndCasualty}>
+                        <h3>No Records Found</h3>
+                    </template>
+
+                </div>
+            </lightning-accordion-section>
+
+            <!-- Insurance Other -->
+            <lightning-accordion-section name="InsuranceOther" label="Other">
+                <div class="insuranceListContainer slds-m-top_large slds-m-bottom_large">
+                    <template if:true={isDataListInsuranceOther}>
+                        <lightning-datatable key-field="Id" data={dataListInsuranceOther}
+                            columns={columnsInsuranceOther} hide-checkbox-column="true" onrowaction={handleRowAction}
+                            class="insuranceTable slds-max-medium-table_stacked-horizontal"
+                            default-sort-direction={defaultSortDirection} sorted-direction={sortDirection}
+                            sorted-by={sortedBy} onsort={onHandleSort}>
+                        </lightning-datatable>
+                        <div>
+                            <span class="totalAmount">$
+                                <lightning-formatted-number value={totalAmtInsuranceOther} format-style="decimal"
+                                    maximum-fraction-digits="0" currency-code="USD">
+                                </lightning-formatted-number>
+                            </span>
+                        </div>
+                    </template>
+                    <template if:false={isDataListInsuranceOther}>
+                        <h3>No Records Found</h3>
+                    </template>
+
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+        <!-- <div class="insuranceListContainer slds-p-top_small">
+            <lightning-datatable key-field="Id" data={dataList} columns={columns} hide-checkbox-column="true"
+                onrowaction={handleRowAction} class="insuranceTable slds-max-medium-table_stacked-horizontal"
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={onHandleSort}>
+            </lightning-datatable>
+        </div> -->
+
+    </template>
+
+    <div class="slds-grid">
+        <!--<div class="slds-col slds-size_6-of-12">
+            <span class={addinsurance}>
+                <button class="addinsurance slds-text-heading_small" onclick={handleAddInsuranceClick}>
+                    <div class="iconContainer insuranceIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" id="add">
+                            <path
+                                d="M30 29h16.5c.8 0 1.5-.7 1.5-1.5v-3c0-.8-.7-1.5-1.5-1.5H30c-.6 0-1-.4-1-1V5.5c0-.8-.7-1.5-1.5-1.5h-3c-.8 0-1.5.7-1.5 1.5V22c0 .6-.4 1-1 1H5.5c-.8 0-1.5.7-1.5 1.5v3c0 .8.7 1.5 1.5 1.5H22c.6 0 1 .4 1 1v16.5c0 .8.7 1.5 1.5 1.5h3c.8 0 1.5-.7 1.5-1.5V30c0-.6.4-1 1-1z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="slds-p-left_small"><b>Add Insurance</b></span>&nbsp;
+                </button>
+            </span>
+        </div>-->
+        <!-- <div class="slds-col slds-size_6-of-12 slds-text-align_right">
+            <span class="totalAmount">Total Amount: $
+                <lightning-formatted-number value={totalAmt} format-style="decimal" maximum-fraction-digits="0"
+                    currency-code="USD">
+                </lightning-formatted-number>
+            </span>
+        </div> -->
+    </div>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container slds-p-around_small">
+
+                <header class="slds-modal__header no-border">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="insuranceHeader">
+                        {insuranceHeader}
+                    </div>
+                    <div class="completeLine"></div>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    <template if:true={isDisplayRecordTypeSelection}>
+                        <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                            small-device-size="12">
+                            <lightning-combobox name="insuranceRecordType" label="Type"
+                                value={insuranceRecordType} class="RecordType inputField slds-m-bottom_large"
+                                options={insuranceRecordTypeOptions} onchange={handleInsuranceRecordTypeChange}
+                                data-id="RecordType" required>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </template>
+                    
+                    <template if:true={hasRecordTypeSelection}> 
+                        <lightning-layout multiple-rows="true">
+                            
+                            <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                small-device-size="12">
+                                <lightning-input class="inputField slds-m-vertical_medium insuranceName" name="insuranceName" type="text"
+                                    label="Insurance Policy Name" value={insuranceName} onchange={handleinsuranceNameChange}
+                                    data-id="Name" required>
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- Service Provider -->
+                            <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                small-device-size="12">
+                                <!--<lightning-combobox name="liabilityDescription" label="Service Provider" value={insuranceCarrier}
+                                    class="inputField slds-m-vertical_medium insuranceCarrier" options={insuranceCustodianOptions}
+                                    onchange={handleinsuranceCarrierChange}>
+                                </lightning-combobox>-->
+                                <lightning-input class="inputField slds-m-vertical_medium insuranceName" name="liabilityDescription" type="text"
+                                    label="Service Provider" value={insuranceCarrier} onchange={handleinsuranceCarrierChange}
+                                    data-id="Service Provider">
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- Product Type -->
+                            <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                small-device-size="12">
+                                <lightning-combobox name="insuranceProductType" label="Product Type" value={insuranceProductType}
+                                    class="inputField slds-m-vertical_medium insuranceProductType" options={productListOptions}
+                                    onchange={handleinsuranceProductTypeChange}>
+                                </lightning-combobox>
+                            </lightning-layout-item>
+
+                            <!-- Policy# -->
+                            <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                small-device-size="12">
+                                <lightning-input class="inputField slds-m-vertical_medium insurancePolicy" name="insurancePolicy"
+                                    type="text" label="Policy Number" value={insurancePolicy}
+                                    onchange={handleinsurancePolicyChange} data-id="insurancePolicy">
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- Owner -->
+                            <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                small-device-size="12">
+                                <lightning-combobox name="insuranceOwnerName" label="Primary Owner" value={insuranceOwnerName}
+                                    class="inputField slds-m-vertical_medium insuranceOwnerName" options={insuranceOwnerOptions}
+                                    onchange={handleinsuranceOwnerNameChange} required>
+                                </lightning-combobox>
+                            </lightning-layout-item>
+
+                            <!-- Insured -->
+                            <!--<template if:true={isDisplayInsured}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium" name="insuranceInsured"
+                                        type="text" label="Insured" value={insuranceInsured}
+                                        onchange={handleinsuranceInsuredChange} data-id="insuranceInsured">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>-->
+                            <template if:true={isDisplayInsured}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-combobox name="insuranceInsured" label="Insured" value={insuranceInsured}
+                                        class="inputField slds-m-vertical_medium insuranceInsured" options={insuredListOptions}
+                                        onchange={handleinsuranceInsuredChange}>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Insured Asset -->
+                            <template if:true={isDisplayInsuredAsset}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium insuranceInsuredAsset" name="insuranceInsuredAsset"
+                                        type="text" label="Insured Asset" value={insuranceInsuredAsset}
+                                        onchange={handleinsuranceInsuredAssetChange} 
+                                        data-id="insuranceInsuredAsset">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Last Updated -->
+                            <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                small-device-size="12">
+                                <lightning-input class="inputField slds-m-vertical_medium insuranceAsOfDate" name="insuranceAsOfDate"
+                                    type="date" label="Last Updated" value={insuranceAsOfDate}
+                                    onchange={handleinsuranceAsOfDateChange} data-id="insuranceAsOfDate">
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- Death Benefit -->
+                            <template if:true={isDisplayDeathBenefit}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium insuranceDeathBenefit" name="insuranceDeathBenefit"
+                                        label="Death Benefit (Round to nearest dollar)" value={insuranceDeathBenefit} onchange={handleinsuranceDeathBenefitChange} 
+                                        data-id="insuranceDeathBenefit" type="number"  step="1" formatter="currency">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Benefit Amount -->
+                            <template if:true={isDisplayBenefitAmount}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium insuranceBenefitAmount" name="insuranceBenefitAmount"
+                                        label="Benefit Amount (Round to nearest dollar)" value={insuranceBenefitAmount}
+                                        onchange={handleinsuranceBenefitAmountChange} data-id="insuranceBenefitAmount"
+                                        type="number"  step="1" formatter="currency">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Premium -->
+                            <template if:true={isDisplayPremium}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium insurancePremium" name="insurancePremium"
+                                        label="Premium (Round to nearest dollar)" value={insurancePremium}
+                                        onchange={handleinsurancePremiumChange} data-id="insurancePremium"
+                                        type="number"  step="1" formatter="currency">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Coverage Amount -->
+                            <template if:true={isDisplayCoverageAmount}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium insuranceCoverageAmount"
+                                        name="insuranceCoverageAmount" label="Coverage Amount (Round to nearest dollar)"
+                                        value={insuranceCoverageAmount} onchange={handleinsuranceCoverageAmountChange}
+                                        data-id="insuranceCoverageAmount" type="number"  step="1" formatter="currency">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Amount -->
+                            <template if:true={isDisplayAmount}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium insuranceAmount" name="insuranceAmount"
+                                        label="Amount (Round to nearest dollar)" value={insuranceAmount}
+                                        onchange={handleinsuranceAmountChange} data-id="insuranceAmount"
+                                        type="number"  step="1" formatter="currency">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                            <!-- Cash Value -->
+                            <template if:true={isDisplayCash}>
+                                <lightning-layout-item size="12" large-device-size="6" medium-device-size="12"
+                                    small-device-size="12">
+                                    <lightning-input class="inputField slds-m-vertical_medium insuranceCashValue" name="insuranceCashValue"
+                                        label="Cash Value (Round to nearest dollar)" value={insuranceCashValue}
+                                        onchange={handleinsuranceCashValueChange} data-id="insuranceCashValue"
+                                        type="number"  step="1" formatter="currency">
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+
+                        </lightning-layout>
+                    </template> 
+                </div>
+
+                <footer class="slds-modal__footer no-border">
+
+                    <button class="addinsurance cancelButton slds-float_left slds-button" onclick={closeModal}
+                        title="Cancel">Cancel</button>
+
+                    <button class="slds-button slds-button_brand slds-float_left" onclick={submitDetails}
+                        title={insuranceBtnLabel}>{insuranceBtnLabel}</button>
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

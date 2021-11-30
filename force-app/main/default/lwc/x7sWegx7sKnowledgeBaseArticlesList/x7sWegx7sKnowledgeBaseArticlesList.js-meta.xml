@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Knowledge Base Articles</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage, lightning__HomePage, lightningCommunity__Default">
+            <property name="componentTitle" label="component Title" type="String" description="Title of the Component"/>
+            <property name="numberOfArticlesPerPage" label="Number of articles per page" type="Integer"/>
+            <property name="searchPlaceHolder" label="Search Place Holder" type="String"/>
+            <property name="supportArticleLabel" label="component Label" type="String" description="Label of the Component"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

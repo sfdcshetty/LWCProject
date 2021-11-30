@@ -1,0 +1,99 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <c-x7s-onboarding-slide class ="topics"
+                            title ={topicsHeader}
+                            description ={topicsMessage}
+                            sub-text ={topicsAction}
+                            primary-button-label ={nextButtonLabel}
+                            primary-button-color ={buttonColor}
+                            onprimaryclick ={goToNext}
+                            back-button-label ={backButtonLabel}
+                            onbackclick ={goBack}>
+
+        <template if:true={useTopicMetadata}>
+            <lightning-layout multiple-rows="true">
+                <template if:true={chosenTopicsnotBlank}>
+                    <lightning-layout-item class="slds-align-middle" size="12" padding="around-none">
+                        <div class="slds-box slds-box_small slds-p-around_small slds-text-align_left slds-m-bottom_medium">
+                            <lightning-layout vertical-align="center">
+                                <lightning-layout-item flexibility="no-grow">
+                                    <strong class="slds-p-right_small">Selected Topics:</strong>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto">
+                                    <template for:each={chosenTopics} for:item="chosenTopic">
+                                        <lightning-pill key={chosenTopic.id}
+                                                        class="slds-float_left lightning-pill"
+                                                        label={chosenTopic.name}
+                                                        name={chosenTopic.id}
+                                                        onremove={handleRemove}>
+                                        </lightning-pill>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-none">
+                    <lightning-layout class="onboarding-topic-list"
+                                      vertical-align="stretch"
+                                      horizontal-align="center"
+                                      multiple-rows="true"
+                                      pull-to-boundary="small">
+
+                        <template for:each={remainingTopics} for:item="topic">
+                            <template if:false={topic.following}>
+                                <lightning-layout-item key={topic.id} size="12" medium-device-size="6" large-device-size="4" padding="around-small">
+                                    <c-x7s-onboarding-topic-button  topic-id ={topic.id}
+                                                                    name ={topic.name}
+                                                                    following ={topic.following}
+                                                                    onfollowclick ={handleFollowTopic}
+                                                                    onunfollowclick ={handleUnfollowTopic}>
+                                    </c-x7s-onboarding-topic-button>
+                                </lightning-layout-item>
+                            </template>
+                        </template>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        <template if:false={useTopicMetadata}>
+            <lightning-layout multiple-rows="true" horizontal-align="center" pull-to-boundary="medium" vertical-align="start">
+                <template if:true={isTopics1}>
+                    <lightning-layout-item size="12" medium-device-size="6" class="onboarding-topic-list" padding="around-medium">
+                        <template if:true={group1TopicLabel}>
+                            <h2 class="slds-text-heading_medium slds-p-bottom_x-small">{group1TopicLabel}</h2>
+                        </template>
+                        <template for:each={topics1} for:item="topic">
+                                <c-x7s-onboarding-topic-button  key ={topic.id}
+                                                                topic-id ={topic.id}
+                                                                name ={topic.name}
+                                                                following ={topic.following}
+                                                                onfollowclick ={handleFollowTopic}
+                                                                onunfollowclick ={handleUnfollowTopic}>
+                                </c-x7s-onboarding-topic-button>
+                        </template>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={isTopics2}>
+                    <lightning-layout-item size="12" medium-device-size="6" class="onboarding-topic-list" padding="around-medium">
+                        <template if:true={group2TopicLabel}>
+                            <h2 class="slds-text-heading_medium slds-p-bottom_x-small">{group2TopicLabel}</h2>
+                        </template>
+                        <template for:each={topics2} for:item="topic">
+                            <c-x7s-onboarding-topic-button  key ={topic.id}
+                                                            topic-id ={topic.id}
+                                                            name ={topic.name}
+                                                            following ={topic.following}
+                                                            onfollowclick ={handleFollowTopic}
+                                                            onunfollowclick ={handleUnfollowTopic}>
+                            </c-x7s-onboarding-topic-button>
+                        </template>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </template>
+    </c-x7s-onboarding-slide>
+</template>

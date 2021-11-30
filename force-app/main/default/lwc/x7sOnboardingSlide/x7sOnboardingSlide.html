@@ -1,0 +1,77 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <lightning-card class={slideClass}>
+        <lightning-layout pull-to-boundary="small" multiple-rows="true">
+            <template if:true={isHideHeader}>
+                <lightning-layout-item size="12" medium-device-size={mediumDeviceSizeHeader} padding="horizontal-small">
+                    <div class="onboarding-slide__header">
+                        <template if:true={title}>
+                            <h1 class="onboarding-slide__title slds-text-heading_large">{title}</h1>
+                        </template>
+                        <template if:true={description}>
+                            <p class="onboarding-slide__description slds-text-heading_small slds-p-top_xx-small">
+                                <lightning-formatted-rich-text value={description}></lightning-formatted-rich-text>
+                            </p>
+                        </template>
+                        <template if:true={subText}>
+                            <p class="onboarding-slide__sub-text slds-text-color_weak slds-p-top_xx-small">
+                                <lightning-formatted-rich-text value={subText}></lightning-formatted-rich-text>
+                            </p>
+                        </template>
+                    </div>
+                </lightning-layout-item>
+            </template>
+            <lightning-layout-item size="12" medium-device-size={mediumDeviceSizeBody} padding="around-small">
+                <slot class="onboarding-slide__body slds-text-align_center">
+                    
+                </slot>
+                <lightning-layout class="onboarding-slide__body" horizontal-align="center">
+                    <lightning-layout-item>
+                        <template if:true={hideOnboardingModal}>
+                            <lightning-input    type="checkbox"
+                                                label={hideOnboardingModal}
+                                                onchange={handleHideModal}
+                                                class="notificationButtons">
+                            </lightning-input>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="top-medium">
+                <lightning-layout horizontal-align="center" class="onboarding-slide__footer">
+                    <lightning-layout-item>
+                        <template if:true={backButtonLabel}>
+                            <lightning-button   variant="base"
+                                                class="onboarding-slide__button"
+                                                label={backButtonLabel}
+                                                onclick={handleBackClick}>
+                            </lightning-button>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <template if:true={primaryButtonLabel}>
+                            <template if:true={primaryButtonDisabled}>
+                                <lightning-button   variant="base"
+                                                    class={primaryButtonLabelClassName}
+                                                    label={primaryButtonLabel}
+                                                    disabled>
+                                </lightning-button>
+                            </template>
+                            <template if:false={primaryButtonDisabled}>
+                                <lightning-button   variant="base"
+                                                    class={primaryButtonLabelClassName}
+                                                    label={primaryButtonLabel}
+                                                    onclick={handlePrimaryClick}>
+                                </lightning-button>
+                            </template>
+                        </template>
+                    </lightning-layout-item>
+                    <p>{footer}<slot name="footer"></slot></p>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

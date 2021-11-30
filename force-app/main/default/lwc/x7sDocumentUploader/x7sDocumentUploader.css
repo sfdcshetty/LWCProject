@@ -1,0 +1,187 @@
+/**
+ * Created by karolbrennan on 4/14/21.
+ */
+* {
+  font-family: ProximaNova, sans-serif !important;
+}
+h2 {
+  font-size: 38px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.68;
+  letter-spacing: -1.9px;
+  text-align: left;
+  color: #000000;
+  position: relative;
+  margin-bottom: 92px;
+}
+h2:after {
+  width: 100px;
+  height: 3px;
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  background-color: #3f9c35;
+}
+h3 {
+  font-size: 27px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.11;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+  margin-bottom: 30px;
+}
+h4 {
+  font-size: 22px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+  margin: 10px 0 5px;
+}
+h5.error {
+  color: red;
+  font-size: 16px;
+  text-align: left;
+  font-weight: bold;
+}
+.help-text {
+  font-size: 12px;
+  line-height: 18px;
+  color: #909299;
+}
+.upload-time {
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.47;
+  letter-spacing: normal;
+  text-align: left;
+  color: #909299;
+  margin-bottom: 20px;
+}
+.slds-card {
+  border: none;
+  padding: 41px 30px 42px 32px;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+}
+@media screen and (min-width: 40em) {
+  .slds-card {
+    margin-top: 40px;
+  }
+  .inModal .slds-card {
+    margin-top: 0;
+  }
+}
+strong {
+  color: #3f9c35;
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: -0.36px;
+  text-align: left;
+}
+ul {
+  list-style: disc;
+  margin: 10px 0 20px 20px;
+}
+ul li {
+  color: #63656a;
+}
+ul li,
+p {
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+}
+.faq-link {
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4;
+  letter-spacing: normal;
+  text-align: left;
+}
+a {
+  color: #00777a;
+}
+a:hover {
+  color: #005a5b;
+}
+.upload-more {
+  line-height: 1;
+  width: auto !important;
+  padding: 10px 25px;
+}
+.upload-more span {
+  display: inline-block;
+}
+/* Pending Doc Table */
+table th {
+  font-size: 13px;
+  color: #63656a;
+}
+table tr {
+  border-bottom: 4px solid white;
+}
+table tr td {
+  padding: 6px 13px;
+}
+table tr td:not(:last-child) {
+  background: rgba(238, 242, 237, 0.3);
+}
+table tr td:last-child {
+  padding-left: 20px;
+}
+table tr td:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+table tr td:nth-child(2) {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.docType-icon {
+  margin-right: 5px;
+}
+.file-info {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+}
+.file-icon {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.file-name {
+  flex-grow: 1;
+}
+.file-name span.slds-has-error {
+  border: 2px solid red;
+  display: block;
+  height: 24px;
+}
+.small-error {
+  font-size: 12px;
+  line-height: 18px;
+}

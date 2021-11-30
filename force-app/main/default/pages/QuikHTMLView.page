@@ -1,0 +1,226 @@
+<apex:page action="{!loadHTML}" controller="QuikGenerateHTML" id="page" showHeader="false" standardStylesheets="false" sidebar="false" 
+           cache="false" applyBodyTag="false" applyHtmlTag="false" title="Quikform">
+    
+    <apex:slds />
+    
+    <head lang="en">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" />
+    </head>
+    
+    <style>
+        #navPage { height:125pt !important; top:25px !important; width:88pt !important}
+        #navFormHeader {top:185px !important;}
+        #navAttachmentsHeader {top:390px !important; height:180px !important; width:100pt !important;}
+        
+        #navForm { height:100pt !important; top: 240px !important; width:88pt !important}
+        #header{
+        border:none !important;
+        }
+        #wrapper {
+        max-width :800px !important;
+        top:0px !important;
+        }
+        #navWrapper {
+        top:0px !important;
+        }
+        #btnPrint{
+        margin-left: 125%;
+        }
+        #btnSave{
+        margin-left: 125%;
+        }
+        #btnSign{
+        margin-left: 125%;
+        height: 28px;
+        border-radius: 4px;
+        padding-left: 0.7rem!important;
+        padding-right: 0.7rem!important;
+        margin-top: 5px!important;
+        text-align: center!important;
+        vertical-align: middle!important;
+        border: 1px solid #d8dde6!important;
+        background-color:rgb(211,211,211);
+        width:41pt!important;
+        min-width:41pt!important;
+        text-align:left!important;color:#ffffff !important;
+        }
+        #footer {
+        visibility:hidden;
+        }
+        #toaster {
+        z-index: 10001 !important;
+        width: 250px !important;
+        padding: 10px;
+        margin-top: 150px !important;
+        margin-left: -125px !important;
+        position: relative !important;
+        bottom: 235px !important;
+        }    
+    </style>
+    
+    <div>
+        <apex:outputText value="{!attachmentBody}" escape="false"/>
+    </div>
+    
+    <script>
+    function removeErrorOnFields(event) {
+        var inputList = [];
+        inputList = document.getElementsByTagName("input");
+        for(var i = 0; i < inputList.length; i++) {
+            if(inputList[i].value != '') {
+                inputList[i].style.borderColor = '';
+            } else {
+                inputList[i].style.borderColor = 'red';
+            }
+        }
+    }
+    
+    function removeErrorOnPages(evtId) {
+        var liItem = $("#"+evtId).closest("li").attr('id');
+        if(liItem != undefined) {
+            var liElement = document.getElementById(liItem);
+            var form = liItem.substring(3, liItem.indexOf('p'));
+            var page = liItem.substring(liItem.indexOf('p') + 1);
+            var data = '\"Form ' + form + ' Page ' + page + '\"';
+            var inpList2 = [];
+            var inpList3 = [];
+            inpList2 = liElement.getElementsByTagName("input");
+            var chk2 = true;
+            for(var j = 1; j < inpList2.length; j++) {
+                if($('#' + inpList2[j].id).is("[type=text]")) {
+                    inpList3.push(inpList2[j]);
+                }
+            }
+            for(var k = 0; k < inpList3.length; k++) {
+                if(inpList3[k].value == '') {
+                    chk2 = false;
+                }
+            }
+            if(chk2 == true) {
+                $('div[Title=' + data + ']').css('border-color', 'green');
+            } else {
+                $('div[Title=' + data + ']').css('border-color', 'red');
+            }
+        }
+    }
+    
+    window.addEventListener("keyup",removeErrorOnFields);
+    window.addEventListener("keyup", function() {
+        removeErrorOnPages(event.target.id)
+    });
+    
+    document.getElementById("btnSave").addEventListener("click", checkData);
+    function checkData() {
+        var saveConfirmation = document.getElementById('btnDocNameSave');
+        if(saveConfirmation) {
+            document.getElementById("btnDocNameSave").addEventListener("click", checkSaveData);
+        } else {
+            var formData = $('#QFVFormPage').serialize();
+            document.getElementById('page:frm:dataToSave').value = formData;
+            $('#spinner').show();
+            saveData();
+        }
+    }
+    
+    function checkSaveData() {
+        var packageName = $('#txtFormPackageName').val();
+        if(packageName != '') {
+            var formData = $('#QFVFormPage').serialize();
+            document.getElementById('page:frm:dataToSave').value = formData;
+            $('#spinner').show();
+            saveData();
+        }
+    }
+    
+    function formSaved() {
+        $('#spinner').hide();
+        $('#toaster').show();
+        try {
+            $('#btnSign').removeAttr('disabled');
+            document.getElementById("btnSign").style.backgroundColor ='rgba(15, 25, 49, 1)';
+        } catch(err) {}
+        setTimeout(function() { 
+            $('#toaster').hide();
+        }, 8000);
+        
+        var formType = '{!$CurrentPage.parameters.type}';
+        if(formType == 'Sign') {
+            $("#btnSave").attr("disabled", true);
+            document.getElementById("btnSave").style.backgroundColor ='rgb(135, 135, 135)';
+            document.getElementById("btnSign").click();
+            $('#spinner').show();
+            $('#prepareToSignDialog').hide();
+            document.getElementById("btnSend").click();
+            $("#mask").css("visibility", "hidden");
+            $('#spinner').show();
+            alert('Please wait we are saving Envelope as draft.');
+            $("#mask").css("visibility", "visible");
+        }
+    }
+    
+    window.onload = function() {
+        $("#btnSign").hide();
+        var formType1 = '{!$CurrentPage.parameters.type}';
+        if(formType1 == 'Sign') {
+            var buttonNameChange = document.getElementById("btnSave");
+            buttonNameChange.value = 'Save';
+            buttonNameChange.title = 'Save';
+        }
+        
+        var bb = document.querySelectorAll('[id^=FID]');
+        if(bb != null) {   
+            for(var i = 0; i < bb.length; i++) {
+                var elem = bb[i];var inputchild = elem.querySelector('input.itemVisible');
+                var arrList = [];
+                arrList = document.getElementsByTagName('input');
+                if(inputchild != null) {
+                    var idstr = elem.id;
+                    var form = idstr.substring(3, idstr.indexOf('p'));
+                    var page = idstr.substring(idstr.indexOf('p') + 1);
+                    var data = '\"Form ' + form + ' Page ' + page + '\"';
+                    var indEle = document.getElementById(idstr);
+                    var inpEle = [];
+                    var inpList = [];
+                    inpEle = indEle.getElementsByTagName('input');
+                    var chk3=true;
+                    for(var k = 0; k < inpEle.length; k++) {
+                        if($('#' + inpEle[k].id).is("[type=text]")) {
+                            inpList.push(inpEle[k]);
+                        }
+                    }
+                    for(var k = 0; k < inpList.length; k++) {
+                        if(inpList[k].value == '') {
+                            chk3 = false;
+                        }
+                    }                        
+                    if(chk3 == true) {
+                        $('div[Title=' + data + ']').css('border-color', 'green');
+                    } else {
+                        $('div[Title=' + data + ']').css('border-color', 'red');
+                    }
+                }
+            }
+        }
+    }
+    
+    window.addEventListener("click", function() {
+        var inputList = [];
+        inputList = document.getElementsByTagName("input");
+        for(var i = 0; i < inputList.length; i++) {
+            if(inputList[i].value != '') {
+                inputList[i].style.borderColor = '';
+            } else {
+                inputList[i].style.borderColor = 'red';
+            }
+        }
+    });
+    </script>
+    
+    <apex:form id="frm">
+        <apex:inputHidden value="{!savedFormData}" id="dataToSave" />
+        <apex:actionFunction action="{!updateData}" name="saveData" oncomplete="formSaved();" />
+    </apex:form>
+    
+</apex:page>

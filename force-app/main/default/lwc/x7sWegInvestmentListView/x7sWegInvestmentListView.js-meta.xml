@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Investment With WEG</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig
+      targets="lightning__AppPage, lightning__HomePage, lightningCommunity__Default"
+    >
+            <property
+        name="componentTitle"
+        label="Component title"
+        type="String"
+        default="Investments with Us"
+      />
+            <property
+        name="introParagraph"
+        type="String"
+        label="Intro paragraph"
+        default="These accounts are automatically updated by us and are not editable. Have questions? Contact your advisory team."
+      />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

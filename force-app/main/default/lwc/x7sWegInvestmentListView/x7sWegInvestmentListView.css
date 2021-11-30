@@ -1,0 +1,24 @@
+.investmentHeader {
+  margin-top: 1em;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.36;
+  text-align: left;
+  color: #000000;
+}
+
+.investmentListContainer {
+  font-size: 16px;
+}
+
+.custodianColor {
+  color: #20b2aa;
+  background-color: #20b2aa;
+}
+
+.totalAmount {
+  font-size: 20px;
+  margin-top: 10px;
+  text-align: right;
+  color: #000000;
+}

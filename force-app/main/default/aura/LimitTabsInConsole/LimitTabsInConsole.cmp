@@ -1,0 +1,5 @@
+<aura:component implements="lightning:backgroundUtilityItem,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="limit" default="10" type="Integer" />
+    <aura:handler event="lightning:tabCreated" action="{!c.onTabCreated}" />
+    <lightning:workspaceAPI aura:id="workspace" />
+</aura:component>

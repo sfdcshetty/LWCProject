@@ -1,0 +1,83 @@
+<!--
+ - Created by karolbrennan on 4/14/21.
+ -->
+
+<!-- X7S Document Uploader -->
+<template>
+  <lightning-layout class="x7sFileUploader slds-p-vertical_large" multiple-rows>
+    <lightning-layout-item size="12" medium-device-size="4"
+      class="slds-p-right_large">
+      <h2>Document Center</h2>
+      <h3>Upload Documents</h3>
+      <p><strong>When uploading documents:</strong></p>
+      <ul>
+        <li>PDF preferred; .jpg, .doc, .exe are acceptable.</li>
+        <li>When taking pictures, make sure small text is legible</li>
+        <li>Compile pages into one document when possible</li>
+        <li>Upload one document at a time</li>
+        <li>ZIP files are not allowed at this time</li>
+        <li>Make sure your docs are not password protected</li>
+      </ul>
+      <p>
+        <a href="/documents">
+          See Documents FAQ
+          <lightning-icon
+            icon-name="utility:chevronright"
+            size="x-small">
+          </lightning-icon>
+        </a>
+      </p>
+    </lightning-layout-item>
+    <lightning-layout-item size="12" medium-device-size="8">
+      <lightning-layout class="slds-card x7s-file-uploader slds-p-around_large"
+        multiple-rows vertical-align="end">
+
+        <!-- Uploader -->
+        <lightning-layout-item size="12" medium-device-size="9">
+          <lightning-input
+            label="Upload"
+            class={fileInputClasses}
+            type="file"
+            accept="image/jpg, .pdf, .doc, .exe"
+            message-when-type-mismatch="Please only upload jpgs, pdfs, docs, and exe files."
+            onchange={handleFilesChange}>
+          </lightning-input>
+        </lightning-layout-item>
+
+        <!-- Pending File List -->
+        <lightning-layout-item if:true={showPendingFiles} size="12">
+          <table class="file-list">
+            <tr>
+              <th>Document Name</th>
+              <th>Document Type</th>
+              <th></th>
+            </tr>
+            <template for:each={pendingFiles} for:item="file">
+              <tr key={file.name}>
+                <td>{file.name}</td>
+                <td>{file.type}</td>
+                <td>rename | remove</td>
+              </tr>
+            </template>
+          </table>
+        </lightning-layout-item>
+
+        <!-- Message Block and Upload Button -->
+        <lightning-layout-item if:true={showPendingFiles} size="12" medium-device-size="9">
+          <lightning-textarea
+            label="Message (optional)">
+          </lightning-textarea>
+        </lightning-layout-item>
+        <lightning-layout-item
+          size="12"
+          medium-device-size="3"
+          class="slds-p-left_medium slds-p-vertical_small slds-text-align_center">
+          <lightning-button
+            variant="brand"
+            label="Upload">
+          </lightning-button>
+        </lightning-layout-item>
+      </lightning-layout>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

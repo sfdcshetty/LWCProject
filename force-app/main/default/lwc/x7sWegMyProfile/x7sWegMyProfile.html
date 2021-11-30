@@ -1,0 +1,99 @@
+<template>
+    <div class="acc-container">
+        <!-- cid={contactId}
+        info={clientAndCoClientInfo} -->
+
+        <!-- Client information -->
+        <template if:true={clientAndCoClientInfo}>
+            <div class="slds-p-top-xx_large" style="margin-top: 30px;">
+                <template for:each={clientAndCoClientInfo} for:item="clientData">
+                    <template if:true={clientData.WEGP1_Primary_Individual__c}>
+                        <c-x7s-web-my-profile-information key={clientData.Id} header="Client" client-id={clientData.Id}
+                            header-name={clientData.WEGP1_Primary_Individual__r.Name}
+                            client-or-co-client-name={clientData.WEGP1_Primary_Individual__r.Name}
+                            client-or-co-client-birth-date={clientData.WEGP1_Primary_Individual__r.Birthdate}
+                                client-or-co-client-home-address={clientData.WEGP1_Primary_Individual__r.Account.BillingAddress}
+                                client-or-co-client-work-address={clientData.WEGP1_Primary_Individual__r.Account.ShippingAddress}
+                            client-or-co-client-other-address={clientData.WEGP1_Primary_Individual__r.OtherAddress}
+                            client-or-co-client-other-street={clientData.WEGP1_Primary_Individual__r.OtherStreet}
+                            client-or-co-client-other-city={clientData.WEGP1_Primary_Individual__r.OtherCity}
+                            client-or-co-client-other-state={clientData.WEGP1_Primary_Individual__r.OtherState}
+                            client-or-co-client-other-postal-code={clientData.WEGP1_Primary_Individual__r.OtherPostalCode}
+                                client-or-co-client-phone={clientData.WEGP1_Primary_Individual__r.MobilePhone}
+                                client-or-co-client-home-phone={clientData.WEGP1_Primary_Individual__r.HomePhone}
+                                client-or-co-client-other-phone={clientData.WEGP1_Primary_Individual__r.OtherPhone}
+                                client-or-co-client-work-phone={clientData.WEGP1_Primary_Individual__r.AssistantPhone}
+                            client-or-co-client-personal-email={clientData.WEGP1_Primary_Individual__r.WEGP1_PersonalEmail__c}
+                            client-or-co-client-work-email={clientData.WEGP1_Primary_Individual__r.WEG_Business_Email__c}
+                            client-or-co-client-other-email={clientData.WEGP1_Primary_Individual__r.WEGP1_OtherEmail__c}>
+                        </c-x7s-web-my-profile-information>
+                    </template>
+                </template>
+            </div>
+        </template>
+
+
+        <!-- Co-Client information -->
+        <template if:true={clientAndCoClientInfo}>
+
+            <div class="slds-p-top-xx_large" style="margin-top: 30px;">
+                <template for:each={clientAndCoClientInfo} for:item="coClientData">
+
+                    <template if:true={coClientData.WEGP1_Secondary_Individual__c}>
+                        <c-x7s-web-my-profile-information key={coClientData.Id} header="Co-Client"
+                            header-name={coClientData.WEGP1_Secondary_Individual__r.Name} co-client-id={coClientData.Id}
+                            client-or-co-client-name={coClientData.WEGP1_Secondary_Individual__r.Name}
+                            client-or-co-client-birth-date={coClientData.WEGP1_Secondary_Individual__r.Birthdate}
+                                client-or-co-client-home-address={coClientData.WEGP1_Secondary_Individual__r.Account.BillingAddress}
+                                client-or-co-client-work-address={coClientData.WEGP1_Secondary_Individual__r.Account.ShippingAddress}
+                            client-or-co-client-other-address={coClientData.WEGP1_Secondary_Individual__r.OtherAddress}
+                            client-or-co-client-other-street={coClientData.WEGP1_Secondary_Individual__r.OtherStreet}
+                            client-or-co-client-other-city={coClientData.WEGP1_Secondary_Individual__r.OtherCity}
+                            client-or-co-client-other-state={coClientData.WEGP1_Secondary_Individual__r.OtherState}
+                            client-or-co-client-other-postal-code={coClientData.WEGP1_Secondary_Individual__r.OtherPostalCode}
+                                client-or-co-client-phone={coClientData.WEGP1_Secondary_Individual__r.MobilePhone}
+                                client-or-co-client-home-phone={coClientData.WEGP1_Secondary_Individual__r.HomePhone}
+                                client-or-co-client-other-phone={coClientData.WEGP1_Secondary_Individual__r.OtherPhone}
+                                client-or-co-client-work-phone={coClientData.WEGP1_Secondary_Individual__r.AssistantPhone}
+                            client-or-co-client-personal-email={coClientData.WEGP1_Secondary_Individual__r.WEGP1_PersonalEmail__c}
+                            client-or-co-client-work-email={coClientData.WEGP1_Secondary_Individual__r.WEG_Business_Email__c}
+                            client-or-co-client-other-email={coClientData.WEGP1_Secondary_Individual__r.WEGP1_OtherEmail__c}>
+                        </c-x7s-web-my-profile-information>
+                    </template>
+
+                </template>
+            </div>
+        </template>
+
+        <!-- Benificiary Information -->
+        <template if:true={beneficiaryInfo}>
+            <div class="slds-p-top-xx_large" style="margin-top: 30px;">
+                <template for:each={beneficiaryInfo} for:item="beneficiaryData">
+                    <c-x7s-web-my-profile-information key={beneficiaryData.Id} header="Beneficiary"
+                        header-name={beneficiaryData.Contact_Full_Name__c} beneficiary-id={beneficiaryData.Id}
+                        beneficiary-name={beneficiaryData.Contact_Full_Name__c}
+                        beneficiary-date-of-birth={beneficiaryData.Contact_Birthdate__c}
+                        relationship={beneficiaryData.FinServ__Role__r.Name}>
+                    </c-x7s-web-my-profile-information>
+                </template>
+            </div>
+        </template>
+
+
+        <!-- Trustee Information -->
+        <template if:true={trusteeInfo}>
+            <div class="slds-p-top-xx_large" style="margin-top: 30px;">
+                <template for:each={trusteeInfo} for:item="trusteeData">
+                    <c-x7s-web-my-profile-information key={trusteeData.Id} header="Trustee"
+                        header-name={trusteeData.Contact_Full_Name__c} trustee-id={trusteeData.Id}
+                        trustee-name={trusteeData.Contact_Full_Name__c}
+                        trustee-phone={trusteeData.FinServ__Contact__r.Phone}
+                        trustee-email={trusteeData.FinServ__Contact__r.Email}
+                        trustee-relationship={trusteeData.FinServ__Role__r.Name}>
+                    </c-x7s-web-my-profile-information>
+                </template>
+            </div>
+        </template>
+
+    </div>
+</template>

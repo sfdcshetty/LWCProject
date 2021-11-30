@@ -1,0 +1,29 @@
+<template>
+    <form class="x7s-unifi_about-your-pension">
+        <lightning-layout multiple-rows class="slds-gutters">
+
+            <lightning-layout-item size="12" class="slds-col slds-m-bottom_large">
+                <h1 class="x7s-text-heading_large">
+                    Please tell us more about your pension
+                </h1>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Description" 
+                                    value={description} 
+                                    onchange={handleChangeDescription}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="4" class="slds-col slds-m-bottom_large">
+                <lightning-input label="Current monthly income" type="number" formatter="currency" step="1"
+                                    placeholder="Round to the nearest dollar" 
+                                    value={income} 
+                                    onchange={handleChangeIncome}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="2" class="slds-col slds-m-bottom_large">
+                <lightning-combobox label="Owner" options={optionsOwner} 
+                                    value={owner} 
+                                    onchange={handleChangeOwner}>
+                </lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+    </form>
+</template>

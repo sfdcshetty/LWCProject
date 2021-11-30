@@ -1,0 +1,4 @@
+<apex:page standardController="Trade_Request__c" docType="html-5.0" id="page" >
+    <TVA_CFB:CloudCategoryUpload componentVisibilty="true" enableNew="false" id="category"/><br/>
+    <TVA_CFB:QuickUploadFiles CloudBucketName=""/>
+</apex:page>

@@ -1,0 +1,25 @@
+<template>
+    <template if:true={advisorName}>
+
+        <div class="slds-media slds-media_center slds-media_responsive slds-m-vertical_x-large">
+            <div class="slds-media__figure">
+                <span if:true={advisorPhotoUrl} class="slds-avatar slds-avatar_large">
+                    <img alt={advisorName} src={advisorPhotoUrl} title="advisor photo" />
+                </span>
+            </div>
+            <div class="x7s-finprofile_advisor-info-details slds-media__body">
+                <ul class="slds-text-body_regular">
+                    <li title="Name"><b>{advisorName}</b></li>
+                    <li if:true={advisorTitle} title="Title">{advisorTitle}</li>
+                    <li if:true={advisorEmail} title="Email"><a href={advisorEmailUrl}>{advisorEmail}</a></li>
+                    <li if:true={advisorPhone} title="Phone">{advisorPhone}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="x7s-finprofile_advisor-info-paragraph slds-box">
+            <p class="slds-p-left_xx-large slds-text-body_regular">{paragraph}</p>
+        </div>
+
+    </template>
+</template>

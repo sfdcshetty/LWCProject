@@ -1,0 +1,30 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" 
+                controller="Docuvault_PortalDocumentsHelper"
+                access="global" >
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute type="String" name="parentId" default="" />
+    <aura:attribute name="FolderView" type="Aura.Component[]" access="global" />
+    <style>
+        .TVA_CFBDocuvault_RecordTableView .custom-th-width-name>a {
+            pointer-events: all;
+            cursor: default;
+            text-decoration:none;
+            color:black;
+        }
+        .TVA_CFBDocuvault_RecordTableView .slds-dropdown-trigger_hover>div.title {
+        	visibility:hidden !imporatant;
+        	display:none !important;
+        }
+        .TVA_CFBDocuvault_RecordTableView .custom-th-width-name>a:active {
+            pointer-events: none;
+            cursor: default;
+            text-decoration:none;
+            color:black;
+        }
+    </style>
+    <div class="slds-is-relative slds-p-around__medium slds-p-bottom__none">
+        {!v.FolderView}
+    </div>
+    
+</aura:component>

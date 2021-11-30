@@ -1,0 +1,318 @@
+.content-slicing {
+	margin-bottom : 1em;
+}
+.content {
+	padding-top: 1em;
+	max-width: 65%;
+	margin: 0 auto;
+}
+.upload {
+	height: 17rem;
+	max-width: 100%;
+	BORDER-RADIUS: 1.5em;
+	background-image: url('{!URLFOR ($Resource.Bluemark_DocuvaultFileRequest, "/Bluemark/images/Background.png")}');
+}
+div.one {
+	width: 85%;
+	float: left;
+}
+div.two {
+	margin-left: 15%;
+}
+.innerDiv {
+	max-height: 10em ;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 75%;
+	margin: 0 auto;
+	margin-top: 0.8em;
+}
+
+.centerAlign {
+	text-align: center;
+}
+
+.footer {
+	max-width: 100%;
+}
+
+.subDiv {
+	margin-top: 5px;
+	padding-left: 5px;
+	line-height: 25px;
+	background: rgb(28, 129, 196);
+	height: 25px;
+	color: rgb(2, 2, 2);
+}
+
+.subDivName {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 93%;
+	white-space: nowrap;
+	float: left;
+	text-align: left;
+	color: white;
+
+}
+
+.subDivBtn {
+	text-align: right;
+	float: left;
+	color: white;
+}
+
+#btnUpload {
+	display:none;
+}
+
+#message {
+	text-align : center;
+	height: 15rem;
+	max-height: 15rem;
+	max-width: 100%;
+	BORDER-RADIUS: 1.5em;
+	background: #f3f3f4;
+	font-weight: bold;
+	font-size: 14px;;
+	overflow-y : auto;
+	position: relative;
+}
+
+#message p {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	-ms-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	overflow-y : auto;
+}
+
+.upload-btn-wrapper {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	max-width: 100%;
+	position: relative;
+}
+
+.upload-btn {
+	width: 25em;
+	height: 4.5em;
+	cursor: pointer;
+}
+
+.upload-btn-wrapper input[type=file] {
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+}
+
+.uploadImage {
+	padding-top : 0em !important;
+	height: 17rem;
+	transform: translateY(8.5em);
+}
+.slds-button {
+	margin: 0 auto !important;
+}
+
+/* Mobile Responsive Code */
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 321px) {
+	.upload-btn {
+		width: 25em;
+		height: 4.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width : 320px) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* iPads (portrait) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/**********
+iPad 3
+**********/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+
+/* iPhone 4 ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) {
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* iPhone 5 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* iPhone 6 ----------- */
+@media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* iPhone 6+ ----------- */
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* Samsung Galaxy S3 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* Samsung Galaxy S4 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+/* Samsung Galaxy S5 ----------- */
+@media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3){
+	.upload-btn {
+		width: 13em;
+		height: 2.5em !important;
+		cursor: pointer;
+	}
+}

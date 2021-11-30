@@ -1,0 +1,156 @@
+/**
+ * 7Summits - Wealth Enhancement Group - Salesforce Community Experience
+ * @version 1.0.0
+ * @author 7Summits
+ *
+ * COMPILED FILE DO NOT DIRECTLY EDIT
+ */
+.x7s-finprofile {
+  position: relative;
+  min-height: 800px;
+  font-family: ProximaNova, sans-serif;
+  background: #f6f8f6;
+}
+@media screen and (max-width: 64em) {
+  .x7s-finprofile {
+    padding-top: 100px;
+  }
+}
+@media screen and (min-width: 64em) {
+  .x7s-finprofile {
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+  .x7s-finprofile .x7s-finprofile_remove-margins {
+    margin-left: -100px;
+    margin-right: -190px;
+  }
+  .x7s-finprofile .x7s-finprofile_total-assets-footer {
+    margin-left: -200px;
+    margin-right: -200px;
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+}
+.x7s-finprofile .x7s-finprofile_total-assets-footer {
+  padding: 10px;
+  background: #ddd;
+}
+.x7s-finprofile .x7s-theme__logo-link {
+  width: 180px;
+  height: 70px;
+}
+.x7s-finprofile .slds-button {
+  border-radius: 1.5rem;
+  font-size: 15px;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.x7s-finprofile .slds-button.slds-button_neutral {
+  background-color: #f6f8f6;
+  border-color: #f6f8f6;
+  color: #000;
+}
+.x7s-finprofile .slds-button.slds-button_neutral:hover {
+  border-color: #000;
+}
+.x7s-finprofile .slds-button.slds-button_brand {
+  background-color: #00777a;
+  border-color: #00777a;
+  color: #fff;
+}
+.x7s-finprofile .slds-button.slds-button_brand:hover {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+}
+.x7s-finprofile .slds-button.slds-button_outline-brand {
+  background-color: #fff;
+  border-color: #00777a;
+  color: #00777a;
+}
+.x7s-finprofile .slds-button.slds-button_outline-brand:hover {
+  background-color: #3f9c35;
+  border-color: #3f9c35;
+  color: #fff;
+}
+.x7s-finprofile_nav {
+  position: absolute;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 90px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding: 24px;
+  background-color: #63656a;
+  color: #fff;
+}
+@media screen and (min-width: 64em) {
+  .x7s-finprofile_nav {
+    right: auto;
+    bottom: 0;
+    height: auto;
+    width: 90px;
+  }
+}
+.x7s-finprofile_nav[data-is-open="true"] {
+  height: auto;
+}
+@media screen and (min-width: 64em) {
+  .x7s-finprofile_nav[data-is-open="true"] {
+    width: 310px;
+  }
+}
+.x7s-finprofile_nav .slds-transition-show,
+.x7s-finprofile_nav .slds-transition-hide {
+  transition: opacity 0.3s ease;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu-wrapper {
+  width: 262px;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu-button {
+  display: flex;
+  flex-flow: column;
+  border-width: 0;
+  font-size: 16px;
+  margin: 14px 0;
+  padding: 0;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu-button:focus,
+.x7s-finprofile_nav .x7s-finprofile_menu-button:hover {
+  color: #dce6da;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu {
+  margin: 60px 0;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu .x7s-finprofile_menu-item {
+  position: relative;
+  font-size: 18px;
+  font-weight: 300;
+  padding-bottom: 4px;
+  margin-bottom: 1rem;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu .x7s-finprofile_menu-item:hover,
+.x7s-finprofile_nav .x7s-finprofile_menu .x7s-finprofile_menu-item:focus,
+.x7s-finprofile_nav .x7s-finprofile_menu .x7s-finprofile_menu-item[data-is-active="true"] {
+  font-weight: bold;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu .x7s-finprofile_menu-item:hover {
+  cursor: pointer;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu .x7s-finprofile_menu-item:after {
+  opacity: 0;
+  content: "";
+  height: 3px;
+  width: 30px;
+  background-color: #3f9c35;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.x7s-finprofile_nav .x7s-finprofile_menu .x7s-finprofile_menu-item[data-is-active="true"]:after {
+  opacity: 1;
+}

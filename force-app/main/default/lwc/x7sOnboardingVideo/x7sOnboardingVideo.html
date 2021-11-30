@@ -1,0 +1,48 @@
+<!--
+  ~ Copyright (c) 2021. 7Summits, an IBM Company. All rights reserved.
+  -->
+
+<template>
+    <div class="onboarding-video">
+        <template if:true={description}>
+            <div class={infoClass}>
+                <p class="onboarding-video__description">{description}</p>                
+            </div>
+        </template>
+        <div class="onboarding-video__iframe-wrapper">
+            <template if:true={isTypeYoutube}>
+                <iframe title={iframeTitle}
+                        class="onboarding-video__iframe"
+						src={youtubeUrl}
+                        frameborder="0">
+                </iframe>
+            </template>
+            <template if:true={isTypeVimeo}>
+                <iframe title={iframeTitle}
+                        class="onboarding-video__iframe"
+						src={vimeoUrl}
+                        frameborder="0">
+                </iframe>
+            </template>
+            <template if:true={isTypeWistia}>
+                <iframe title={iframeTitle}
+                        class="onboarding-video__iframe"
+                        src={wistiaUrl}
+                        frameborder="0">
+                </iframe>
+            </template>
+        </div>
+        <template if:true={isInfo}>
+            <template if:true={title}>
+                <div class={infoClass}>
+                    <h2 class="onboarding-video__title slds-text-heading_small slds-p-top_x-small">{title}</h2>
+                </div>
+            </template>
+            <!--<template if:true={description}>
+                <div class={infoClass}>
+                    <p class="onboarding-video__description">{description}</p>                
+                </div>
+            </template>-->
+        </template>
+    </div>
+</template>

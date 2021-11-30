@@ -1,0 +1,84 @@
+<aura:component
+  implements="forceCommunity:layout"
+  description="Full Width  Banner, 2 Column (2:1)"
+  access="global"
+>
+  <aura:attribute name="leadBanner" type="Aura.Component[]" required="false" />
+  <aura:attribute name="leftColumn1" type="Aura.Component[]" required="false" />
+  <aura:attribute name="rightColumn1" type="Aura.Component[]" required="false" />
+  <aura:attribute name="leftColumn2" type="Aura.Component[]" required="false" />
+  <aura:attribute name="rightColumn2a" type="Aura.Component[]" required="false" />
+  <aura:attribute name="rightColumn2" type="Aura.Component[]" required="false" />
+  <aura:attribute name="rightColumn3" type="Aura.Component[]" required="false" />
+
+  <aura:attribute name="full1" type="Aura.Component[]" required="false" />
+  
+  <section class="x7s-layout__lead x7s-layout_full x7s-layout_shaded">
+    <div class="x7s-layout__lead-content">
+        {!v.leadBanner}
+    </div>
+  </section>
+
+  <section class="weg-container slds-container_x-large slds-container_center">
+    <div class="slds-container_x-large slds-container_center">
+      <lightning:layout pullToBoundary="small" multipleRows="true">
+        <lightning:layoutItem
+          size="6"
+          mediumDeviceSize="6"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.leftColumn1}
+        </lightning:layoutItem>
+        <lightning:layoutItem
+          size="6"
+          mediumDeviceSize="6"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.rightColumn1}
+        </lightning:layoutItem>
+        <lightning:layoutItem
+          size="6"
+          mediumDeviceSize="6"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.leftColumn2}
+        </lightning:layoutItem>
+        <lightning:layoutItem
+          size="6"
+          mediumDeviceSize="6"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.rightColumn2a}
+        </lightning:layoutItem>
+        <lightning:layoutItem
+          size="3"
+          mediumDeviceSize="3"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.rightColumn2}
+        </lightning:layoutItem>
+        <lightning:layoutItem
+          size="3"
+          mediumDeviceSize="3"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.rightColumn3}
+        </lightning:layoutItem>
+        <lightning:layoutItem
+          size="12"
+          mediumDeviceSize="12"
+          padding="horizontal-small"
+          class="slds-p-vertical_large"
+        >
+          {!v.full1}
+        </lightning:layoutItem>
+      </lightning:layout>
+    </div>
+  </section>
+</aura:component>

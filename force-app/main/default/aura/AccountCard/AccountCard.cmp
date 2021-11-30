@@ -1,0 +1,177 @@
+<aura:component controller="Wave6_AccountCardController" implements="flexipage:availableForAllPageTypes,force:hasRecordId" >
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="iconPath" type="string" />
+    <aura:attribute name="primaryIndId" type="string" />
+    <aura:attribute name="secondaryIndId" type="string" />
+    
+    <aura:attribute name="primaryIndIdUser" type="string" />
+    <aura:attribute name="secondaryIndIdUser" type="string" />
+    
+    <aura:attribute name="primaryIndIdUserAccId" type="string" />
+    <aura:attribute name="secondaryIndIdUserAccId" type="string" />
+    <aura:attribute name="primaryIndIdUserContact" type="string" />
+    <aura:attribute name="secondaryIndIdUserContact" type="string" />
+    
+    
+    <aura:attribute name="accountRecord" type="Object" />
+    <aura:attribute name="accountIndividualRecord" type="Object" />
+    <aura:attribute name="fieldsToQuery" type="String[]" default="['RecordType.Name']"/>
+    <aura:attribute name="accReloaded" type="boolean" default="false" />
+    <aura:attribute name="fieldWrapList" type="List" />
+    <aura:attribute name="fieldAPINameLable" type="Map" />
+    <aura:attribute name="fieldsToQueryArr" type="String[]" />
+    <aura:attribute name ="recordtypename" type="String" default = "" />
+    
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.accountRecord}"
+                      fields="{!v.fieldsToQuery}"
+                      mode="VIEW"
+                      recordUpdated="{!c.init}"/>
+
+    <div >
+        <div style="background-color:white;border-radius: 4px;border-bottom: 1px solid rgb(216, 221, 230);">
+            <div class="slds-tile slds-media media-header"  style="margin-left: 20px;margin-top: 0px;padding-top: 5px;padding-bottom: 5px;" >
+                <div class="slds-media__figure slds-icon-standard-client slds-icon slds-icon--medium" style="margin-top: 4px;">
+                    <img src="{!v.iconPath}"/>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-list--inline">
+                        <aura:iteration items="{!v.fieldWrapList}" var="accFieldWrap">
+                            <aura:if isTrue="{!accFieldWrap.fieldLabel == 'Account Type'}">
+                                <div class="slds-list--stacked fieldDiv boldFont">
+                                    <div class="slds-item--label slds-text-color--weak slds-truncate" title="{!accFieldWrap.fieldLabel}">{!accFieldWrap.fieldLabel}</div>
+                                    <div class="slds-item--detail slds-truncate">{!accFieldWrap.fieldValue}</div>
+                                </div>
+                            </aura:if>
+
+                            <aura:if isTrue="{!accFieldWrap.fieldLabel == 'AUM'}">
+                                <div class="slds-list--stacked fieldDiv">
+                                    <div class="slds-item--label slds-text-color--weak slds-truncate" title="{!accFieldWrap.fieldLabel}">{!accFieldWrap.fieldLabel}</div>
+                                    <div class="slds-item--detail slds-truncate">
+                                        <ui:outputCurrency value="{!accFieldWrap.fieldValue}" format="$0#,###"/></div>
+                                </div>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!accFieldWrap.fieldLabel == 'TAM AUM'}">
+                                <div class="slds-list--stacked fieldDiv">
+                                    <div class="slds-item--label slds-text-color--weak slds-truncate" title="{!accFieldWrap.fieldLabel}">{!accFieldWrap.fieldLabel}</div>
+                                    <div class="slds-item--detail slds-truncate">
+                                        <ui:outputCurrency value="{!accFieldWrap.fieldValue}" format="$0#,###"/></div>
+                                </div>
+                            </aura:if>
+
+                            <aura:if isTrue="{!accFieldWrap.fieldLabel == 'Wallet Share'}">
+                                <div class="slds-list--stacked fieldDiv">
+                                    <div class="slds-item--label slds-text-color--weak slds-truncate" title="{!accFieldWrap.fieldLabel}">{!accFieldWrap.fieldLabel}</div>
+                                    <div class="slds-item--detail slds-truncate">{!accFieldWrap.fieldValue+' %'}</div>
+                                </div>
+                            </aura:if>
+
+                            <aura:if isTrue="{!accFieldWrap.fieldLabel == 'Primary Individual'}">
+                                <div class="slds-list--stacked fieldDiv slds-grid slds-gutters">
+                                    <div class="slds-col slds-item--label slds-text-color--weak slds-truncate" title="{!accFieldWrap.fieldLabel}">
+                                        {!accFieldWrap.fieldLabel}
+                                        <div class="slds-item--detail slds-truncate">
+                                            <lightning:button variant="base" value="{!v.primaryIndId}" 
+                                                              label="{!accFieldWrap.fieldValue}" 
+                                                              class="fieldCustomStyle"
+                                                              title="{!accFieldWrap.fieldValue}" 
+                                                              onclick="{! c.navigate }"/>
+                                            
+                                            <!--<a href="{!'/'+ v.primaryIndId}" >{!accFieldWrap.fieldValue}</a>-->
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <aura:if isTrue="{!if (accFieldWrap.fieldValue != '', true, false)}">
+                                            <lightning:buttonMenu iconSize="x-small" onselect="{!c.handlePrimarySelect}">
+                                                <lightning:menuItem value="call" label="Log a Call"/>
+                                                <lightning:menuItem value="task" label="Log a Task"/>
+                                                <lightning:menuItem value="event" label="Log an Event" />
+                                                <lightning:menuItem value="message" label="Send Secure Message"/>
+                                                <lightning:menuItem value="todo" label="Add To Do"/>
+                                            </lightning:buttonMenu>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                                
+                            </aura:if>
+
+                            <aura:if isTrue="{!accFieldWrap.fieldLabel == 'Secondary Individual'}">
+                                <div class="slds-list--stacked fieldDiv slds-grid slds-gutters">
+                                    <div class="slds-col slds-item--label slds-text-color--weak slds-truncate" title="{!accFieldWrap.fieldLabel}">
+                                        {!accFieldWrap.fieldLabel}
+                                        <div class="slds-item--detail slds-truncate">
+                                            <lightning:button variant="base" value="{!v.secondaryIndId}" 
+                                                              label="{!accFieldWrap.fieldValue}" 
+                                                              class="fieldCustomStyle"
+                                                              title="{!accFieldWrap.fieldValue}" 
+                                                              onclick="{! c.navigate }"/>
+                                            <!--<a href="{!'/'+ v.secondaryIndId}" >{!accFieldWrap.fieldValue}</a>-->
+                                        </div>
+                                    </div>
+                                    <div class="slds-float_left slds-col">
+                                        <aura:if isTrue="{!if (accFieldWrap.fieldValue != '', true, false)}">
+                                            <lightning:buttonMenu iconSize="x-small" onselect="{!c.handleSecondarySelect}">
+                                                <lightning:menuItem value="call" label="Log a Call"/>
+                                                <lightning:menuItem value="task" label="Log a Task"/>
+                                                <lightning:menuItem value="event" label="Log an Event" />
+                                                <lightning:menuItem value="message" label="Send Secure Message"/>
+                                                <lightning:menuItem value="todo" label="Add To Do"/>
+                                            </lightning:buttonMenu>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                            </aura:if>
+
+                            <aura:if isTrue="{!and (and(and(and(and(accFieldWrap.fieldLabel != 'Account Type',accFieldWrap.fieldLabel !='AUM'), accFieldWrap.fieldLabel !='Wallet Share'),accFieldWrap.fieldLabel !='Primary Individual'),accFieldWrap.fieldLabel !='Secondary Individual'), accFieldWrap.fieldLabel != 'TAM AUM')}">
+                                <div class="slds-list--stacked fieldDiv">
+                                    <div class="slds-item--label slds-text-color--weak slds-truncate" title="{!accFieldWrap.fieldLabel}">{!accFieldWrap.fieldLabel}</div>
+                                    <div class="slds-item--detail slds-truncate">{!accFieldWrap.fieldValue}</div>
+                                </div>
+                            </aura:if>
+                        </aura:iteration>
+                        <aura:if isTrue = "{!if(v.recordtypename == 'Individual',true,false)}" >
+                            
+                            <div class="slds-list--stacked fieldDiv">
+                                <div class="slds-item--label slds-text-color--weak slds-truncate" >Household</div>
+                                <div class="slds-item--detail slds-truncate">
+                                    <lightning:button variant="base" value="{!v.accountIndividualRecord.houseHoldId}" 
+                                                          label="{!v.accountIndividualRecord.houseHoldName}" 
+                                                          title="{!v.accountIndividualRecord.houseHoldName}" 
+                                                          onclick="{! c.navigate }"/>
+                                    <!--<a href="{!'/'+ v.accountIndividualRecord.houseHoldId}" >{!v.accountIndividualRecord.houseHoldName}</a>-->
+                                </div>
+                            </div>
+                            
+                            <div class="slds-list--stacked fieldDiv">
+                                <div class="slds-item--label slds-text-color--weak slds-truncate" >Primary Individual</div>
+                                <div class="slds-item--detail slds-truncate">
+                                    <lightning:button variant="base" value="{!v.accountIndividualRecord.primaryIndividualId}" 
+                                                      label="{!v.accountIndividualRecord.primaryIndividualName}" 
+                                                      title="{!v.accountIndividualRecord.primaryIndividualName}" 
+                                                      onclick="{! c.navigate }"/>
+                                    
+                                    <!--<a href="{!'/'+ v.accountIndividualRecord.primaryIndividualId}" >{!v.accountIndividualRecord.primaryIndividualName}</a>-->
+                                </div>
+                            </div>
+                            
+                            <div class="slds-list--stacked fieldDiv">
+                                <div class="slds-item--label slds-text-color--weak slds-truncate" >Secondary Individual</div>
+                                <div class="slds-item--detail slds-truncate">
+                                    <lightning:button variant="base" value="{!v.accountIndividualRecord.secondaryIndividualId}" 
+                                                      label="{!v.accountIndividualRecord.secondaryIndividualName}" 
+                                                      title="{!v.accountIndividualRecord.secondaryIndividualName}" 
+                                                      onclick="{! c.navigate }"/>
+                                    <!--<a href="{!'/'+ v.accountIndividualRecord.secondaryIndividualId}" >{!v.accountIndividualRecord.secondaryIndividualName}</a>-->
+                                </div>
+                            </div>
+                        </aura:if>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
